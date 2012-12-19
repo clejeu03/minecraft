@@ -9,15 +9,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "imac2gl3/shapes/Sphere.hpp"
-#include "imac2gl3/shapes/Plane.hpp"
+#include "imac2gl3/shapes/Cube.hpp"
 #include "imac2gl3/shapes/GLShapeInstance.hpp"
 #include "imac2gl3/shader_tools.hpp"
 #include "imac2gl3/MatrixStack.hpp"
 #include "imac2gl3/camera/TrackBallCamera.hpp"
 
 static const size_t WINDOW_WIDTH = 512, WINDOW_HEIGHT = 512, BYTES_PER_PIXEL = 32;
-
-#define NOMBRE_DE_PICS 100  
 
 const GLvoid* bufferOffset(size_t offset) {
     return (const GLvoid*) offset;
@@ -41,8 +39,7 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
 
-    GLShapeInstance Terre(imac2gl3::Sphere(1.f,50,50));
-    GLShapeInstance Plan(imac2gl3::Plane(50.0f));
+    GLShapeInstance cube(imac2gl3::Cube(2.f));
     TrackBallCamera camera;
     camera.moveFront(-5.f);
 
@@ -84,7 +81,7 @@ int main(int argc, char** argv) {
                     matrixStack.rotate(45, glm::vec3(-1, 0, 0));
                     glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(matrixStack.top()));
                     
-                    Terre.draw();
+                    cube.draw();
                     //Terre.draw();
                     
             
