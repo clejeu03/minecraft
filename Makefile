@@ -5,7 +5,7 @@ LDFLAGS = -lSDL -lGL -lSDL_image
 SRC_PATH = src
 BIN_PATH = bin
 
-EXEC = Imac2GL3
+EXEC = minecraft
 
 SRC_FILES = $(shell find $(SRC_PATH) -type f -name '*.cpp')
 OBJ_FILES = $(patsubst $(SRC_PATH)/%.cpp, $(SRC_PATH)/%.o, $(SRC_FILES))
