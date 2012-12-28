@@ -12,7 +12,8 @@ namespace minecraft {
 	void Map::Draw() const{
 		typedef std::map<MapCoords,Cube*>::const_iterator ItType;
 		for(ItType iterator = m_data.begin(); iterator != m_data.end(); iterator++) {
-			iterator->second->Draw();
+			/* TO DO : Move to the right place, using the static size of a cube and the indexes */
+			iterator->second->Draw(); // Draw localy !
 		}
 	}
 	

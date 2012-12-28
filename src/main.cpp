@@ -8,9 +8,7 @@
 #include <GL/glew.h>
 /* Home-baked */
 #include <minecraft/shader_tools.hpp>
-#include <minecraft/Math.hpp>
-#include <minecraft/Cube.hpp>
-#include <minecraft/Map.hpp>
+#include <minecraft/GraphicEngine.hpp>
 
 /* GAME PARAMETERS */
 static const size_t WINDOW_WIDTH = 512, WINDOW_HEIGHT = 512;
@@ -31,21 +29,21 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
     
+    // OpenGL features
+    glEnable(GL_DEPTH_TEST);
+    
     /// Creation of the ressources
-    minecraft::Map world(100,100,100);
-    world.Set(2,2,2,new minecraft::CloudCube()); /* Must be cube pointer. Destruction is handled */
-    world.Set(3,5,1,new minecraft::CrystalCube());
-    
-    world.Draw();
-    
-    /* Or to access (give a reference) : */
-    world.Get(2,2,2).Draw();
-    
+	minecraft::GraphicEngine graphicEng;
+	graphicEng.Initialize();
+     
     /// RENDERING LOOP
     bool done = false;
     while(!done) {
         // Clean the window
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        // Drawing
+        graphicEng.Refresh();
 
         // Refresh the display
         SDL_GL_SwapBuffers();

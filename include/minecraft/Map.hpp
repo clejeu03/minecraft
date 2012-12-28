@@ -1,6 +1,7 @@
 #ifndef _MINECRAFT_MAP_HPP_
 #define _MINECRAFT_MAP_HPP_
 
+#include <stdexcept>
 #include <map>
 #include <tuple>
 #include <minecraft/Drawable.hpp>

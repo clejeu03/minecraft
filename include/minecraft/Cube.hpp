@@ -2,17 +2,22 @@
 #define _MINECRAFT_CUBE_HPP_
 
 #include <GL/glew.h>
+#include <minecraft/GLtools.hpp>
 #include <minecraft/Drawable.hpp>
+#include <iostream>
 
 namespace minecraft {
 	class Cube : public Drawable {
 		private:
-			static float m_size;
-			static GLuint m_texture;
+			GLuint m_textureId;
+			GLuint m_VAO;
+			size_t m_nbVertices;
 		public:
+			constexpr static float m_size = 0.1f;
+			
+			void SetTexId(GLuint id) { m_textureId = id; }
+			void SetVAOId(GLuint id) { m_VAO = id; }
 			void Draw() const;
-			virtual void SetTexId(GLuint id) = 0;
-			virtual GLuint GetTexId() const = 0;
 	};
 
 	class FloatingCube : public Cube {
@@ -22,27 +27,12 @@ namespace minecraft {
 	};
 
 	class CloudCube : public FloatingCube {
-		private:
-			static GLuint m_texture;
-		public:
-			void SetTexId(GLuint id) { m_texture = id; }
-			GLuint GetTexId() const { return m_texture; }
 	};
 
 	class RockCube : public PhysicCube {
-		private:
-			static GLuint m_texture;
-		public:
-			void SetTexId(GLuint id) { m_texture = id; }
-			GLuint GetTexId() const { return m_texture; }
 	};
 
 	class CrystalCube : public PhysicCube {
-		private:
-			static GLuint m_texture;
-		public:
-			void SetTexId(GLuint id) { m_texture = id; }
-			GLuint GetTexId() const { return m_texture; }
 	};
 }
 
