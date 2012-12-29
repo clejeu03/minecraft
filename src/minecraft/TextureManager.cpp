@@ -3,13 +3,13 @@
 
 namespace minecraft {
 	TextureManager::~TextureManager() {
-		typedef std::map<char*,GLuint>::iterator ItType;
+		typedef std::map<std::string,GLuint>::iterator ItType;
 		for(ItType iterator = m_textureIds.begin(); iterator != m_textureIds.end(); iterator++) {
 			glDeleteTextures(1, &(iterator->second));
 		}
 	}
 	
-	void TextureManager::LoadTexture(char* gameObject, char* path) throw(std::runtime_error) {
+	void TextureManager::LoadTexture(std::string gameObject, char* path) throw(std::runtime_error) {
 		// Loading
 		SDL_Surface* image = IMG_Load(path);
 		if(!image)
@@ -59,7 +59,7 @@ namespace minecraft {
 		m_textureIds[gameObject] = texture;
 	}
 	
-	GLuint TextureManager::GetTextureId(char* gameObject) throw(std::invalid_argument) {
+	GLuint TextureManager::GetTextureId(std::string gameObject) throw(std::invalid_argument) {
 		if( m_textureIds.find(gameObject) == m_textureIds.end() )
 			throw std::invalid_argument(std::string("No texture for ") + gameObject);
 			

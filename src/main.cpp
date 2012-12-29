@@ -32,6 +32,16 @@ int main(int argc, char* argv[]) {
     // OpenGL features
     glEnable(GL_DEPTH_TEST);
     
+    // Shaders
+	GLuint program = minecraft::loadProgram("shaders/transform.vs.glsl", "shaders/onlyCoords.fs.glsl");
+    if(!program){
+		return EXIT_FAILURE;
+	}
+    glUseProgram(program);
+    
+    /*TODO: Récupérer l'emplacement de la variable uniforme pour la
+     *  matrice de vue, la donner à GraphicEngine */
+
     /// Creation of the ressources
 	minecraft::GraphicEngine graphicEng;
 	graphicEng.Initialize();
@@ -43,7 +53,7 @@ int main(int argc, char* argv[]) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // Drawing
-        graphicEng.Refresh();
+        graphicEng.RefreshDisplay();
 
         // Refresh the display
         SDL_GL_SwapBuffers();

@@ -1,6 +1,7 @@
 #ifndef _MINECRAFT_TEXTUREMANAGER_HPP_
 #define _MINECRAFT_TEXTUREMANAGER_HPP_
 
+#include <string>
 #include <map>
 #include <stdexcept>
 #include <GL/glew.h>
@@ -9,11 +10,11 @@
 namespace minecraft {
 	class TextureManager {
 		private:
-			std::map<char*,GLuint> m_textureIds;
+			std::map<std::string,GLuint> m_textureIds;
 		public:
 			~TextureManager();
-			void LoadTexture(char*,char*) throw(std::runtime_error);
-			GLuint GetTextureId(char*) throw(std::invalid_argument);
+			void LoadTexture(std::string,char*) throw(std::runtime_error);
+			GLuint GetTextureId(std::string) throw(std::invalid_argument);
 	};
 }
 
