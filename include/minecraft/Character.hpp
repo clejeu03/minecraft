@@ -11,7 +11,13 @@ namespace minecraft {
 			FirstPersonCamera m_camera;
 			struct Vec3f m_position;
 			bool m_mining;
+			//! collide box used by the gameEngine 
+			//! inventory
 		public:
+			void MoveFront(GLfloat);
+			void RotateLeft(GLfloat);
+			void LookUp(GLfloat);
+			/* Return the view matrix from the camera following the player */
 			glm::mat4 GetPointOfView();
 	};
 }

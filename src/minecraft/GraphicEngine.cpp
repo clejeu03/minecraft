@@ -1,10 +1,31 @@
 #include <glm/gtc/matrix_transform.hpp>
+#include <minecraft/shader_tools.hpp>
 #include <minecraft/GraphicEngine.hpp>
 
 namespace minecraft {
-	void GraphicEngine::Initialize(GLuint uniformLocation, size_t windowWidth, size_t windowHeight) {
+	GraphicEngine::~GraphicEngine() {
+		typedef std::map<std::string,Cube*>::iterator ItType;
+		for(ItType iterator = m_gameObjects.begin(); iterator != m_gameObjects.end(); iterator++) {
+			delete iterator->second;
+		}
+	}
+	
+	void GraphicEngine::StartGL() throw(std::runtime_error) {		
+		// OpenGL features
+		glEnable(GL_DEPTH_TEST);
+		
+		// Shaders
+		GLuint program = minecraft::loadProgram("shaders/transform.vs.glsl", "shaders/onlyCoords.fs.glsl");
+		if(!program)
+			throw std::runtime_error("Can't load shaders");
+		glUseProgram(program);
+		
+		m_uniformTransformLocation = glGetUniformLocation(program,"uMVPMatrix");
+		glUniform1i(glGetUniformLocation(program, "uTexture"), 0);
+	}
+	
+	void GraphicEngine::Initialize(size_t windowWidth, size_t windowHeight) {
 		// Relative to the camera
-		m_uniformTransformLocation = uniformLocation;
 		m_perspectiveMatrix = glm::perspective(50.f, windowWidth / (float) windowHeight, 0.1f, 1000.f);
 		
 		// Init the game objects
@@ -20,25 +41,21 @@ namespace minecraft {
 		m_gameObjects[std::string("RockCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("cube")));
 		m_gameObjects[std::string("RockCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("cube")));
 		// Init and assign the textures
-		/* EXAMPLE
-		 * textureMgr.LoadTexture("Cloud","../blabal/illol.png");
-		 * cloudCube.SetTexId(textureMgr.GetTextureId((char*)"Cloud"));*/
-		m_world.Set(1,1,2,m_gameObjects[std::string("CloudCube")]);
-		m_world.Set(0,0,5,m_gameObjects[std::string("CloudCube")]);
-		m_world.Set(0,1,2,m_gameObjects[std::string("CloudCube")]);
-		m_world.Set(1,2,5,m_gameObjects[std::string("CloudCube")]);
-		m_world.Set(2,4,9,m_gameObjects[std::string("CloudCube")]);
-		m_world.Set(25,0,5,m_gameObjects[std::string("CloudCube")]);
-		m_world.Set(0,1,1,m_gameObjects[std::string("CloudCube")]);
-		 
-		 /* Just an example, the character must be managed and created by the game engine... */
-		 m_character = new Character();
+		m_textureMgr.LoadTexture("Cloud", "./cloud.jpg");
+		m_textureMgr.LoadTexture("Crystal", "./cloud.jpg");
+		m_textureMgr.LoadTexture("Rock", "./rock.jpg");
+		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Cloud"));
+		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Crystal"));
+		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Rock"));
 	}
 	
-	void GraphicEngine::RefreshDisplay() {
+	void GraphicEngine::RefreshDisplay() throw(std::logic_error) {
+		if( NULL == m_character || NULL == m_world )
+			throw std::logic_error("Can't display game without setting the map and the character");
+		
 		m_transformStack.Push();
 		m_transformStack.Set(m_perspectiveMatrix*m_character->GetPointOfView());
-		m_world.Draw(m_transformStack,m_uniformTransformLocation);
+		m_world->Draw(m_transformStack,m_uniformTransformLocation);
 		m_transformStack.Pop();
 	}
 }

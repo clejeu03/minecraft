@@ -8,6 +8,8 @@ namespace minecraft {
 		return (const GLvoid*) offset;
 	}
 
+	/* Because we are sending it as a buffer, we don't want to use an
+	 * unknown structure like glm::vec3 */
 	struct Vec2f {
 		GLfloat x;
 		GLfloat y;
@@ -34,7 +36,7 @@ namespace minecraft {
 		position(Vec3f(0,0,0)), normal(Vec3f(0,0,0)), textureXY(Vec2f(0,0))
 		{}
 		Vertex(GLfloat x, GLfloat y, GLfloat z) :
-		position(Vec3f(x,y,z)), normal(Vec3f(0,0,0)), textureXY(Vec2f(0,0))
+		position(Vec3f(x,y,z)), normal(Vec3f(x,y,z)), textureXY(Vec2f(x,y))
 		{}
 		Vertex(GLfloat x, GLfloat y, GLfloat z, GLfloat xn, GLfloat yn, GLfloat zn) :
 		position(Vec3f(x,y,z)), normal(Vec3f(xn,yn,zn)), textureXY(Vec2f(0,0))

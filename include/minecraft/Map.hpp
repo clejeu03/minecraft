@@ -9,21 +9,28 @@
 #include <minecraft/MatrixStack.hpp>
 
 namespace minecraft {
+	/* x, y, z : the game map is only a 3D matrice of slot */
 	typedef std::tuple<int,int,int> MapCoords;
 	
 	class Map : public Drawable {
 		private:
-			int m_width;
-			int m_height;
-			int m_depth;
+			size_t m_width;
+			size_t m_height;
+			size_t m_depth;
 			std::map<MapCoords,Cube*> m_data;
 		public:
-			Map(int w,int h,int d) : m_width(w), m_height(h), m_depth(d) {}
+			Map() : m_width(0), m_height(0), m_depth(0) {}
 			~Map();
+			void Resize(size_t w, size_t h, size_t d) {
+				m_width = w;
+				m_height = h;
+				m_depth = d;
+			}
 			void Draw() const;
+			/* Draw the cubes at the right places considering their size */
 			void Draw(MatrixStack&, GLuint) const;
-			void Set(int,int,int,Cube*) throw(std::out_of_range);
-			Cube& Get(int,int,int) throw(std::out_of_range);
+			void Set(size_t,size_t,size_t,Cube*) throw(std::out_of_range);
+			Cube& Get(size_t,size_t,size_t) throw(std::out_of_range);
 	};
 }
 

@@ -18,9 +18,11 @@ namespace minecraft {
 			void Draw() const;
 	};
 
+	/* Indiferent to gravity */
 	class FloatingCube : public Cube {
 	};
 
+	/* Affected by gravity */
 	class PhysicCube : public Cube {
 	};
 

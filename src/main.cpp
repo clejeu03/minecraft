@@ -7,43 +7,43 @@
 #include <SDL/SDL_image.h>
 #include <GL/glew.h>
 /* Home-baked */
-#include <minecraft/shader_tools.hpp>
 #include <minecraft/GraphicEngine.hpp>
+#include <minecraft/GameIO.hpp>
 
 /* GAME PARAMETERS */
 static const size_t WINDOW_WIDTH = 512, WINDOW_HEIGHT = 512;
 static const size_t BYTES_PER_PIXEL = 32;
 
 int main(int argc, char* argv[]) {
-	/// Initialization
+	/// INITIALIZATION
 	// SDL
-    SDL_Init(SDL_INIT_VIDEO);
-    
-    // Window and GL context
-    SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
-    
-    // GLEW
-    GLenum error;
-    if(GLEW_OK != (error = glewInit())) {
-        std::cerr << "Impossible d'initialiser GLEW: " << glewGetErrorString(error) << std::endl;
-        return EXIT_FAILURE;
-    }
-    
-    // OpenGL features
-    glEnable(GL_DEPTH_TEST);
-    
-    // Shaders
-	GLuint program = minecraft::loadProgram("shaders/transform.vs.glsl", "shaders/onlyCoords.fs.glsl");
-    if(!program){
+	SDL_Init(SDL_INIT_VIDEO);
+	
+	// Window and GL context
+	SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
+	
+	// GLEW
+	GLenum error;
+	if(GLEW_OK != (error = glewInit())) {
+		std::cerr << "Impossible d'initialiser GLEW: " << glewGetErrorString(error) << std::endl;
 		return EXIT_FAILURE;
 	}
-    glUseProgram(program);
+	
+    /// CREATION OF THE RESSOURCES
+    minecraft::Character player;
+    minecraft::Map map;
     
-    GLuint uMVPMatrixLoc = glGetUniformLocation(program,"uMVPMatrix");
-
-    /// Creation of the ressources
 	minecraft::GraphicEngine graphicEng;
-	graphicEng.Initialize(uMVPMatrixLoc,WINDOW_WIDTH,WINDOW_HEIGHT);
+	graphicEng.StartGL();
+	graphicEng.Initialize(WINDOW_WIDTH,WINDOW_HEIGHT);
+	graphicEng.SetCharacter(&player);
+	graphicEng.SetMap(&map);
+	
+	minecraft::GameIO IOManager((char*)"bla bla position de ma map");
+	IOManager.SetCharacter(&player);
+	IOManager.SetMap(&map);
+	IOManager.SetGameObjects(graphicEng.GetGameObjects());
+	IOManager.LoadMap();
      
     /// RENDERING LOOP
     bool done = false;
@@ -66,13 +66,24 @@ int main(int argc, char* argv[]) {
                 break;
             }
             
-            // Traitement des autres évenements:
+            // Player inputs
+			if(SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(1)) {
+				if(e.type == SDL_MOUSEMOTION) {
+					player.RotateLeft(e.motion.xrel);
+					player.LookUp(e.motion.yrel);
+				}
+			}
+			if(e.type ==  SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_WHEELUP) {
+				player.MoveFront(0.1);
+			}
+			if(e.type ==  SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_WHEELDOWN) {
+				player.MoveFront(-0.1);
+			}
 		}
     }
     
-	/// CLEAN THE RESSOURCES
-	
+	/// QUIT AND CLEAN (ALL IS AUTOMATIC BY NOW, MAYBE LATER)
     SDL_Quit();
-	
+
 	return EXIT_SUCCESS;
 }

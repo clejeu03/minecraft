@@ -8,6 +8,7 @@
 #include <minecraft/GLtools.hpp>
 
 namespace minecraft {
+	/* Just a collection of vertices */
 	struct Shape {
 			struct Vertex* vertices;
 			size_t nbVertices;
@@ -20,6 +21,7 @@ namespace minecraft {
 			size_t GetByteSize();
 	};
 	
+	/* Manage the shapes into the hardware */
 	class ShapeManager {
 		private:
 			std::map<std::string,struct Shape> m_shapes;

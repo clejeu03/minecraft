@@ -14,7 +14,8 @@ namespace minecraft {
 			virtual glm::mat4 GetViewMatrix() = 0;
 	};
 	
-	class FirstPersonCamera : public Camera { // For the moment just a trackball...
+	/* For the moment just a trackball... */
+	class FirstPersonCamera : public Camera {
 		private:
 			GLfloat m_fDistance;
 			GLfloat m_fAngleX;

@@ -8,6 +8,7 @@
 #include <SDL/SDL_image.h>
 
 namespace minecraft {
+	/* Manage the textures into the hardware */
 	class TextureManager {
 		private:
 			std::map<std::string,GLuint> m_textureIds;
