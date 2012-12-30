@@ -6,6 +6,7 @@
 #include <tuple>
 #include <minecraft/Drawable.hpp>
 #include <minecraft/Cube.hpp>
+#include <minecraft/MatrixStack.hpp>
 
 namespace minecraft {
 	typedef std::tuple<int,int,int> MapCoords;
@@ -20,6 +21,7 @@ namespace minecraft {
 			Map(int w,int h,int d) : m_width(w), m_height(h), m_depth(d) {}
 			~Map();
 			void Draw() const;
+			void Draw(MatrixStack&, GLuint) const;
 			void Set(int,int,int,Cube*) throw(std::out_of_range);
 			Cube& Get(int,int,int) throw(std::out_of_range);
 	};

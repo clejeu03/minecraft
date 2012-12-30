@@ -11,7 +11,7 @@ namespace minecraft {
 			GLuint m_VAO;
 			size_t m_nbVertices;
 		public:
-			constexpr static float m_size = 0.1f;
+			constexpr static GLfloat m_size = 0.1f;
 			inline void SetNbVertices(size_t nb) { m_nbVertices = nb; }
 			inline void SetTexId(GLuint id) { m_textureId = id; }
 			inline void SetVAOId(GLuint id) { m_VAO = id; }

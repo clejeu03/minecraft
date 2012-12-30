@@ -1,6 +1,5 @@
 #include <minecraft/ShapeManager.hpp>
 #include <string>
-#include <iostream>
 
 namespace minecraft {
 	Shape::Shape(const Shape& s) {
@@ -93,7 +92,6 @@ namespace minecraft {
 		GLuint vbo;
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		std::cout << " byte size : " << shape.GetByteSize() << std::endl;
 		glBufferData(GL_ARRAY_BUFFER, shape.GetByteSize(), shape.vertices, GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		

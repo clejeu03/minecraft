@@ -39,12 +39,11 @@ int main(int argc, char* argv[]) {
 	}
     glUseProgram(program);
     
-    /*TODO: Récupérer l'emplacement de la variable uniforme pour la
-     *  matrice de vue, la donner à GraphicEngine */
+    GLuint uMVPMatrixLoc = glGetUniformLocation(program,"uMVPMatrix");
 
     /// Creation of the ressources
 	minecraft::GraphicEngine graphicEng;
-	graphicEng.Initialize();
+	graphicEng.Initialize(uMVPMatrixLoc,WINDOW_WIDTH,WINDOW_HEIGHT);
      
     /// RENDERING LOOP
     bool done = false;
