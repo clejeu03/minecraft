@@ -6,6 +6,8 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <GL/glew.h>
+/*Parser Json*/
+#include "rapidjson/document.h"
 /* Home-baked */
 #include <minecraft/GraphicEngine.hpp>
 #include <minecraft/GameIO.hpp>
@@ -39,12 +41,14 @@ int main(int argc, char* argv[]) {
 	graphicEng.SetCharacter(&player);
 	graphicEng.SetMap(&map);
 	
-	minecraft::GameIO IOManager((char*)"bla bla position de ma map");
+	minecraft::GameIO IOManager((char*)"data/myFirstIsland.json");
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
 	IOManager.LoadMap();
-     
+    
+
+
     /// RENDERING LOOP
     bool done = false;
     while(!done) {
