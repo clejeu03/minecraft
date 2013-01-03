@@ -47,9 +47,6 @@ namespace minecraft {
 		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Cloud"));
 		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Crystal"));
 		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Rock"));
-		
-		// Hide Cursor
-		SDL_ShowCursor(SDL_DISABLE);
 	}
 	
 	void GraphicEngine::RefreshDisplay() throw(std::logic_error) {
