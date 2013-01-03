@@ -21,8 +21,9 @@ namespace minecraft {
 			void SetMap(Map* map) { m_map = map; }
 			void SetGameObjects(std::map<std::string,Cube*>* dictionary) { m_gameObjects = dictionary; }
 			void LoadMap() throw(std::logic_error);
+			void GenerateMap(size_t width, size_t height, size_t depth);
 			void LoadInventory() {} // Why not ?
-			void SaveMap() {}
+			void SaveMap();
 			void SaveInventory() {}
 	};
 }

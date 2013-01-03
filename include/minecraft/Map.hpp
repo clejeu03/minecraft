@@ -18,6 +18,7 @@ namespace minecraft {
 			size_t m_height;
 			size_t m_depth;
 			std::map<MapCoords,Cube*> m_data;
+
 		public:
 			Map() : m_width(0), m_height(0), m_depth(0) {}
 			~Map();
@@ -29,8 +30,27 @@ namespace minecraft {
 			void Draw() const;
 			/* Draw the cubes at the right places considering their size */
 			void Draw(MatrixStack&, GLuint) const;
+			size_t GetSizeW();
+			size_t GetSizeH();
+			size_t GetSizeD();
 			void Set(size_t,size_t,size_t,Cube*) throw(std::out_of_range);
 			Cube& Get(size_t,size_t,size_t) throw(std::out_of_range);
+
+			/*template <typename Writer>
+			void Serialize(Writer& writer) const {
+				writer.String("name");
+				writer.String("autoMap");
+
+				writer.String("width");
+				writer.Uint(m_width);
+
+				writer.String("height");
+				writer.Uint(m_height);
+
+				writer.String("depth");
+				writer.Uint(m_depth);
+			}*/
+
 	};
 }
 

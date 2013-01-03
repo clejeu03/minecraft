@@ -49,6 +49,16 @@ namespace minecraft {
 		m_data[MapCoords(x,y,z)] = cube;
 	}
 	
+	size_t Map::GetSizeW(){
+		return m_width;
+	}
+	size_t Map::GetSizeH(){
+		return m_height;
+	}
+	size_t Map::GetSizeD(){
+		return m_depth;
+	}
+
 	Cube& Map::Get(size_t x, size_t y, size_t z) throw(std::out_of_range) {
 		if( x >= m_width || x < 0 ||
 		y >= m_height || y < 0 ||

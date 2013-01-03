@@ -34,21 +34,28 @@ int main(int argc, char* argv[]) {
     /// CREATION OF THE RESSOURCES
     minecraft::Character player;
     minecraft::Map map;
-    
+
 	minecraft::GraphicEngine graphicEng;
 	graphicEng.StartGL();
 	graphicEng.Initialize(WINDOW_WIDTH,WINDOW_HEIGHT);
 	graphicEng.SetCharacter(&player);
 	graphicEng.SetMap(&map);
 	
-	minecraft::GameIO IOManager((char*)"data/myFirstIsland.json");
+	/*Load a Map*/
+	minecraft::GameIO IOManager("data/myFirstIsland.json");
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
 	IOManager.LoadMap();
+
+	/*Start a new Map*/
+	/*minecraft::GameIO IOManager;
+	IOManager.SetCharacter(&player);
+	IOManager.SetMap(&map);
+	IOManager.SetGameObjects(graphicEng.GetGameObjects());
+    IOManager.GenerateMap(5,5,5);
+    IOManager.SaveMap();*/
     
-
-
     /// RENDERING LOOP
     bool done = false;
     while(!done) {

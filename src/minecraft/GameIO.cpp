@@ -13,7 +13,7 @@ namespace minecraft {
 		if( NULL == m_gameObjects || NULL == m_file )
 			throw std::logic_error("Can't load map without game objects dictionary");
 		
-		/* Reading of the data file*/
+		/* Reading the data file*/
     	std::ifstream file(m_file, std::ios::in);
     	size_t width;
 		size_t height;
@@ -78,6 +78,71 @@ namespace minecraft {
     	}else{
     		std::cerr << "can't open the data file" << std::endl;
     	}
+
+	}
+
+	void GameIO::GenerateMap(size_t width, size_t height, size_t depth){
+		m_map->Resize(width, height, depth);
+		std::map<std::string,Cube*> dictionary = *m_gameObjects;
+		
+		for (size_t i = 0; i < depth; i++){
+			for (size_t j = 1; j < width; j++){
+				for (size_t k = 0; k < height; k++){
+					m_map->Set(j,i,k,dictionary[std::string("RockCube")]);
+				}
+			}
+		}
+	}
+
+	void GameIO::SaveMap(){
+		/*Creating or overwriting backup file*/
+		FILE* file;//use the C library "stdio" to write to the file cause rapidjson need a FILE* instead of a char*
+		file = fopen ("data/autoMap.json", "w");
+		if (file == NULL)
+			std::cout << "Can't create backup file" << std::endl;
+		else
+		{
+			size_t width = m_map->GetSizeW();
+			size_t height = m_map->GetSizeH();
+			size_t depth = m_map->GetSizeD();
+
+			if(file){
+			   	
+				rapidjson::FileStream s(file);
+				rapidjson::PrettyWriter<rapidjson::FileStream> writer(s);	
+				writer.StartObject();
+
+				writer.String("name");
+				writer.String("autoMap");
+
+				writer.String("width");
+				writer.Uint(width);
+
+				writer.String("height");
+				writer.Uint(height);
+
+				writer.String("depth");
+				writer.Uint(depth);
+
+				writer.String("cubes");
+				writer.StartArray();
+				for (size_t i = 0; i < depth+1; i++){
+					writer.StartArray();
+					for (size_t j = 0; j < width+1; j++){
+						writer.StartArray();
+						for (size_t k = 0; k < height+1; k++){
+							writer.Uint(1);
+						}
+						writer.EndArray();
+					}
+					writer.EndArray();
+				}
+				writer.EndArray();
+
+				writer.EndObject();
+			}
+		}
+		fclose (file);
 
 	}
 }
