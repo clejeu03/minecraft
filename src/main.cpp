@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
 	bool keyQ=0;
 	bool keyS=0;
 	bool keyD=0;
-	float speed=0.0001;
+	float speed=0.0002;
 	float diagSpeed=sqrt(speed*speed/2);
 	
 	// Display tips in the terminal
