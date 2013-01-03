@@ -8,6 +8,7 @@
 #include "rapidjson/prettywriter.h"	// for stringify JSON
 #include "rapidjson/filestream.h" // wrapper of C stream for prettywriter as output
 
+
 #define foreach_xyz(start, end) \
     int x, y, z;\
     float xf, yf, zf;\
@@ -225,7 +226,6 @@ namespace minecraft {
 
 	void GameIO::GenerateMap(size_t size){
 		m_map->Resize(size, size, size);
-		unsigned char* data;
 		float caves, center_falloff, plateau_falloff, density;
 	    foreach_xyz(1, size-1)
 	        if(yf <= 0.8){
@@ -265,6 +265,7 @@ namespace minecraft {
 		/*Creating or overwriting backup file*/
 		FILE* file;//use the C library "stdio" to write to the file cause rapidjson need a FILE* instead of a char*
 		file = fopen ("data/autoMap.json", "w");
+
 		if (file == NULL)
 			std::cout << "Can't create backup file" << std::endl;
 		else
@@ -298,7 +299,7 @@ namespace minecraft {
 					for (size_t j = 0; j < width+1; j++){
 						writer.StartArray();
 						for (size_t k = 0; k < height+1; k++){
-							/*switch (cubes[i][j][k].GetInt()){
+							/*switch (cubeType){
 								case NULL :
 									writer.Uint(0);
 									break;
@@ -306,11 +307,9 @@ namespace minecraft {
 									writer.Uint(1);
 									break;
 								case CloudCube :
-									writer.Uint(1);
+									writer.Uint(2);
 									break;
 							}*/
-
-							
 						}
 						writer.EndArray();
 					}
