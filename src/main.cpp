@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
+#include <cmath>
 /* SDL & GL */
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
@@ -15,6 +16,8 @@
 /* GAME PARAMETERS */
 static const size_t WINDOW_WIDTH = 512, WINDOW_HEIGHT = 512;
 static const size_t BYTES_PER_PIXEL = 32;
+
+
 
 int main(int argc, char* argv[]) {
 	/// INITIALIZATION
@@ -58,6 +61,23 @@ int main(int argc, char* argv[]) {
     
     /// RENDERING LOOP
     bool done = false;
+    
+    // Hide Cursor
+	SDL_ShowCursor(SDL_DISABLE);
+	// Prevent from leaving the screen
+	SDL_WM_GrabInput(SDL_GRAB_ON);
+    
+    /*Keys pressed*/
+	bool keyZ=0;
+	bool keyQ=0;
+	bool keyS=0;
+	bool keyD=0;
+	float speed=0.0001;
+	float diagSpeed=sqrt(speed*speed/2);
+	
+	// Display tips in the terminal
+	std::cout<<"Press P to free the cursor and Escape to quit"<<std::endl;
+    
     while(!done) {
         // Clean the window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -68,8 +88,16 @@ int main(int argc, char* argv[]) {
         // Refresh the display
         SDL_GL_SwapBuffers();
         
+        
+        
         // Events handling
         SDL_Event e;
+        
+        // Mouse inputs
+			if(SDL_GetMouseState(NULL, NULL)) {
+				
+		}
+        
         while(SDL_PollEvent(&e)) {
             // Window close
             if(e.type == SDL_QUIT) {
@@ -77,20 +105,73 @@ int main(int argc, char* argv[]) {
                 break;
             }
             
-            // Player inputs
-			if(SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(1)) {
-				if(e.type == SDL_MOUSEMOTION) {
-					player.RotateLeft(e.motion.xrel);
-					player.LookUp(e.motion.yrel);
-				}
+            if(e.type == SDL_MOUSEMOTION) {
+					player.RotateLeft(-e.motion.xrel);
+					player.LookUp(-e.motion.yrel);
 			}
-			if(e.type ==  SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_WHEELUP) {
-				player.MoveFront(0.1);
-			}
-			if(e.type ==  SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_WHEELDOWN) {
-				player.MoveFront(-0.1);
-			}
+			
+			/* Detect keys down */
+			 if(e.type == SDL_KEYDOWN) {
+			    	switch(e.key.keysym.sym) {
+			    		case SDLK_z:
+							keyZ=1;
+			    			break;
+			    		case SDLK_s:
+			    			keyS=1;
+			    			break;
+			    		case SDLK_q:
+			    			keyQ=1;
+			    			break;
+			    		case SDLK_d:
+			    			keyD=1;
+			    			break;
+						case SDLK_p:
+							// Free the cursor
+			    			SDL_WM_GrabInput(SDL_GRAB_OFF);
+			    			SDL_ShowCursor(SDL_ENABLE);
+			    			break;
+			    		case SDLK_ESCAPE:
+							// Free the cursor
+			    			done=1;
+			    			break;
+			    		default:
+			    			break;
+			    	}
+
+			    }
+			
+			if(e.type == SDL_KEYUP) {
+			    	switch(e.key.keysym.sym) {
+			    		case SDLK_z:
+							keyZ=0;
+			    			break;
+			    		case SDLK_s:
+			    			keyS=0;
+			    			break;
+			    		case SDLK_q:
+			    			keyQ=0;
+			    			break;
+			    		case SDLK_d:
+			    			keyD=0;
+			    			break;
+			    		default:
+			    			break;
+			    	}
+
+			    }    
+
 		}
+		
+		/* Acutally move the player */
+		if(keyZ && keyQ){player.MoveFront(diagSpeed);player.MoveLeft(diagSpeed);}
+		else if(keyZ && keyD){player.MoveFront(diagSpeed);player.MoveLeft(-diagSpeed);}
+		else if(keyS && keyQ){player.MoveFront(-diagSpeed);player.MoveLeft(diagSpeed);}
+		else if(keyS && keyD){player.MoveFront(-diagSpeed);player.MoveLeft(-diagSpeed);}
+		else if(keyZ==1){player.MoveFront(speed);}
+    	else if(keyQ==1){player.MoveLeft(speed);}
+    	else if(keyS==1){player.MoveFront(-speed);}
+    	else if(keyD==1){player.MoveLeft(-speed);}
+
     }
     
 	/// QUIT AND CLEAN (ALL IS AUTOMATIC BY NOW, MAYBE LATER)
