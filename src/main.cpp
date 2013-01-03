@@ -14,6 +14,8 @@
 static const size_t WINDOW_WIDTH = 512, WINDOW_HEIGHT = 512;
 static const size_t BYTES_PER_PIXEL = 32;
 
+
+
 int main(int argc, char* argv[]) {
 	/// INITIALIZATION
 	// SDL
@@ -47,6 +49,12 @@ int main(int argc, char* argv[]) {
      
     /// RENDERING LOOP
     bool done = false;
+    /*Keys pressed*/
+	bool keyZ=0;
+	bool keyQ=0;
+	bool keyS=0;
+	bool keyD=0;
+    
     while(!done) {
         // Clean the window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -67,19 +75,70 @@ int main(int argc, char* argv[]) {
             }
             
             // Player inputs
-			if(SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(1)) {
+			if(SDL_GetMouseState(NULL, NULL)) {
 				if(e.type == SDL_MOUSEMOTION) {
-					player.RotateLeft(e.motion.xrel);
-					player.LookUp(e.motion.yrel);
+					player.RotateLeft(-e.motion.xrel);
+					player.LookUp(-e.motion.yrel);
 				}
 			}
-			if(e.type ==  SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_WHEELUP) {
+			
+			/* Move player */
+			 if(e.type == SDL_KEYDOWN) {
+			    	switch(e.key.keysym.sym) {
+			    		case SDLK_z:
+							keyZ=1;
+			    			break;
+			    		case SDLK_s:
+			    			keyS=1;
+			    			break;
+			    		case SDLK_q:
+			    			keyQ=1;
+			    			break;
+			    		case SDLK_d:
+			    			keyD=1;
+			    			break;
+			    		default:
+			    			break;
+			    	}
+
+			    }
+			
+			if(e.type == SDL_KEYUP) {
+			    	switch(e.key.keysym.sym) {
+			    		case SDLK_z:
+							keyZ=0;
+			    			break;
+			    		case SDLK_s:
+			    			keyS=0;
+			    			break;
+			    		case SDLK_q:
+			    			keyQ=0;
+			    			break;
+			    		case SDLK_d:
+			    			keyD=0;
+			    			break;
+			    		default:
+			    			break;
+			    	}
+
+			    }    
+
+		    	
+
+		/*if(e.type ==  SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_WHEELUP) {
 				player.MoveFront(0.1);
 			}
 			if(e.type ==  SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_WHEELDOWN) {
 				player.MoveFront(-0.1);
-			}
+			}*/
 		}
+		
+		/* Acutally move the player */
+		if(keyZ==1){player.MoveFront(0.0001);}
+    	if(keyQ==1){player.MoveLeft(0.0001);}
+    	if(keyS==1){player.MoveFront(-0.0001);}
+    	if(keyD==1){player.MoveLeft(-0.0001);}
+
     }
     
 	/// QUIT AND CLEAN (ALL IS AUTOMATIC BY NOW, MAYBE LATER)

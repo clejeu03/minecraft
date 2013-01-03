@@ -15,6 +15,7 @@ namespace minecraft {
 			//! inventory
 		public:
 			void MoveFront(GLfloat);
+			void MoveLeft(GLfloat);
 			void RotateLeft(GLfloat);
 			void LookUp(GLfloat);
 			/* Return the view matrix from the camera following the player */
