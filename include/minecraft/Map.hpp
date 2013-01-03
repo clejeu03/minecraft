@@ -36,21 +36,6 @@ namespace minecraft {
 			void Set(size_t,size_t,size_t,Cube*) throw(std::out_of_range);
 			Cube& Get(size_t,size_t,size_t) throw(std::out_of_range);
 
-			/*template <typename Writer>
-			void Serialize(Writer& writer) const {
-				writer.String("name");
-				writer.String("autoMap");
-
-				writer.String("width");
-				writer.Uint(m_width);
-
-				writer.String("height");
-				writer.Uint(m_height);
-
-				writer.String("depth");
-				writer.Uint(m_depth);
-			}*/
-
 	};
 }
 

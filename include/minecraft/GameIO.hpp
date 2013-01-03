@@ -21,10 +21,14 @@ namespace minecraft {
 			void SetMap(Map* map) { m_map = map; }
 			void SetGameObjects(std::map<std::string,Cube*>* dictionary) { m_gameObjects = dictionary; }
 			void LoadMap() throw(std::logic_error);
-			void GenerateMap(size_t width, size_t height, size_t depth);
+			void GenerateMap(size_t size);
 			void LoadInventory() {} // Why not ?
 			void SaveMap();
 			void SaveInventory() {}
+
+			float dot(float x, float y, float z, float* g);
+			float noise(float xin, float yin, float zin);
+			float simplex_noise(int octaves, float x, float y, float z);
 	};
 }
 

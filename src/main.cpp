@@ -42,19 +42,19 @@ int main(int argc, char* argv[]) {
 	graphicEng.SetMap(&map);
 	
 	/*Load a Map*/
-	minecraft::GameIO IOManager("data/myFirstIsland.json");
+	/*minecraft::GameIO IOManager("data/myFirstIsland.json");
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-	IOManager.LoadMap();
+	IOManager.LoadMap();*/
 
 	/*Start a new Map*/
-	/*minecraft::GameIO IOManager;
+	minecraft::GameIO IOManager;
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-    IOManager.GenerateMap(5,5,5);
-    IOManager.SaveMap();*/
+    IOManager.GenerateMap(10);
+    IOManager.SaveMap();
     
     /// RENDERING LOOP
     bool done = false;
