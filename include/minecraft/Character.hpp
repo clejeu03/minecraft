@@ -13,10 +13,10 @@ namespace minecraft {
 			//struct Vec3f m_position; Included in the Box
 			bool m_mining;
 			Box m_box;
-			
+			GLfloat povHeight=0.2;
 			//! inventory
 		public:
-			GLfloat povHeight;
+			
 			Character(glm::vec3);
 		
 			Box& getBox();
