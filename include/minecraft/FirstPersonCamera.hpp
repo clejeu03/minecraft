@@ -58,9 +58,13 @@ namespace minecraft {
 			
 			FirstPersonCamera(){
 				m_Position = glm::vec3(0,0,0);
-				m_fPhi = M_PI;
+				m_fPhi = 0;
 				m_fTheta = 0;
 				computeDirectionVectors();
+			}
+			
+			inline void setPosition(glm::vec3 position){
+				m_Position=position;
 			}
 			inline void MoveLeft(GLfloat t){
 				m_Position += t*m_LeftVector;

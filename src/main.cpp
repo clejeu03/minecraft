@@ -7,10 +7,12 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <GL/glew.h>
+#include <glm/glm.hpp>
 /*Parser Json*/
 #include "rapidjson/document.h"
 /* Home-baked */
 #include <minecraft/GraphicEngine.hpp>
+#include <minecraft/GameEngine.hpp>
 #include <minecraft/GameIO.hpp>
 
 /* GAME PARAMETERS */
@@ -35,7 +37,7 @@ int main(int argc, char* argv[]) {
 	}
 	
     /// CREATION OF THE RESSOURCES
-    minecraft::Character player;
+    minecraft::Character player(glm::vec3(1,1.9,1));
     minecraft::Map map;
 
 	minecraft::GraphicEngine graphicEng;
@@ -59,11 +61,13 @@ int main(int argc, char* argv[]) {
     IOManager.GenerateMap(10);
     IOManager.SaveMap();*/
     
-    /// RENDERING LOOP
-    bool done = false;
+    minecraft::GameEngine gameEng;
+    gameEng.SetCharacter(&player);
+	gameEng.SetMap(&map);
     
-    // Hide Cursor
-	SDL_ShowCursor(SDL_ENABLE);
+     // Hide Cursor
+	SDL_ShowCursor(SDL_DISABLE);
+
 	// Prevent from leaving the screen
 	SDL_WM_GrabInput(SDL_GRAB_OFF);
     
@@ -72,12 +76,14 @@ int main(int argc, char* argv[]) {
 	bool keyQ=0;
 	bool keyS=0;
 	bool keyD=0;
-	float speed=0.002;
+	float speed=0.01;
 	float diagSpeed=sqrt(speed*speed/2);
 	
 	// Display tips in the terminal
 	std::cout<<"Press P to free the cursor and Escape to quit"<<std::endl;
-    
+	
+    /// RENDERING LOOP
+    bool done = false;
     while(!done) {
         // Clean the window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -171,6 +177,9 @@ int main(int argc, char* argv[]) {
     	else if(keyQ==1){player.MoveLeft(speed);}
     	else if(keyS==1){player.MoveFront(-speed);}
     	else if(keyD==1){player.MoveLeft(-speed);}
+    	
+    	// Collider test
+    	std::cout<< gameEng.collide()<<std::endl;
 
     }
     
