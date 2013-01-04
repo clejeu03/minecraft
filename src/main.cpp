@@ -45,34 +45,34 @@ int main(int argc, char* argv[]) {
 	graphicEng.SetMap(&map);
 	
 	/*Load a Map*/
-	/*minecraft::GameIO IOManager("data/myFirstIsland.json");
+	minecraft::GameIO IOManager("data/autoMap.json");
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-	IOManager.LoadMap();*/
+	IOManager.LoadMap();
 
 	/*Start a new Map*/
-	minecraft::GameIO IOManager;
+	/*minecraft::GameIO IOManager;
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-    IOManager.GenerateMap(30);
-    IOManager.SaveMap();
+    IOManager.GenerateMap(10);
+    IOManager.SaveMap();*/
     
     /// RENDERING LOOP
     bool done = false;
     
     // Hide Cursor
-	SDL_ShowCursor(SDL_DISABLE);
+	SDL_ShowCursor(SDL_ENABLE);
 	// Prevent from leaving the screen
-	SDL_WM_GrabInput(SDL_GRAB_ON);
+	SDL_WM_GrabInput(SDL_GRAB_OFF);
     
     /*Keys pressed*/
 	bool keyZ=0;
 	bool keyQ=0;
 	bool keyS=0;
 	bool keyD=0;
-	float speed=0.2;
+	float speed=0.002;
 	float diagSpeed=sqrt(speed*speed/2);
 	
 	// Display tips in the terminal
@@ -127,8 +127,8 @@ int main(int argc, char* argv[]) {
 			    			break;
 						case SDLK_p:
 							// Free the cursor
-			    			SDL_WM_GrabInput(SDL_GRAB_OFF);
-			    			SDL_ShowCursor(SDL_ENABLE);
+			    			//SDL_WM_GrabInput(SDL_GRAB_OFF);
+			    			//SDL_ShowCursor(SDL_ENABLE);
 			    			break;
 			    		case SDLK_ESCAPE:
 							// Free the cursor

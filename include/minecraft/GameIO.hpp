@@ -20,13 +20,12 @@ namespace minecraft {
 			void SetCharacter(Character* character) { m_character = character; }
 			void SetMap(Map* map) { m_map = map; }
 			void SetGameObjects(std::map<std::string,Cube*>* dictionary) { m_gameObjects = dictionary; }
+			std::map<std::string,Cube*>* GetGameObject(){return m_gameObjects;}
 			void LoadMap() throw(std::logic_error);
 			void GenerateMap(size_t size);
 			void LoadInventory() {} // Why not ?
 			void SaveMap();
 			void SaveInventory() {}
-
-			std::map<std::string,Cube*>* GetGameObjects() { return m_gameObjects; }
 
 			float dot(float x, float y, float z, float* g);
 			float noise(float xin, float yin, float zin);

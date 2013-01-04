@@ -65,6 +65,11 @@ namespace minecraft {
 		z >= m_depth || z < 0 )
 			throw std::out_of_range("Position is out of the map");
 		
-		return *m_data[MapCoords(x,y,z)];
+		//return *m_data[MapCoords(x,y,z)];
+		if( (int) (m_data.count(MapCoords(x,y,z)) ) == 1)
+			return *m_data.find(MapCoords(x,y,z))->second;
+		else throw std::out_of_range("There is not cube at this position.");
+
 	}
+
 }

@@ -362,6 +362,7 @@ int z = a[0u].GetInt();				// This works too.
 	GenericValue& operator[](SizeType index) {
 		RAPIDJSON_ASSERT(IsArray());
 		RAPIDJSON_ASSERT(index < data_.a.size);
+		std::cout << "index " << index << " data "  << data_.a.size << std::endl;
 		return data_.a.elements[index];
 	}
 	const GenericValue& operator[](SizeType index) const { return const_cast<GenericValue&>(*this)[index]; }

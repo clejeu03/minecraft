@@ -77,7 +77,7 @@ namespace minecraft {
 				const rapidjson::Value& cubes = document["cubes"];	// Using a reference
 				assert(cubes.IsArray());
 				for (rapidjson::SizeType i = 0; i < depth; i++){	// rapidjson uses SizeType instead of size_t.
-					for (rapidjson::SizeType j = 1; j < width; j++){
+					for (rapidjson::SizeType j = 0; j < width; j++){
 						for (rapidjson::SizeType k = 0; k < height; k++){
 							switch (cubes[i][j][k].GetInt()){
 								case 0 :
@@ -265,7 +265,7 @@ namespace minecraft {
 		/*Creating or overwriting backup file*/
 		FILE* file;//use the C library "stdio" to write to the file cause rapidjson need a FILE* instead of a char*
 		file = fopen ("data/autoMap.json", "w");
-
+		
 		if (file == NULL)
 			std::cout << "Can't create backup file" << std::endl;
 		else
@@ -294,11 +294,26 @@ namespace minecraft {
 
 				writer.String("cubes");
 				writer.StartArray();
-				for (size_t i = 0; i < depth+1; i++){
+				for (size_t i = 0; i < depth; i++){
 					writer.StartArray();
-					for (size_t j = 0; j < width+1; j++){
+					for (size_t j = 0; j < width; j++){
 						writer.StartArray();
-						for (size_t k = 0; k < height+1; k++){
+						for (size_t k = 0; k < height; k++){
+							try{
+								//On tente de trouver le cube qui se trouve à cette position
+								Cube* tmp = &(m_map->Get(j,k,i));
+								if(tmp == m_gameObjects->find(std::string("RockCube"))->second){
+									writer.Uint(1);
+								}
+								else if(tmp == m_gameObjects->find(std::string("CloudCube"))->second){
+									writer.Uint(2);
+								}
+							}
+							//Si aucun cube ne se trouve à cet endroit m_map->Get aura levé cette exception
+							catch(std::out_of_range error){
+								writer.Uint(0);
+							}
+					
 							/*switch (cubeType){
 								case NULL :
 									writer.Uint(0);
@@ -310,6 +325,7 @@ namespace minecraft {
 									writer.Uint(2);
 									break;
 							}*/
+							//std::cout << cubeType << std::endl;		
 						}
 						writer.EndArray();
 					}
