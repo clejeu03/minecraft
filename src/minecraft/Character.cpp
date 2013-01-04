@@ -1,6 +1,31 @@
 #include <minecraft/Character.hpp>
 
 namespace minecraft {
+	
+	Character::Character(glm::vec3 position){
+		m_box.setBase(position);
+		m_camera.setPosition(position+povHeight);
+	}
+	
+	Box& Character::getBox(){
+		// May want to shorten this
+		Box& boxref=m_box;
+		return boxref;
+	}
+	
+	glm::vec3 Character::position(){
+		return m_box.getBase();
+	}
+			
+	void Character::setPosition(glm::vec3 position){
+		m_box.setBase(position);
+		m_camera.setPosition(position+povHeight);
+	}
+	
+	void Character::setBoxSize(glm::vec3 size){
+		m_box.setSize(size);
+	}
+	
 	void Character::MoveFront(GLfloat distance) {
 		m_camera.MoveFront(distance);
 	}

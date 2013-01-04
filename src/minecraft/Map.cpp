@@ -58,7 +58,19 @@ namespace minecraft {
 	size_t Map::GetSizeD(){
 		return m_depth;
 	}
-
+	
+	bool Map::Exists(size_t x, size_t y, size_t z) throw(std::out_of_range) {
+		if( x >= m_width || x < 0 ||
+		y >= m_height || y < 0 ||
+		z >= m_depth || z < 0 )
+			throw std::out_of_range("Position is out of the map");
+		if(m_data.count(MapCoords(x,y,z))==0){
+			return 0;
+		}else{
+			return 1;
+		}
+	}
+	
 	Cube& Map::Get(size_t x, size_t y, size_t z) throw(std::out_of_range) {
 		if( x >= m_width || x < 0 ||
 		y >= m_height || y < 0 ||
@@ -66,5 +78,14 @@ namespace minecraft {
 			throw std::out_of_range("Position is out of the map");
 		
 		return *m_data[MapCoords(x,y,z)];
+	}
+	
+	Cube& Map::GetByPixel(GLfloat x, GLfloat y, GLfloat z) throw(std::out_of_range) {
+		if( x/Cube::m_size >= m_width || x < 0 ||
+		y/Cube::m_size >= m_height || y < 0 ||
+		z/Cube::m_size >= m_depth || z < 0 )
+			throw std::out_of_range("Position is out of the map");
+		
+		return *m_data[MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))];
 	}
 }
