@@ -22,6 +22,8 @@
 static const size_t WINDOW_WIDTH = 512, WINDOW_HEIGHT = 512;
 static const size_t BYTES_PER_PIXEL = 32;
 
+GLfloat cubeHeight=0.1;
+
 
 int main(int argc, char* argv[]) {
 	/// INITIALIZATION
@@ -39,7 +41,7 @@ int main(int argc, char* argv[]) {
 	}
 	
     /// CREATION OF THE RESSOURCES
-    minecraft::Character player(glm::vec3(2,3,2));
+    minecraft::Character player(glm::vec3(1.8,3,1.8));
     minecraft::Map map;
 
 	minecraft::GraphicEngine graphicEng;
@@ -204,7 +206,7 @@ int main(int argc, char* argv[]) {
 		
 		// Calculate elapsed time
 		  elapsedTime = SDL_GetTicks() - startTime;
-		  // Framerate control : pause the program if it's running too fast
+		  // Framerate control : pause briefly the program if it's running too fast
 		  if(elapsedTime < FPS) {
 			SDL_Delay(FPS - elapsedTime);
 		  }
