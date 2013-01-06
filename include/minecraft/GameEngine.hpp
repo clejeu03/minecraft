@@ -22,7 +22,8 @@ namespace minecraft {
 			GameEngine();
 			void SetMap(Map* map) { m_world = map; }
 			void SetCharacter(Character* character) { m_character = character; }
-			bool collide();
+			bool collideBottom();
+			bool collideSides();
 			void processGravity();
 			void jump();
 			

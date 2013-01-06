@@ -8,13 +8,16 @@ namespace minecraft {
 	class Box{
 		private:
 			glm::vec3 m_base;
-			// DON'T FORGET TO ADD THE DIRECTION VECTOR glm::vec3 m_direction;
 			GLfloat m_width;
 			GLfloat m_length;
 			GLfloat m_height;
 		public:
-		
-			// DON'T FORGET TO DEAL WITH THE DIRECTION VECTOR
+			
+			Box(){
+				m_width=0.075;
+				m_length=0.075;
+				m_height=0.175;
+			}
 			
 			inline void setBase(glm::vec3 base){
 				m_base=base;

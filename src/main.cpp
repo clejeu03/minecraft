@@ -197,7 +197,7 @@ int main(int argc, char* argv[]) {
 		else if(keyD==1){player.MoveLeft(-speed);}
 		
 		// Check for collision
-		if (gameEng.collide()){
+		if (gameEng.collideSides()){
 			// If the new position collides, go back
 			player.setPosition(former_position);
 		}
