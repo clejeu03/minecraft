@@ -35,8 +35,9 @@ namespace minecraft {
 			size_t GetSizeD();
 			void Set(size_t,size_t,size_t,Cube*) throw(std::out_of_range);
 			bool Exists(size_t,size_t,size_t) throw(std::out_of_range);
-			Cube& Get(size_t,size_t,size_t) throw(std::out_of_range);
-			Cube& GetByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
+			bool ExistsByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
+			Cube* Get(size_t,size_t,size_t) throw(std::out_of_range);
+			Cube* GetByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
 
 	};
 }

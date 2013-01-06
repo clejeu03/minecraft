@@ -63,6 +63,10 @@ namespace minecraft {
 				computeDirectionVectors();
 			}
 			
+			inline glm::vec3 Position(){
+				return m_Position;
+			}
+			
 			inline void setPosition(glm::vec3 position){
 				m_Position=position;
 			}
