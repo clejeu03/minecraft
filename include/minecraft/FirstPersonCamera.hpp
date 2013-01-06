@@ -72,9 +72,11 @@ namespace minecraft {
 			}
 			inline void MoveLeft(GLfloat t){
 				m_Position += t*m_LeftVector;
+				
 			}
 			inline void MoveFront(GLfloat t){
-				m_Position += t*glm::cross(m_LeftVector,glm::vec3(0,1,0));
+				m_Position+=t*glm::dot(m_FrontVector,glm::vec3 (1,0,0));
+				// WIP m_Position += t*glm::cross(m_LeftVector,glm::vec3(0,1,0));
 			}
 			inline void RotateLeft(GLfloat degrees){
 				m_fPhi += glm::radians(degrees);

@@ -24,7 +24,7 @@ namespace minecraft {
 			void SetCharacter(Character* character) { m_character = character; }
 			bool collideBottom();
 			bool collideSides();
-			void processGravity();
+			void processGravity(bool formerCollide);
 			void jump();
 			
 

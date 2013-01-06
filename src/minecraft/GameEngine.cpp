@@ -24,7 +24,6 @@ namespace minecraft{
 			return 0;
 		}else{
 			return 1;
-			std::cout<<"collide = 1"<<std::endl;
 		}
 	}
 	
@@ -44,16 +43,6 @@ namespace minecraft{
 		count+=m_world->ExistsByPixel(position.x+width/2,position.y+1.5*cubeHeight,position.z-length/2);
 		count+=m_world->ExistsByPixel(position.x-width/2,position.y+1.5*cubeHeight,position.z+length/2);
 		count+=m_world->ExistsByPixel(position.x-width/2,position.y+1.5*cubeHeight,position.z-length/2);
-		
-		
-		/*std::cout<<" "<<m_world->ExistsByPixel(position.x+width/2,position.y+0.5*cube_height,position.z+length/2);
-		std::cout<<" "<<m_world->ExistsByPixel(position.x+width/2,position.y+0.5*cube_height,position.z-length/2);
-		std::cout<<" "<<m_world->ExistsByPixel(position.x-width/2,position.y+0.5*cube_height,position.z+length/2);
-		std::cout<<" "<<m_world->ExistsByPixel(position.x-width/2,position.y+0.5*cube_height,position.z-length/2);
-		std::cout<<" "<<m_world->ExistsByPixel(position.x+width/2,position.y+1.5*cube_height,position.z+length/2);
-		std::cout<<" "<<m_world->ExistsByPixel(position.x+width/2,position.y+1.5*cube_height,position.z-length/2);
-		std::cout<<" "<<m_world->ExistsByPixel(position.x-width/2,position.y+1.5*cube_height,position.z+length/2);
-		std::cout<<" "<<m_world->ExistsByPixel(position.x-width/2,position.y+1.5*cube_height,position.z-length/2)<<std::endl;*/
 	
 		if (count==0){
 			return 0;
@@ -63,19 +52,22 @@ namespace minecraft{
 		
 	}
 	
-	void GameEngine::processGravity(){
-		if (!collideBottom() || velocity<=0){
+	void GameEngine::processGravity(bool formerCollide){
+		if (collideBottom() && velocity>=0.0){
+			if(formerCollide==0){
+				velocity=0;
+			}
+		}
+		else
+		{
 			velocity += gravity;
 			m_character->setPosition(glm::vec3(m_character->position().x,m_character->position().y-velocity,m_character->position().z));
-		}else{
-
 		}
 	}
 	
 	void GameEngine::jump(){
 		if (collideBottom()){
-					std::cout<<"jump !"<<std::endl;
-			velocity = -0.04;
+			velocity = -0.03;
 		}
 	}
 

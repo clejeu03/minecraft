@@ -22,8 +22,9 @@
 static const size_t WINDOW_WIDTH = 512, WINDOW_HEIGHT = 512;
 static const size_t BYTES_PER_PIXEL = 32;
 
-GLfloat cubeHeight=0.1;
-
+glm::vec3 formerPosition;
+bool formerBottomCollide=1;
+bool currentBottomCollide=1;
 
 int main(int argc, char* argv[]) {
 	/// INITIALIZATION
@@ -183,10 +184,16 @@ int main(int argc, char* argv[]) {
 		
 		/* Acutally move the player */
 		
-		gameEng.processGravity();
+		// Save former collide
+		formerBottomCollide=currentBottomCollide;
+		currentBottomCollide=gameEng.collideBottom();
 		
-		// Save current position
-		glm::vec3 former_position = player.position();
+		// Process gravity
+		gameEng.processGravity(formerBottomCollide);
+		
+		// Save former position
+		formerPosition = player.position();
+		
 		
 		//Move player
 		if(keyZ && keyQ){player.MoveFront(diagSpeed);player.MoveLeft(diagSpeed);}
@@ -201,7 +208,7 @@ int main(int argc, char* argv[]) {
 		// Check for collision
 		if (gameEng.collideSides()){
 			// If the new position collides, go back
-			player.setPosition(former_position);
+			player.setPosition(formerPosition);
 		}
 		
 		// Calculate elapsed time
