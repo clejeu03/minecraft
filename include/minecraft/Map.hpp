@@ -34,7 +34,7 @@ namespace minecraft {
 			size_t GetSizeH();
 			size_t GetSizeD();
 			void Set(size_t,size_t,size_t,Cube*) throw(std::out_of_range);
-			Cube& Get(size_t,size_t,size_t) throw(std::out_of_range);
+			Cube* Get(size_t,size_t,size_t) throw(std::out_of_range);
 
 	};
 }

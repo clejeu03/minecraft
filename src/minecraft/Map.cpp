@@ -59,12 +59,15 @@ namespace minecraft {
 		return m_depth;
 	}
 
-	Cube& Map::Get(size_t x, size_t y, size_t z) throw(std::out_of_range) {
+	Cube* Map::Get(size_t x, size_t y, size_t z) throw(std::out_of_range) {
 		if( x >= m_width || x < 0 ||
 		y >= m_height || y < 0 ||
 		z >= m_depth || z < 0 )
 			throw std::out_of_range("Position is out of the map");
+			
+		if( m_data.find(MapCoords(x,y,z)) == m_data.end() )
+			return NULL;
 		
-		return *m_data[MapCoords(x,y,z)];
+		return m_data[MapCoords(x,y,z)];
 	}
 }
