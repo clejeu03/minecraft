@@ -9,7 +9,7 @@
 #include <minecraft/MatrixStack.hpp>
 
 namespace minecraft {
-	/* x, y, z : the game map is only a 3D matrice of slot */
+	/* x, y, z : the game map is only a 3D matrix of slots */
 	typedef std::tuple<int,int,int> MapCoords;
 	
 	class Map : public Drawable {
@@ -34,22 +34,12 @@ namespace minecraft {
 			size_t GetSizeH();
 			size_t GetSizeD();
 			void Set(size_t,size_t,size_t,Cube*) throw(std::out_of_range);
-			Cube& Get(size_t,size_t,size_t) throw(std::out_of_range);
 
-			/*template <typename Writer>
-			void Serialize(Writer& writer) const {
-				writer.String("name");
-				writer.String("autoMap");
+			bool Exists(size_t,size_t,size_t) throw(std::out_of_range);
+			bool ExistsByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
+			Cube* Get(size_t,size_t,size_t) throw(std::out_of_range);
+			Cube* GetByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
 
-				writer.String("width");
-				writer.Uint(m_width);
-
-				writer.String("height");
-				writer.Uint(m_height);
-
-				writer.String("depth");
-				writer.Uint(m_depth);
-			}*/
 
 	};
 }
