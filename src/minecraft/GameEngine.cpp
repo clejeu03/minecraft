@@ -4,7 +4,7 @@
 namespace minecraft{
 	
 	GameEngine::GameEngine(){
-		gravity=0.01;
+		gravity=0.005;
 		velocity=0;
 	}
 	
@@ -20,10 +20,12 @@ namespace minecraft{
 	}
 	
 	void GameEngine::processGravity(){
-		if (!collide()){
+		if (!collide() || velocity<=0){
+			std::cout<<"0"<<std::endl;
 			velocity += gravity;
 			m_character->setPosition(glm::vec3(m_character->position().x,m_character->position().y-velocity,m_character->position().z));
 		}else{
+			std::cout<<"1"<<std::endl;
 			//velocity=0;
 		}
 	}
@@ -31,7 +33,7 @@ namespace minecraft{
 	void GameEngine::jump(){
 		if (collide()){
 					std::cout<<"jump !"<<std::endl;
-			velocity = -1;
+			velocity = -0.05;
 		}
 	}
 
