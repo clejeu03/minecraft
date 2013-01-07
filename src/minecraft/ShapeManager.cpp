@@ -36,14 +36,14 @@ namespace minecraft {
 		m_shapes[std::string("cube")] = Shape(36);
 
 		//Face gauche
-		m_shapes[std::string("cube")].vertices[0] = Vertex(-0.5,-0.5,-0.5, -1.0, 0.0, 0.0, 0.0, 0.0);
+		m_shapes[std::string("cube")].vertices[0] = Vertex(-0.5,-0.5,-0.5, -1.0, 0.0, 0.0, 0.0, 1.0);
 		m_shapes[std::string("cube")].vertices[1] = Vertex(-0.5,-0.5, 0.5, -1.0, 0.0, 0.0, 1.0, 1.0);
-		m_shapes[std::string("cube")].vertices[2] = Vertex(-0.5, 0.5, 0.5, -1.0, 0.0, 0.0, 0.0, 1.0);
+		m_shapes[std::string("cube")].vertices[2] = Vertex(-0.5, 0.5, 0.5, -1.0, 0.0, 0.0, 1.0, 0.0);
 
 		//Face gauche
-		m_shapes[std::string("cube")].vertices[12] = Vertex(-0.5,-0.5,-0.5, -1.0, 0.0, 0.0, 0.0, 0.0);
-		m_shapes[std::string("cube")].vertices[13] = Vertex(-0.5, 0.5, 0.5, -1.0, 0.0, 0.0, 1.0, 1.0);
-		m_shapes[std::string("cube")].vertices[14] = Vertex(-0.5, 0.5,-0.5, -1.0, 0.0, 0.0, 1.0, 0.0);
+		m_shapes[std::string("cube")].vertices[12] = Vertex(-0.5,-0.5,-0.5, -1.0, 0.0, 0.0, 0.0, 1.0);
+		m_shapes[std::string("cube")].vertices[13] = Vertex(-0.5, 0.5, 0.5, -1.0, 0.0, 0.0, 1.0, 0.0);
+		m_shapes[std::string("cube")].vertices[14] = Vertex(-0.5, 0.5,-0.5, -1.0, 0.0, 0.0, 0.0, 0.0);
 		
 		//Face derrière
 		m_shapes[std::string("cube")].vertices[3] = Vertex(0.5, 0.5,-0.5, 0.0, 0.0, -1.0, 0.0, 0.0);
