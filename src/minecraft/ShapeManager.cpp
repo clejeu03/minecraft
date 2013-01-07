@@ -67,11 +67,11 @@ namespace minecraft {
 		
 		//Face avant
 		m_shapes[std::string("cube")].vertices[18] = Vertex(-0.5, 0.5, 0.5, 0.0, 0.0, 1.0, 0.0, 0.0);
-		m_shapes[std::string("cube")].vertices[19] = Vertex(-0.5,-0.5, 0.5, 0.0, 0.0, 1.0, 1.0, 0.0);
+		m_shapes[std::string("cube")].vertices[19] = Vertex(-0.5,-0.5, 0.5, 0.0, 0.0, 1.0, 0.0, 1.0);
 		m_shapes[std::string("cube")].vertices[20] = Vertex(0.5,-0.5, 0.5, 0.0, 0.0, 1.0, 1.0, 1.0);
 
 		//Face avant
-		m_shapes[std::string("cube")].vertices[33] = Vertex(0.5, 0.5, 0.5, 0.0, 0.0, 1.0, 0.0, 1.0);
+		m_shapes[std::string("cube")].vertices[33] = Vertex(0.5, 0.5, 0.5, 0.0, 0.0, 1.0, 1.0, 0.0);
 		m_shapes[std::string("cube")].vertices[34] = Vertex(-0.5, 0.5, 0.5, 0.0, 0.0, 1.0, 0.0, 0.0);
 		m_shapes[std::string("cube")].vertices[35] = Vertex(0.5,-0.5, 0.5,  0.0, 0.0, 1.0, 1.0, 1.0);
 		
