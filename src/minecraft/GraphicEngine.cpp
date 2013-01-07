@@ -26,7 +26,7 @@ namespace minecraft {
 	
 	void GraphicEngine::Initialize(size_t windowWidth, size_t windowHeight) {
 		// Relative to the camera
-		m_perspectiveMatrix = glm::perspective(50.f, windowWidth / (float) windowHeight, 0.1f, 1000.f);
+		m_perspectiveMatrix = glm::perspective(50.f, windowWidth / (float) windowHeight, 0.0001f, 1000.f);
 		
 		// Init the game objects
 		m_gameObjects[std::string("CloudCube")] = new CloudCube();
