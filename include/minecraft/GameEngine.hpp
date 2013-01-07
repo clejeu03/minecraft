@@ -26,6 +26,7 @@ namespace minecraft {
 			bool collideSides();
 			void processGravity(bool formerCollide);
 			void jump();
+			void aimCube();
 			
 
 	};

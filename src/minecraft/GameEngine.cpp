@@ -70,6 +70,28 @@ namespace minecraft{
 			velocity = -0.03;
 		}
 	}
+	
+	void GameEngine::aimCube(){
+		GLfloat step=0.00001;
+		int found=0;
+		GLfloat distance=0;
+		GLfloat maxDistance=0.5;
+		glm::vec3 directionVector=m_character->GetDirection();
+		glm::vec3 currentPosition=m_character->HeadPosition();
+		while (found==0){
+			distance+=step;
+			currentPosition+=step*directionVector;
+			if (m_world->ExistsByPixel(currentPosition.x,currentPosition.y,currentPosition.z)){
+				found=1;
+			}
+			if (distance>maxDistance){
+				found=-1;
+			}
+		}
+		if (found==1){
+			std::cout<<"found"<<std::endl;
+		}
+	}
 
 
 }

@@ -127,6 +127,12 @@ int main(int argc, char* argv[]) {
 					player.LookUp(-e.motion.yrel);
 			}
 			
+			if(e.type ==  SDL_MOUSEBUTTONDOWN){
+				if(e.button.button==SDL_BUTTON_LEFT){
+					gameEng.aimCube();
+				}
+			}
+			
 			/* Detect keys down */
 			 if(e.type == SDL_KEYDOWN) {
 			    	switch(e.key.keysym.sym) {
