@@ -49,6 +49,23 @@ namespace minecraft {
 		m_data[MapCoords(x,y,z)] = cube;
 	}
 	
+	void Map::SetByPixel(GLfloat x,GLfloat y,GLfloat z, Cube* cube) throw(std::out_of_range) {
+		if( x > m_width || x < 0 ||
+		y > m_height || y < 0 ||
+		z > m_depth || z < 0 )
+			throw std::out_of_range("Position is out of the map");
+		
+		m_data[MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))] = cube;
+	}
+	
+	void Map::FakeCreation(GLfloat x,GLfloat y,GLfloat z){
+		if (Exists(15,25,15)){
+			SetByPixel(x,y,z, Get(15,25,15));
+			std::cout<<"put  "<<x<<" "<<y<<" "<<z<<std::endl;
+		}
+		
+	}
+	
 	size_t Map::GetSizeW(){
 		return m_width;
 	}

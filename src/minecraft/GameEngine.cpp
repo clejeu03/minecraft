@@ -89,7 +89,7 @@ namespace minecraft{
 			}
 		}
 		if (found==1){
-			std::cout<<"found"<<std::endl;
+			m_world->FakeCreation(currentPosition.x,currentPosition.y,currentPosition.z);
 		}
 	}
 
