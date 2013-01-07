@@ -58,18 +58,61 @@ namespace minecraft {
 	size_t Map::GetSizeD(){
 		return m_depth;
 	}
+	
+	bool Map::Exists(size_t x, size_t y, size_t z) throw(std::out_of_range) {	
+		if( m_data.find(MapCoords(x,y,z)) == m_data.end() ){
+			return 0;
+		}else{
+			return 1;
+		}
+	}
+	
+	bool Map::ExistsByPixel(GLfloat x, GLfloat y, GLfloat z) throw(std::out_of_range) {	
+		GLfloat cubeSize=Cube::m_size;
+		x+=cubeSize*0.5;
+		y+=cubeSize*0.5;
+		z+=cubeSize*0.5;
+		if( m_data.find(MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))) == m_data.end() ){
+			return 0;
+		}else{
+			return 1;
+		}
+	}
 
-	Cube& Map::Get(size_t x, size_t y, size_t z) throw(std::out_of_range) {
+	Cube* Map::Get(size_t x, size_t y, size_t z) throw(std::out_of_range) {
 		if( x >= m_width || x < 0 ||
 		y >= m_height || y < 0 ||
 		z >= m_depth || z < 0 )
 			throw std::out_of_range("Position is out of the map");
+			
+		if( m_data.find(MapCoords(x,y,z)) == m_data.end() )
+			return NULL;
 		
+		//Cube doesn't exist	
+		if( m_data.find(MapCoords(x,y,z)) == m_data.end() ){return NULL;}
+
+		return m_data[MapCoords(x,y,z)];
+	}
+	
+	Cube* Map::GetByPixel(GLfloat x, GLfloat y, GLfloat z) throw(std::out_of_range) {
+		if( x/Cube::m_size >= m_width || x < 0 ||
+		y/Cube::m_size >= m_height || y < 0 ||
+		z/Cube::m_size >= m_depth || z < 0 )
+			throw std::out_of_range("Position is out of the map");
+		
+		//Cube doesn't exist	
+		if( m_data.find(MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))) == m_data.end() ){return NULL;}
+		
+<<<<<<< HEAD
 		//return *m_data[MapCoords(x,y,z)];
 		if( (int) (m_data.count(MapCoords(x,y,z)) ) == 1)
 			return *m_data.find(MapCoords(x,y,z))->second;
 		else throw std::out_of_range("There is not cube at this position.");
 
+=======
+		return m_data[MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))];
+		return m_data[MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))];
+>>>>>>> b1c978f1a963c7a74a4e1ad804d7c6406d1a3538
 	}
 
 }
