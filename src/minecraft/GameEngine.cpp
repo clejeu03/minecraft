@@ -63,6 +63,10 @@ namespace minecraft{
 			velocity += gravity;
 			m_character->setPosition(glm::vec3(m_character->position().x,m_character->position().y-velocity,m_character->position().z));
 		}
+		if (velocity>0.3){
+			m_character->setPosition(glm::vec3(1.8,3,1.8));
+			velocity=0;
+		}
 	}
 	
 	void GameEngine::jump(){
