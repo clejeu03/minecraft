@@ -75,13 +75,15 @@ namespace minecraft{
 		}
 	}
 	
-	void GameEngine::aimCube(){
+	bool GameEngine::aimCube(int mode){
+		
 		GLfloat step=0.00001;
 		int found=0;
 		GLfloat distance=0;
 		GLfloat maxDistance=0.5;
 		glm::vec3 directionVector=m_character->GetDirection();
 		glm::vec3 currentPosition=m_character->HeadPosition();
+		
 		while (found==0){
 			distance+=step;
 			currentPosition+=step*directionVector;
@@ -93,8 +95,23 @@ namespace minecraft{
 			}
 		}
 		if (found==1){
-			m_world->FakeCreation(currentPosition.x,currentPosition.y,currentPosition.z);
+			if (mode==1){
+				//One step back
+				currentPosition-=step*directionVector;
+				// Place the cube
+				m_world->FakeCreation(currentPosition.x,currentPosition.y,currentPosition.z);
+				
+				//Deletes immediately if it collides
+				if (collideSides()){
+					m_world->DelByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
+				}
+				
+			}else if (mode==0){
+				m_world->DelByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
+				
+			}
 		}
+		return 1;
 	}
 
 
