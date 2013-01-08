@@ -28,6 +28,10 @@ namespace minecraft {
 		m_box.setSize(size);
 	}
 	
+	glm::vec3 Character::GetDirection(){
+		return m_camera.GetDirection();
+	}
+	
 	void Character::MoveFront(GLfloat distance) {
 			m_camera.MoveFront(distance);
 			m_box.setBase(glm::vec3 (m_camera.Position().x,m_camera.Position().y-povHeight,m_camera.Position().z));
@@ -35,6 +39,11 @@ namespace minecraft {
 	
 	void Character::MoveLeft(GLfloat distance) {
 			m_camera.MoveLeft(distance);
+			m_box.setBase(glm::vec3 (m_camera.Position().x,m_camera.Position().y-povHeight,m_camera.Position().z));
+	}
+
+	void Character::MoveVector(GLfloat distance, glm::vec3 vec) {
+			m_camera.MoveVector(distance, vec);
 			m_box.setBase(glm::vec3 (m_camera.Position().x,m_camera.Position().y-povHeight,m_camera.Position().z));
 	}
 
