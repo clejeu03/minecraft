@@ -35,6 +35,11 @@ int main(int argc, char* argv[]) {
 	// Window and GL context
 	SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
 	
+    // Hide Cursor
+	SDL_ShowCursor(SDL_DISABLE);
+	// Prevent from leaving the screen
+	SDL_WM_GrabInput(SDL_GRAB_ON);
+	
 	// GLEW
 	GLenum error;
 	if(GLEW_OK != (error = glewInit())) {
@@ -71,11 +76,6 @@ int main(int argc, char* argv[]) {
     gameEng.SetCharacter(&player);
 	gameEng.SetMap(&map);
     
-     // Hide Cursor
-	SDL_ShowCursor(SDL_DISABLE);
-	// Prevent from leaving the screen
-	SDL_WM_GrabInput(SDL_GRAB_ON);
-    
     /*Keys pressed*/
 	bool keyZ=0;
 	bool keyQ=0;
@@ -93,7 +93,6 @@ int main(int argc, char* argv[]) {
     Uint32 startTime, elapsedTime;
 
     while(!done) {
-		
 		// Allows to calculate the elapsed time in order to control the framerate - see the end of the loop
         startTime = SDL_GetTicks();
         
@@ -106,16 +105,8 @@ int main(int argc, char* argv[]) {
         // Refresh the display
         SDL_GL_SwapBuffers();
         
-        
-        
         // Events handling
         SDL_Event e;
-        
-        // Mouse inputs
-			if(SDL_GetMouseState(NULL, NULL)) {
-				
-		}
-        
         while(SDL_PollEvent(&e)) {
             // Window close
             if(e.type == SDL_QUIT) {
@@ -224,12 +215,11 @@ int main(int argc, char* argv[]) {
 		}
 		
 		// Calculate elapsed time
-		  elapsedTime = SDL_GetTicks() - startTime;
-		  // Framerate control : pause briefly the program if it's running too fast
-		  if(elapsedTime < FPS) {
+		elapsedTime = SDL_GetTicks() - startTime;
+		// Framerate control : pause briefly the program if it's running too fast
+		if(elapsedTime < FPS) {
 			SDL_Delay(FPS - elapsedTime);
-		  }
-
+		}
     }
     
 	/// QUIT AND CLEAN (ALL IS AUTOMATIC BY NOW, MAYBE LATER)
