@@ -220,7 +220,7 @@ namespace minecraft {
 	            z*pow(2, i)
 	        );
 	    }
-	    std::cout << "value" << value << std::endl;
+
 	    return value;
 	}
 

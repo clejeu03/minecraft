@@ -222,6 +222,8 @@ int main(int argc, char* argv[]) {
 		
 		// Calculate elapsed time
 		elapsedTime = SDL_GetTicks() - startTime;
+		std::cout << "framerate" << 1000./elapsedTime << std::endl;
+		
 		// Framerate control : pause briefly the program if it's running too fast
 		if(elapsedTime < FPS) {
 			SDL_Delay(FPS - elapsedTime);

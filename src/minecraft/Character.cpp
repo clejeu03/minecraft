@@ -48,12 +48,12 @@ namespace minecraft {
 	}
 
 	void Character::RotateLeft(GLfloat angle) {
-		m_camera.RotateLeft(angle);
+		m_camera.RotateLeft(angle/2);
 	}
 
 	void Character::LookUp(GLfloat angle) {
 		if(!(m_camera.GetDirection().y>0.99 && angle>0) && !(m_camera.GetDirection().y<(-0.99) && angle<0)){
-			m_camera.RotateUp(angle);
+			m_camera.RotateUp(angle/2);
 		}
 	}
 		
