@@ -14,3 +14,4 @@ void main() {
 	vNormal = normal;
 	vTexCoords = texCoords;
 }
+

@@ -20,6 +20,9 @@ namespace minecraft {
 			Map* m_world;
 			std::map<std::string,Cube*> m_gameObjects;
 			GLuint m_uniformTransformLocation;
+			GLuint m_uniformSunColor;
+			GLuint m_uniformSunDirection;
+			GLuint m_uniformSunAmbient;
 			Character* m_character;
 			glm::mat4 m_perspectiveMatrix;
 			MatrixStack m_transformStack;

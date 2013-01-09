@@ -1,6 +1,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <minecraft/shader_tools.hpp>
 #include <minecraft/GraphicEngine.hpp>
+#include <minecraft/Light.hpp>
 
 namespace minecraft {
 	GraphicEngine::~GraphicEngine() {
@@ -21,12 +22,29 @@ namespace minecraft {
 		glUseProgram(program);
 		
 		m_uniformTransformLocation = glGetUniformLocation(program,"uMVPMatrix");
+		
 		glUniform1i(glGetUniformLocation(program, "uTexture"), 0);
+		
+		// Sun
+		m_uniformSunColor = glGetUniformLocation(program,"sunColor");
+		m_uniformSunDirection = glGetUniformLocation(program,"sunDirection");
+		m_uniformSunAmbient = glGetUniformLocation(program,"sunAmbient");
+		
 	}
 	
 	void GraphicEngine::Initialize(size_t windowWidth, size_t windowHeight) {
 		// Relative to the camera
 		m_perspectiveMatrix = glm::perspective(50.f, windowWidth / (float) windowHeight, 0.0001f, 1000.f);
+		
+		// Create sunlight
+		struct DirectionalLight sun;
+		sun.color=glm::vec3(1,1,1);
+		sun.direction=glm::vec3(0.2,-1,0.3);
+		sun.ambient=0.1;
+		// Uniform variables linked to the sun
+		glUniform3f(m_uniformSunColor, sun.color.x, sun.color.y, sun.color.z);
+		glUniform3f(m_uniformSunDirection, sun.direction.x, sun.direction.y, sun.direction.z);
+		glUniform1f(m_uniformSunAmbient, sun.ambient);
 		
 		// Init the game objects
 		m_gameObjects[std::string("CloudCube")] = new CloudCube();
