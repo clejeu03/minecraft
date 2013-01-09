@@ -45,7 +45,7 @@ namespace minecraft {
 			void FakeCreation(GLfloat,GLfloat,GLfloat);
 			
 			bool Exists(size_t,size_t,size_t) throw(std::out_of_range);
-			bool ExistsByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
+			bool ExistsByPixel(GLfloat,GLfloat,GLfloat);
 			
 			void UpdateVisibility(size_t,size_t,size_t) throw(std::out_of_range);
 			void UpdateVisibilities(size_t,size_t,size_t,bool);

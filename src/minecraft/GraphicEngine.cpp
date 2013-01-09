@@ -30,10 +30,13 @@ namespace minecraft {
 		glUniform1i(glGetUniformLocation(program, "uTexture"), 0);
 		
 		// Sun
-		m_uniformSunColor = glGetUniformLocation(program,"sunColor");
 		m_uniformSunDirection = glGetUniformLocation(program,"sunDirection");
 		m_uniformSunAmbient = glGetUniformLocation(program,"sunAmbient");
+		m_uniformSunIntensity = glGetUniformLocation(program,"sunIntensity");
 		
+		// PointLight
+		m_uniformLightPosition = glGetUniformLocation(program,"lightPosition");
+		m_uniformLightIntensity = glGetUniformLocation(program,"lightIntensity");
 	}
 	
 	void GraphicEngine::Initialize(size_t windowWidth, size_t windowHeight) {
@@ -42,13 +45,23 @@ namespace minecraft {
 		
 		// Create sunlight
 		struct DirectionalLight sun;
-		sun.color=glm::vec3(1,1,1);
 		sun.direction=glm::vec3(0.2,-1,0.3);
 		sun.ambient=0.1;
+		sun.intensity=0.8;
 		// Uniform variables linked to the sun
-		glUniform3f(m_uniformSunColor, sun.color.x, sun.color.y, sun.color.z);
 		glUniform3f(m_uniformSunDirection, sun.direction.x, sun.direction.y, sun.direction.z);
 		glUniform1f(m_uniformSunAmbient, sun.ambient);
+		glUniform1f(m_uniformSunIntensity, sun.intensity);
+		
+		// Create point light
+		struct PointLight light;
+		light.position=glm::vec3(1.8,2.8,1.8);
+		light.intensity=1;
+		light.decay=glm::vec3(0.5,0.5,0.5); // Decay : constant,linear,quadratic
+		// Uniform variables linked to the light
+		glUniform3f(m_uniformLightPosition, light.position.x, light.position.y, light.position.z);
+		glUniform1f(m_uniformLightIntensity, light.intensity);
+		glUniform3f(m_uniformLightDecay, light.decay.x, light.decay.y, light.decay.z);
 		
 		// Init the game objects
 		m_gameObjects[std::string("SkyBoxCube")] = new SkyBoxCube();

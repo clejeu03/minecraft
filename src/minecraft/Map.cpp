@@ -90,11 +90,7 @@ namespace minecraft {
 		}
 	}
 	
-	bool Map::ExistsByPixel(GLfloat x, GLfloat y, GLfloat z) throw(std::out_of_range) {
-		if( x > m_width || x < 0 ||
-		y > m_height || y < 0 ||
-		z > m_depth || z < 0 )
-			throw std::out_of_range("Position is out of the map in ExistsByPixel");
+	bool Map::ExistsByPixel(GLfloat x, GLfloat y, GLfloat z){			
 			
 		GLfloat cubeSize=Cube::m_size;
 		x+=cubeSize*0.5;

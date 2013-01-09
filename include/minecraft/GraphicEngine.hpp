@@ -19,12 +19,19 @@ namespace minecraft {
 			ShapeManager m_shapeMgr;
 			Map* m_world;
 			std::map<std::string,Cube*> m_gameObjects;
+			
 			GLuint m_uniformTransformLocation;
 			GLuint m_uniform2dMode;
 			GLuint m_uniformLightening;
-			GLuint m_uniformSunColor;
+			// Directional light
+			GLuint m_uniformSunIntensity;
 			GLuint m_uniformSunDirection;
 			GLuint m_uniformSunAmbient;
+			// Point light
+			GLuint m_uniformLightPosition;
+			GLuint m_uniformLightIntensity;
+			GLuint m_uniformLightDecay;
+			
 			Character* m_character;
 			glm::mat4 m_perspectiveMatrix;
 			MatrixStack m_transformStack;
