@@ -2,7 +2,7 @@
 
 in vec3 vNormal;
 in vec2 vTexCoords;
-in float lightBase;
+in float lightedPixel;
 
 uniform sampler2D uTexture;
 
@@ -14,6 +14,6 @@ uniform float sunAmbient;
 
 void main() {
 	vec4 vTexColor = texture(uTexture, vTexCoords);
-	vec4 lightedPixel = vTexColor*(lightBase+sunAmbient);
-	fFragColor = vec4(lightedPixel.x,lightedPixel.y,lightedPixel.z,vTexColor.w);
+	vec4 prePixel = vTexColor*(lightedPixel);
+	fFragColor = vec4(prePixel.x,prePixel.y,prePixel.z,vTexColor.w);
 }

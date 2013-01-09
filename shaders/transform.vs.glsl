@@ -7,11 +7,17 @@ layout(location = 2) in vec2 texCoords;
 uniform mat4 uMVPMatrix;
 uniform int u2dMode = 0;
 uniform vec3 sunDirection;
+uniform float sunAmbient;
+uniform float sunIntensity;
+
+uniform float lightIntensity;
+uniform vec3 lightPosition;
 
 out vec3 vNormal;
 out vec2 vTexCoords;
 out int v2dMode;
-out float lightBase;
+out float lightedPixel;
+
 
 void main() {
 	if( u2dMode == 0 )
@@ -23,5 +29,11 @@ void main() {
 	vTexCoords = texCoords;
 	v2dMode = u2dMode;
 	
-	lightBase = max(0.0, dot(normalize(normal), -sunDirection));
+	float directional = sunIntensity*max(0.0, dot(normalize(normal), -sunDirection));
+	float ambient = sunAmbient*sunIntensity;
+	
+	lightedPixel = directional+ambient;
+	
+
+	
 }
