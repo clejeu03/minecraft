@@ -1,0 +1,145 @@
+#include <iostream>
+#include <cstdlib>
+#include "../include/imac2gl3/shapes/GLShapeInstance.hpp"
+#include "../include/imac2gl3/shapes/Sphere.hpp"
+#include "../include/imac2gl3/shapes/Cone.hpp"
+
+static const size_t POSITION_LOCATION = 0, NORMAL_LOCATION = 1, TEXCOORDS_LOCATION = 2;
+
+
+GLShapeInstance::GLShapeInstance(const imac2gl3::Sphere & mySphere)
+{
+	
+	glGenBuffers(1, &(this->vbo));
+	glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+	glBufferData(GL_ARRAY_BUFFER, mySphere.getByteSize(), mySphere.getDataPointer(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
+	glGenVertexArrays(1, &(this->vao));
+	glBindVertexArray(this->vao);
+	    glEnableVertexAttribArray(POSITION_LOCATION);
+	    glEnableVertexAttribArray(NORMAL_LOCATION);
+	    glEnableVertexAttribArray(TEXCOORDS_LOCATION);
+	    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+		glVertexAttribPointer(
+		    POSITION_LOCATION,
+		    mySphere.getPositionNumComponents(),
+		    mySphere.getDataType(),
+		    GL_FALSE,
+		    mySphere.getVertexByteSize(),
+		    mySphere.getPositionOffset());
+		glVertexAttribPointer(
+		    NORMAL_LOCATION,
+		    mySphere.getNormalNumComponents(),
+		    mySphere.getDataType(),
+		    GL_FALSE,
+		    mySphere.getVertexByteSize(),
+		    mySphere.getNormalOffset());
+		glVertexAttribPointer(
+		    TEXCOORDS_LOCATION,
+		    mySphere.getTexCoordsNumComponents(),
+		    mySphere.getDataType(),
+		    GL_FALSE,
+		    mySphere.getVertexByteSize(),
+		    mySphere.getTexCoordsOffset());
+	    glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	
+	this->vertexCount = mySphere.getVertexCount();
+}
+
+GLShapeInstance::GLShapeInstance(const imac2gl3::Cone & myCone)
+{
+	
+	glGenBuffers(1, &(this->vbo));
+	glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+	glBufferData(GL_ARRAY_BUFFER, myCone.getByteSize(), myCone.getDataPointer(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
+	glGenVertexArrays(1, &(this->vao));
+	glBindVertexArray(this->vao);
+	    glEnableVertexAttribArray(POSITION_LOCATION);
+	    glEnableVertexAttribArray(NORMAL_LOCATION);
+	    glEnableVertexAttribArray(TEXCOORDS_LOCATION);
+	    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+		glVertexAttribPointer(
+		    POSITION_LOCATION,
+		    myCone.getPositionNumComponents(),
+		    myCone.getDataType(),
+		    GL_FALSE,
+		    myCone.getVertexByteSize(),
+		    myCone.getPositionOffset());
+		glVertexAttribPointer(
+		    NORMAL_LOCATION,
+		    myCone.getNormalNumComponents(),
+		    myCone.getDataType(),
+		    GL_FALSE,
+		    myCone.getVertexByteSize(),
+		    myCone.getNormalOffset());
+		glVertexAttribPointer(
+		    TEXCOORDS_LOCATION,
+		    myCone.getTexCoordsNumComponents(),
+		    myCone.getDataType(),
+		    GL_FALSE,
+		    myCone.getVertexByteSize(),
+		    myCone.getTexCoordsOffset());
+	    glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	
+	this->vertexCount = myCone.getVertexCount();
+}
+
+GLShapeInstance::GLShapeInstance(const imac2gl3::Cube & myCube)
+{
+	
+	glGenBuffers(1, &(this->vbo));
+	glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+	glBufferData(GL_ARRAY_BUFFER, myCube.getByteSize(), myCube.getDataPointer(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
+	glGenVertexArrays(1, &(this->vao));
+	glBindVertexArray(this->vao);
+	    glEnableVertexAttribArray(POSITION_LOCATION);
+	    glEnableVertexAttribArray(NORMAL_LOCATION);
+	    glEnableVertexAttribArray(TEXCOORDS_LOCATION);
+	    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+		glVertexAttribPointer(
+		    POSITION_LOCATION,
+		    myCube.getPositionNumComponents(),
+		    myCube.getDataType(),
+		    GL_FALSE,
+		    myCube.getVertexByteSize(),
+		    myCube.getPositionOffset());
+		glVertexAttribPointer(
+		    NORMAL_LOCATION,
+		    myCube.getNormalNumComponents(),
+		    myCube.getDataType(),
+		    GL_FALSE,
+		    myCube.getVertexByteSize(),
+		    myCube.getNormalOffset());
+		glVertexAttribPointer(
+		    TEXCOORDS_LOCATION,
+		    myCube.getTexCoordsNumComponents(),
+		    myCube.getDataType(),
+		    GL_FALSE,
+		    myCube.getVertexByteSize(),
+		    myCube.getTexCoordsOffset());
+	    glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	
+	this->vertexCount = myCube.getVertexCount();
+}
+
+GLShapeInstance::~GLShapeInstance(){
+	glDeleteBuffers(1, &(this->vbo));
+	glDeleteVertexArrays(1, &(this->vao));
+}
+
+void GLShapeInstance::draw()
+{
+	glBindVertexArray(this->vao);
+   	glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
+	glBindVertexArray(0);
+}
+
+

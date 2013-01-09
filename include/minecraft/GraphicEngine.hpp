@@ -20,10 +20,17 @@ namespace minecraft {
 			Map* m_world;
 			std::map<std::string,Cube*> m_gameObjects;
 			GLuint m_uniformTransformLocation;
+			GLuint m_uniform2dMode;
+			GLuint m_uniformSunColor;
+			GLuint m_uniformSunDirection;
+			GLuint m_uniformSunAmbient;
 			Character* m_character;
 			glm::mat4 m_perspectiveMatrix;
 			MatrixStack m_transformStack;
+			
+			bool m_displayInventory;
 		public:
+			GraphicEngine() { m_displayInventory = false; }
 			~GraphicEngine();
 			/* Init openGL context and features */
 			void StartGL() throw(std::runtime_error);
@@ -33,6 +40,9 @@ namespace minecraft {
 			void SetCharacter(Character* character) { m_character = character; }
 			std::map<std::string,Cube*>* GetGameObjects() { return &m_gameObjects; }
 			void RefreshDisplay() throw(std::logic_error);
+			void DrawCursor();
+			inline void OpenInventory() { m_displayInventory = true; }
+			void DrawInventory();
 	};
 }
 

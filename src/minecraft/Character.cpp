@@ -28,6 +28,10 @@ namespace minecraft {
 		m_box.setSize(size);
 	}
 	
+	glm::vec3 Character::GetDirection(){
+		return m_camera.GetDirection();
+	}
+	
 	void Character::MoveFront(GLfloat distance) {
 			m_camera.MoveFront(distance);
 			m_box.setBase(glm::vec3 (m_camera.Position().x,m_camera.Position().y-povHeight,m_camera.Position().z));
@@ -38,12 +42,19 @@ namespace minecraft {
 			m_box.setBase(glm::vec3 (m_camera.Position().x,m_camera.Position().y-povHeight,m_camera.Position().z));
 	}
 
+	void Character::MoveVector(GLfloat distance, glm::vec3 vec) {
+			m_camera.MoveVector(distance, vec);
+			m_box.setBase(glm::vec3 (m_camera.Position().x,m_camera.Position().y-povHeight,m_camera.Position().z));
+	}
+
 	void Character::RotateLeft(GLfloat angle) {
 		m_camera.RotateLeft(angle);
 	}
 
 	void Character::LookUp(GLfloat angle) {
-		m_camera.RotateUp(angle);
+		if(!(m_camera.GetDirection().y>0.99 && angle>0) && !(m_camera.GetDirection().y<(-0.99) && angle<0)){
+			m_camera.RotateUp(angle);
+		}
 	}
 		
 	glm::mat4 Character::GetPointOfView() {

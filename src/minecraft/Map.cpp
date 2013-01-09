@@ -37,7 +37,6 @@ namespace minecraft {
 			iterator->second->Draw();
 			matrixStack.Pop();
 		}
-
 	}
 	
 	void Map::Set(size_t x, size_t y, size_t z, Cube* cube) throw(std::out_of_range) {
@@ -47,6 +46,38 @@ namespace minecraft {
 			throw std::out_of_range("Position is out of the map");
 		
 		m_data[MapCoords(x,y,z)] = cube;
+	}
+	
+	void Map::SetByPixel(GLfloat x,GLfloat y,GLfloat z, Cube* cube) throw(std::out_of_range) {
+		if( x > m_width || x < 0 ||
+		y > m_height || y < 0 ||
+		z > m_depth || z < 0 )
+			throw std::out_of_range("Position is out of the map");
+		
+		m_data[MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))] = cube;
+	}
+	
+	void Map::DelByPixel(GLfloat x,GLfloat y,GLfloat z) throw(std::out_of_range) {
+		if( x > m_width || x < 0 ||
+		y > m_height || y < 0 ||
+		z > m_depth || z < 0 )
+			throw std::out_of_range("Position is out of the map");
+		GLfloat cubeSize=Cube::m_size;
+		x+=cubeSize*0.5;
+		y+=cubeSize*0.5;
+		z+=cubeSize*0.5;
+		m_data.erase(MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size)));
+	}
+	
+	void Map::FakeCreation(GLfloat x,GLfloat y,GLfloat z){
+		if (Exists(15,25,15)){
+			GLfloat cubeSize=Cube::m_size;
+			x+=cubeSize*0.5;
+			y+=cubeSize*0.5;
+			z+=cubeSize*0.5;
+			SetByPixel(x,y,z, Get(15,25,15));
+		}
+		
 	}
 	
 	size_t Map::GetSizeW(){
@@ -87,9 +118,6 @@ namespace minecraft {
 			
 		if( m_data.find(MapCoords(x,y,z)) == m_data.end() )
 			return NULL;
-		
-		//Cube doesn't exist	
-		if( m_data.find(MapCoords(x,y,z)) == m_data.end() ){return NULL;}
 
 		return m_data[MapCoords(x,y,z)];
 	}
@@ -102,17 +130,8 @@ namespace minecraft {
 		
 		//Cube doesn't exist	
 		if( m_data.find(MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))) == m_data.end() ){return NULL;}
-		
-<<<<<<< HEAD
-		//return *m_data[MapCoords(x,y,z)];
-		if( (int) (m_data.count(MapCoords(x,y,z)) ) == 1)
-			return *m_data.find(MapCoords(x,y,z))->second;
-		else throw std::out_of_range("There is not cube at this position.");
 
-=======
 		return m_data[MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))];
-		return m_data[MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))];
->>>>>>> b1c978f1a963c7a74a4e1ad804d7c6406d1a3538
 	}
 
 }

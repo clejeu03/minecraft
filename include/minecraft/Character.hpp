@@ -14,6 +14,7 @@ namespace minecraft {
 			bool m_mining;
 			Box m_box;
 			GLfloat povHeight;
+			
 			//! inventory
 		public:
 			
@@ -21,13 +22,15 @@ namespace minecraft {
 		
 			Box& getBox();
 			glm::vec3 position();
-			
+			inline glm::vec3 HeadPosition(){return m_camera.Position();}
 			void setPosition(glm::vec3);
 			void setBoxSize(glm::vec3);
 			// We may want to add a setter for each dimension of the size later
 			
+			glm::vec3 GetDirection();
 			void MoveFront(GLfloat);
 			void MoveLeft(GLfloat);
+			void MoveVector(GLfloat,glm::vec3);
 			void RotateLeft(GLfloat);
 			void LookUp(GLfloat);
 			
