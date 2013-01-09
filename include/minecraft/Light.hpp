@@ -14,11 +14,12 @@ namespace minecraft {
 	
 	struct PointLight 
 	{ 
-	   glm::vec3 color; 
 	   glm::vec3 position;
-	   float constantAttenuation;
+	   float intensity;
+	   glm::vec3 decay;
+	   /*float constantAttenuation;
 	   float linearAttenuation;
-	   float quadraticAttenuation;
+	   float quadraticAttenuation;*/
 	}; 
 
 }

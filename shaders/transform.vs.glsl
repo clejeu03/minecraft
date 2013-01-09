@@ -6,10 +6,12 @@ layout(location = 2) in vec2 texCoords;
 
 uniform mat4 uMVPMatrix;
 uniform int u2dMode = 0;
+uniform vec3 sunDirection;
 
 out vec3 vNormal;
 out vec2 vTexCoords;
 out int v2dMode;
+out float lightBase;
 
 void main() {
 	if( u2dMode == 0 )
@@ -20,5 +22,6 @@ void main() {
 	vNormal = normal;
 	vTexCoords = texCoords;
 	v2dMode = u2dMode;
+	
+	lightBase = max(0.0, dot(normalize(normal), -sunDirection));
 }
-
