@@ -19,14 +19,15 @@ namespace minecraft {
 			ShapeManager m_shapeMgr;
 			Map* m_world;
 			std::map<std::string,Cube*> m_gameObjects;
+			
 			GLuint m_uniformTransformLocation;
 			GLuint m_uniform2dMode;
-			
-			//sun
+			GLuint m_uniformLightening;
+			// Directional light
 			GLuint m_uniformSunIntensity;
 			GLuint m_uniformSunDirection;
 			GLuint m_uniformSunAmbient;
-			//light
+			// Point light
 			GLuint m_uniformLightPosition;
 			GLuint m_uniformLightIntensity;
 			GLuint m_uniformLightDecay;
@@ -50,6 +51,7 @@ namespace minecraft {
 			void DrawCursor();
 			inline void OpenInventory() { m_displayInventory = true; }
 			void DrawInventory();
+			void DrawSkyBox();
 	};
 }
 

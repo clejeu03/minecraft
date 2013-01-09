@@ -9,7 +9,7 @@ namespace minecraft {
 		}
 	}
 	
-	void TextureManager::LoadTexture(std::string gameObject, char* path) throw(std::runtime_error) {
+	void TextureManager::LoadTexture(const char* gameObject, const char* path) throw(std::runtime_error) {
 		// Loading
 		SDL_Surface* image = IMG_Load(path);
 		if(!image)
@@ -36,6 +36,8 @@ namespace minecraft {
 		GLuint texture;
 		glGenTextures(1,&texture);
 		glBindTexture(GL_TEXTURE_2D,texture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
@@ -45,9 +47,8 @@ namespace minecraft {
 			0,
 			imageFormat,
 			GL_UNSIGNED_BYTE,
-			image->pixels);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			image->pixels
+		);
 		glBindTexture(GL_TEXTURE_2D,0);
 		SDL_FreeSurface(image);
 		
@@ -59,7 +60,7 @@ namespace minecraft {
 		m_textureIds[gameObject] = texture;
 	}
 	
-	GLuint TextureManager::GetTextureId(std::string gameObject) throw(std::invalid_argument) {
+	GLuint TextureManager::GetTextureId(const char* gameObject) throw(std::invalid_argument) {
 		if( m_textureIds.find(gameObject) == m_textureIds.end() )
 			throw std::invalid_argument(std::string("No texture for ") + gameObject);
 			

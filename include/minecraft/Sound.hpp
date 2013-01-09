@@ -48,6 +48,11 @@ namespace minecraft {
 			bool playing(){
 				return Mix_Playing(channel);
 			}
+			
+			~Sound{
+				Mix_FreeChunk(sound);
+				sample=NULL;
+			}
 	};
 }
 

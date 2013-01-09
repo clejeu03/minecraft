@@ -1,4 +1,5 @@
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <minecraft/shader_tools.hpp>
 #include <minecraft/GraphicEngine.hpp>
 #include <minecraft/Light.hpp>
@@ -24,9 +25,8 @@ namespace minecraft {
 		glUseProgram(program);
 		
 		m_uniformTransformLocation = glGetUniformLocation(program,"uMVPMatrix");
-
 		m_uniform2dMode = glGetUniformLocation(program,"u2dMode");
-
+		m_uniformLightening = glGetUniformLocation(program,"uLightening"); // Whether enlightment need to be processed
 		glUniform1i(glGetUniformLocation(program, "uTexture"), 0);
 		
 		// Sun
@@ -37,7 +37,6 @@ namespace minecraft {
 		// PointLight
 		m_uniformLightPosition = glGetUniformLocation(program,"lightPosition");
 		m_uniformLightIntensity = glGetUniformLocation(program,"lightIntensity");
-		m_uniformLightDecay = glGetUniformLocation(program,"lightDecay");
 	}
 	
 	void GraphicEngine::Initialize(size_t windowWidth, size_t windowHeight) {
@@ -65,11 +64,14 @@ namespace minecraft {
 		glUniform3f(m_uniformLightDecay, light.decay.x, light.decay.y, light.decay.z);
 		
 		// Init the game objects
+		m_gameObjects[std::string("SkyBoxCube")] = new SkyBoxCube();
 		m_gameObjects[std::string("CloudCube")] = new CloudCube();
 		m_gameObjects[std::string("CrystalCube")] = new CrystalCube();
 		m_gameObjects[std::string("RockCube")] = new RockCube();
 		// Init and assign the shapes
 		m_shapeMgr.LoadShapes();
+		m_gameObjects[std::string("SkyBoxCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("skybox")));
+		m_gameObjects[std::string("SkyBoxCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("skybox")));
 		m_gameObjects[std::string("CloudCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("cube")));
 		m_gameObjects[std::string("CloudCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("cube")));
 		m_gameObjects[std::string("CrystalCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("cube")));
@@ -77,13 +79,15 @@ namespace minecraft {
 		m_gameObjects[std::string("RockCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("cube")));
 		m_gameObjects[std::string("RockCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("cube")));
 		// Init and assign the textures
+		m_textureMgr.LoadTexture("SkyBox","./skybox.jpg");
 		m_textureMgr.LoadTexture("Cloud", "./cloud.jpg");
 		m_textureMgr.LoadTexture("Crystal", "./cloud.jpg");
 		m_textureMgr.LoadTexture("Rock", "./rock.jpg");
 		m_textureMgr.LoadTexture("Cursor","./cursor.png");
-		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Cloud"));
-		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Crystal"));
-		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Rock"));
+		m_gameObjects[std::string("SkyBoxCube")]->SetTexId(m_textureMgr.GetTextureId("SkyBox"));
+		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId("Cloud"));
+		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId("Crystal"));
+		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId("Rock"));
 	}
 	
 	void GraphicEngine::RefreshDisplay() throw(std::logic_error) {
@@ -91,22 +95,26 @@ namespace minecraft {
 			throw std::logic_error("Can't display game without setting the map and the character");
 		
 		m_transformStack.Push();
-		m_transformStack.Set(m_perspectiveMatrix*m_character->GetPointOfView());
-		m_world->Draw(m_transformStack,m_uniformTransformLocation);
+			m_transformStack.Set(m_perspectiveMatrix*m_character->GetPointOfView());
+			m_world->Draw(m_transformStack,m_uniformTransformLocation);
+			DrawSkyBox();
 		m_transformStack.Pop();
 		DrawCursor();
+		DrawInventory();
 	}
 	
 	void GraphicEngine::DrawCursor() {
 		glUniform1i(m_uniform2dMode, 1); // Tell the shader it's 2D
+		glUniform1i(m_uniformLightening, 0);
 		
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D,m_textureMgr.GetTextureId((char*)"Cursor"));
+		glBindTexture(GL_TEXTURE_2D,m_textureMgr.GetTextureId("Cursor"));
 		glBindVertexArray(m_shapeMgr.GetShapeVAO(std::string("cursor")));
 		glDrawArrays(GL_TRIANGLES, 0, m_shapeMgr.GetShapeNbVertices(std::string("cursor")));
 		glBindVertexArray(0);
 		
 		glUniform1i(m_uniform2dMode, 0);
+		glUniform1i(m_uniformLightening, 1);
 	}
 	
 	void GraphicEngine::DrawInventory() {
@@ -120,7 +128,19 @@ namespace minecraft {
 		 dans le shapeManager, définisse un nouvel objet comme on l'a fait pour Cube et Cursor, avec les coordonnées.
 		 Enfin voila quoi, après la ou ça va être plus hardos, c'est genre pour afficher le nombre de cubes par exemple
 		 (je pense qu'on peut écrire avec openGL */
+	}
+	
+	void GraphicEngine::DrawSkyBox() {
+		SkyBoxCube* skyBox = (SkyBoxCube*)m_gameObjects[std::string("SkyBoxCube")];
+		glm::vec3 cameraPos = m_character->HeadPosition();
 		
-		 
+		glUniform1i(m_uniformLightening, 0);
+		m_transformStack.Push();
+			m_transformStack.Translate(cameraPos);
+			m_transformStack.Scale(glm::vec3(std::max(m_world->GetSizeW(),std::max(m_world->GetSizeH(),m_world->GetSizeD()))*2));
+			glUniformMatrix4fv(m_uniformTransformLocation, 1, GL_FALSE, glm::value_ptr(m_transformStack.Top()));
+			skyBox->Draw();
+		m_transformStack.Pop();
+		glUniform1i(m_uniformLightening, 1);
 	}
 }
