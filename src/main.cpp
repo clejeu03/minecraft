@@ -49,8 +49,11 @@ int main(int argc, char* argv[]) {
 	
 	// Load sounds
 	minecraft::Sound steps;
-	steps.load("data/steps.ogg");
-
+	steps.load("data/sounds/steps.ogg");
+	minecraft::Sound buildCube;
+	buildCube.load("data/sounds/build.ogg");
+	minecraft::Sound breakCube;
+	breakCube.load("data/sounds/break.ogg");
 	
 	//----SOUND
 	
