@@ -30,9 +30,9 @@ namespace minecraft {
 		glUniform1i(glGetUniformLocation(program, "uTexture"), 0);
 		
 		// Sun
-		m_uniformSunColor = glGetUniformLocation(program,"sunColor");
 		m_uniformSunDirection = glGetUniformLocation(program,"sunDirection");
 		m_uniformSunAmbient = glGetUniformLocation(program,"sunAmbient");
+		m_uniformSunIntensity = glGetUniformLocation(program,"sunIntensity");
 		
 	}
 	
@@ -42,13 +42,13 @@ namespace minecraft {
 		
 		// Create sunlight
 		struct DirectionalLight sun;
-		sun.color=glm::vec3(1,1,1);
 		sun.direction=glm::vec3(0.2,-1,0.3);
 		sun.ambient=0.1;
+		sun.intensity=0.3;
 		// Uniform variables linked to the sun
-		glUniform3f(m_uniformSunColor, sun.color.x, sun.color.y, sun.color.z);
 		glUniform3f(m_uniformSunDirection, sun.direction.x, sun.direction.y, sun.direction.z);
 		glUniform1f(m_uniformSunAmbient, sun.ambient);
+		glUniform1f(m_uniformSunIntensity, sun.intensity);
 		
 		// Init the game objects
 		m_gameObjects[std::string("CloudCube")] = new CloudCube();

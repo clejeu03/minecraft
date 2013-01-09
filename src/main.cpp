@@ -220,6 +220,8 @@ int main(int argc, char* argv[]) {
 		if(elapsedTime < FPS) {
 			SDL_Delay(FPS - elapsedTime);
 		}
+		std::cout << "framerate : " << 1000./elapsedTime << std::endl;
+		
     }
     
 	/// QUIT AND CLEAN (ALL IS AUTOMATIC BY NOW, MAYBE LATER)
