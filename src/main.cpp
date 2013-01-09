@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <cmath>
+#include <string>
 /* SDL & GL */
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
@@ -126,6 +127,17 @@ int main(int argc, char* argv[]) {
             if(e.type == SDL_MOUSEMOTION) {
 					player.RotateLeft(-e.motion.xrel);
 					player.LookUp(-e.motion.yrel);
+			}
+			
+			if(e.type ==  SDL_MOUSEBUTTONDOWN){
+				if(e.button.button==SDL_BUTTON_LEFT){
+					//Add
+					gameEng.aimCube(1);
+				}
+				if(e.button.button==SDL_BUTTON_RIGHT){
+					//Delete
+					gameEng.aimCube(0);
+				}
 			}
 			
 			/* Detect keys down */

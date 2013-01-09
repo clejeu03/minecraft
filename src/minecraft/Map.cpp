@@ -49,6 +49,38 @@ namespace minecraft {
 		m_data[MapCoords(x,y,z)] = cube;
 	}
 	
+	void Map::SetByPixel(GLfloat x,GLfloat y,GLfloat z, Cube* cube) throw(std::out_of_range) {
+		if( x > m_width || x < 0 ||
+		y > m_height || y < 0 ||
+		z > m_depth || z < 0 )
+			throw std::out_of_range("Position is out of the map");
+		
+		m_data[MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))] = cube;
+	}
+	
+	void Map::DelByPixel(GLfloat x,GLfloat y,GLfloat z) throw(std::out_of_range) {
+		if( x > m_width || x < 0 ||
+		y > m_height || y < 0 ||
+		z > m_depth || z < 0 )
+			throw std::out_of_range("Position is out of the map");
+		GLfloat cubeSize=Cube::m_size;
+		x+=cubeSize*0.5;
+		y+=cubeSize*0.5;
+		z+=cubeSize*0.5;
+		m_data.erase(MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size)));
+	}
+	
+	void Map::FakeCreation(GLfloat x,GLfloat y,GLfloat z){
+		if (Exists(15,25,15)){
+			GLfloat cubeSize=Cube::m_size;
+			x+=cubeSize*0.5;
+			y+=cubeSize*0.5;
+			z+=cubeSize*0.5;
+			SetByPixel(x,y,z, Get(15,25,15));
+		}
+		
+	}
+	
 	size_t Map::GetSizeW(){
 		return m_width;
 	}
