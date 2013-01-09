@@ -1,5 +1,6 @@
 #include <minecraft/ShapeManager.hpp>
 #include <string>
+#include <vector>
 
 namespace minecraft {
 	Shape::Shape(const Shape& s) {
@@ -178,6 +179,10 @@ namespace minecraft {
 		}
 	}
 	
+	void ShapeManager::SetBuffer(const char* type, std::vector<MapCoords> cubeCoords) {
+
+	}
+
 	void ShapeManager::LoadShapes() {
 		typedef std::map<std::string,struct Shape>::iterator ItType;
 		for(ItType iterator = m_shapes.begin(); iterator != m_shapes.end(); iterator++) {

@@ -5,6 +5,7 @@
 #include <map>
 #include <stdexcept>
 #include <GL/glew.h>
+#include <vector>
 #include <minecraft/GLtools.hpp>
 
 namespace minecraft {
@@ -30,6 +31,7 @@ namespace minecraft {
 		public:
 			ShapeManager();
 			~ShapeManager();
+			void ShapeManager::SetBuffer(const char*, std::vector<MapCoords>);
 			void LoadShapes();
 			void LoadShape(std::string,struct Shape);
 			GLuint GetShapeVAO(std::string) throw(std::invalid_argument);

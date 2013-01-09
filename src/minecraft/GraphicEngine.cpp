@@ -97,7 +97,14 @@ namespace minecraft {
 		/*if(m_world->CheckForRefresh()) {
 			//setup cubes vbo
 		}*/
-		//m_ShapeMgr.SetBuffer(std::string("CloudCube"), m_world->GetPositions(std::string("CloudCube")));
+		std::vector<MapCoords> cloudCubes = m_world->GetPositions("CloudCube");
+		std::vector<MapCoords> crystalCubes = m_world->GetPositions("CrystalCube");
+		std::vector<MapCoords> rockCubes = m_world->GetPositions("RockCube");
+
+		//m_ShapeMgr.SetBuffer(std::string("CloudCube"), m_world->GetPositions(m_world->GetPositions("CloudCube")));
+		//m_ShapeMgr.SetBuffer(std::string("CloudCube"), m_world->GetPositions(m_world->GetPositions("CrystalCube")));
+		m_ShapeMgr.SetBuffer(std::string("RockCube"), m_world->GetPositions(m_world->GetPositions("RockCube")));
+		
 		m_transformStack.Push();
 			m_transformStack.Set(m_perspectiveMatrix*m_character->GetPointOfView());
 			m_world->Draw(m_transformStack,m_uniformTransformLocation);
