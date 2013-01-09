@@ -32,7 +32,7 @@ void main() {
 		float directional = sunIntensity*max(0.0, dot(normalize(normal), -sunDirection));
 		float ambient = sunAmbient*sunIntensity;
 		
-		lightedPixel = directional+ambient;	
+		vLightedPixel = directional+ambient;	
 	}
 	
 	vNormal = normal;

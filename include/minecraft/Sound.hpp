@@ -49,10 +49,10 @@ namespace minecraft {
 				return Mix_Playing(channel);
 			}
 			
-			~Sound{
+			/*~Sound{
 				Mix_FreeChunk(sound);
 				sample=NULL;
-			}
+			}*/
 	};
 }
 

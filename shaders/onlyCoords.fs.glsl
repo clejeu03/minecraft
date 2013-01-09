@@ -13,7 +13,7 @@ void main() {
 	vec4 vTexColor = texture(uTexture, vTexCoords);
 	if( vEnlight == 1 ) {
 		vec4 vTexColor = texture(uTexture, vTexCoords);
-		vec4 prePixel = vTexColor*(lightedPixel);
+		vec4 prePixel = vTexColor*(vLightedPixel);
 		fFragColor = vec4(prePixel.x,prePixel.y,prePixel.z,vTexColor.w);
 	}
 	else
