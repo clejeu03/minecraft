@@ -17,6 +17,11 @@ namespace minecraft {
 			inline void SetVAOId(GLuint id) { m_VAO = id; }
 			void Draw() const;
 	};
+	
+	class SkyBoxCube : public Cube {
+		public:
+			constexpr static GLfloat m_size = 1.f;
+	};
 
 	/* Indiferent to gravity */
 	class FloatingCube : public Cube {

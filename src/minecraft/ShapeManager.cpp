@@ -31,7 +31,6 @@ namespace minecraft {
 	// Init the common shapes
 	ShapeManager::ShapeManager() {
 		/// Cube
-
 		m_shapes[std::string("cube")] = Shape(36);
 
 		//Face gauche
@@ -94,8 +93,70 @@ namespace minecraft {
 		m_shapes[std::string("cube")].vertices[31] = Vertex(-0.5, 0.5,-0.5, 0.0, 1.0, 0.0, 0.0, 0.0);
 		m_shapes[std::string("cube")].vertices[32] = Vertex(-0.5, 0.5, 0.5, 0.0, 1.0, 0.0, 0.0, 1.0);
 		
-		/// Cursor
+		/// Skybox
+		m_shapes[std::string("skybox")] = Shape(36);
+
+		//Face gauche
+		m_shapes[std::string("skybox")].vertices[0] = Vertex(0.5,-0.5,-0.5, 1.0, 0.0, 0.0, 0.0, 2.0/3);
+		m_shapes[std::string("skybox")].vertices[1] = Vertex(0.5,-0.5, 0.5, 1.0, 0.0, 0.0, 1./4, 2.0/3);
+		m_shapes[std::string("skybox")].vertices[2] = Vertex(0.5, 0.5, 0.5, 1.0, 0.0, 0.0, 1./4, 1.0/3);
+
+		//Face gauche
+		m_shapes[std::string("skybox")].vertices[12] = Vertex(0.5,-0.5,-0.5, 1.0, 0.0, 0.0, 0.0, 2.0/3);
+		m_shapes[std::string("skybox")].vertices[13] = Vertex(0.5, 0.5, 0.5, 1.0, 0.0, 0.0, 1./4, 1.0/3);
+		m_shapes[std::string("skybox")].vertices[14] = Vertex(0.5, 0.5,-0.5, 1.0, 0.0, 0.0, 0.0, 1.0/3);
 		
+		//Face derrière
+		m_shapes[std::string("skybox")].vertices[3] = Vertex(0.5, 0.5,0.5, 0.0, 0.0, 1.0, 1./4, 1.0/3);
+		m_shapes[std::string("skybox")].vertices[4] = Vertex(-0.5,-0.5,0.5, 0.0, 0.0, 1.0, 1./2, 2.0/3);
+		m_shapes[std::string("skybox")].vertices[5] = Vertex(-0.5, 0.5,0.5, 0.0, 0.0, 1.0, 1./2, 1.0/3);
+
+		//Face derrière
+		m_shapes[std::string("skybox")].vertices[9] = Vertex(0.5, 0.5,0.5, 0.0, 0.0, 1.0, 1./4, 1.0/3);
+		m_shapes[std::string("skybox")].vertices[10] = Vertex(0.5,-0.5,0.5, 0.0, 0.0, 1.0, 1./4, 2.0/3);
+		m_shapes[std::string("skybox")].vertices[11] = Vertex(-0.5,-0.5,0.5, 0.0, 0.0, 1.0, 1./2, 2.0/3);
+		
+		//Face dessous
+		m_shapes[std::string("skybox")].vertices[6] = Vertex(-0.5,0.5, -0.5, 0.0, 1.0, 0.0, 1./2, 0.);
+		m_shapes[std::string("skybox")].vertices[7] = Vertex(0.5,0.5,0.5, 0.0, 1.0, 0.0, 1./4, 1.0/3);
+		m_shapes[std::string("skybox")].vertices[8] = Vertex(-0.5,0.5,0.5, 0.0, 1.0, 0.0, 2./4, 1.0/3);
+
+		//Face dessous
+		m_shapes[std::string("skybox")].vertices[15] = Vertex(-0.5,0.5, -0.5, 0.0, 1.0, 0.0, 1./2, 0.);
+		m_shapes[std::string("skybox")].vertices[16] = Vertex(0.5,0.5, -0.5, 0.0, 1.0, 0.0, 1./4, 0.);
+		m_shapes[std::string("skybox")].vertices[17] = Vertex(0.5,0.5,0.5, 0.0, 1.0, 0.0, 1./4, 1.0/3);
+		
+		//Face avant
+		m_shapes[std::string("skybox")].vertices[18] = Vertex(-0.5, 0.5, -0.5, 0.0, 0.0, -1.0, 3./4, 1.0/3);
+		m_shapes[std::string("skybox")].vertices[19] = Vertex(-0.5,-0.5, -0.5, 0.0, 0.0, -1.0, 3./4, 2.0/3);
+		m_shapes[std::string("skybox")].vertices[20] = Vertex(0.5,-0.5, -0.5, 0.0, 0.0, -1.0, 1.0, 2.0/3);
+
+		//Face avant
+		m_shapes[std::string("skybox")].vertices[33] = Vertex(0.5, 0.5, -0.5, 0.0, 0.0, -1.0, 1.0, 1.0/3);
+		m_shapes[std::string("skybox")].vertices[34] = Vertex(-0.5, 0.5, -0.5, 0.0, 0.0, -1.0, 3./4, 1.0/3);
+		m_shapes[std::string("skybox")].vertices[35] = Vertex(0.5,-0.5, -0.5,  0.0, 0.0, -1.0, 1.0, 2.0/3);
+		
+		//Face droite
+		m_shapes[std::string("skybox")].vertices[21] = Vertex(-0.5, 0.5, 0.5, -1.0, 0.0, 0.0, 1./2, 1.0/3);
+		m_shapes[std::string("skybox")].vertices[22] = Vertex(-0.5,-0.5,-0.5, -1.0, 0.0, 0.0, 3./4, 2.0/3);
+		m_shapes[std::string("skybox")].vertices[23] = Vertex(-0.5, 0.5,-0.5, -1.0, 0.0, 0.0, 3./4, 1.0/3);
+
+		//Face droite
+		m_shapes[std::string("skybox")].vertices[24] = Vertex(-0.5,-0.5,-0.5, -1.0, 0.0, 0.0, 3./4, 2.0/3);
+		m_shapes[std::string("skybox")].vertices[25] = Vertex(-0.5, 0.5, 0.5, -1.0, 0.0, 0.0, 1./2, 1.0/3);
+		m_shapes[std::string("skybox")].vertices[26] = Vertex(-0.5,-0.5, 0.5, -1.0, 0.0, 0.0, 1./2, 2.0/3);
+
+		//Face haut
+		m_shapes[std::string("skybox")].vertices[27] = Vertex(0.5, -0.5, 0.5, 0.0, -1.0, 0.0, 1./4, 1.0);
+		m_shapes[std::string("skybox")].vertices[28] = Vertex(0.5, -0.5,-0.5, 0.0, -1.0, 0.0, 1./4, 2./3);
+		m_shapes[std::string("skybox")].vertices[29] = Vertex(-0.5, -0.5,-0.5, 0.0, -1.0, 0.0, 1./2, 2./3);
+
+		//Face haut
+		m_shapes[std::string("skybox")].vertices[30] = Vertex(0.5, -0.5, 0.5, 0.0, -1.0, 0.0, 1./4, 1.0);
+		m_shapes[std::string("skybox")].vertices[31] = Vertex(-0.5, -0.5,-0.5, 0.0, -1.0, 0.0, 1./2, 2./3);
+		m_shapes[std::string("skybox")].vertices[32] = Vertex(-0.5, -0.5, 0.5, 0.0, -1.0, 0.0, 1./2, 1.0);
+		
+		/// Cursor
 		m_shapes[std::string("cursor")] = Shape(6);
 		
 		m_shapes[std::string("cursor")].vertices[0] = Vertex(-0.05,0.05,0,0,0,0,0,1.);

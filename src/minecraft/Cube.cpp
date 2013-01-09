@@ -1,4 +1,5 @@
 #include <minecraft/Cube.hpp>
+#include <iostream>
 
 namespace minecraft {	
 	void Cube::Draw() const {

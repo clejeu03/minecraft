@@ -164,16 +164,16 @@ namespace minecraft {
 		for(ItCubeInstanceConst iterator = m_data.begin(); iterator != m_data.end(); iterator++) {
 			if( std::get<1>(iterator->second) ) { // If the cube is not hidden by other cubes
 				matrixStack.Push();
-				matrixStack.Scale(glm::vec3(cubeSize));
-				matrixStack.Translate(
-					glm::vec3(
-						std::get<0>(iterator->first),
-						std::get<1>(iterator->first),
-						std::get<2>(iterator->first)
-					)
-				);
-				glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrixStack.Top()));
-				std::get<0>(iterator->second)->Draw();
+					matrixStack.Scale(glm::vec3(cubeSize));
+					matrixStack.Translate(
+						glm::vec3(
+							std::get<0>(iterator->first),
+							std::get<1>(iterator->first),
+							std::get<2>(iterator->first)
+						)
+					);
+					glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrixStack.Top()));
+					std::get<0>(iterator->second)->Draw();
 				matrixStack.Pop();
 			}
 		}
