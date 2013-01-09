@@ -55,7 +55,6 @@ namespace minecraft {
 		if(!(m_camera.GetDirection().y>0.99 && angle>0) && !(m_camera.GetDirection().y<(-0.99) && angle<0)){
 			m_camera.RotateUp(angle);
 		}
-		std::cout<<m_camera.GetDirection().y<<std::endl;
 	}
 		
 	glm::mat4 Character::GetPointOfView() {
