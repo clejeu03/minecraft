@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <map>
 #include <tuple>
+#include <vector>
 #include <minecraft/Drawable.hpp>
 #include <minecraft/Cube.hpp>
 #include <minecraft/MatrixStack.hpp>
@@ -52,6 +53,8 @@ namespace minecraft {
 			
 			void Draw() const;
 			void Draw(MatrixStack&, GLuint) const;
+
+			std::vector<MapCoords> GetPositions() const;
 	};
 }
 

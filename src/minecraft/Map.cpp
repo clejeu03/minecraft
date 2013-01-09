@@ -2,6 +2,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <minecraft/Map.hpp>
 #include <iostream>
+#include <vector>
 
 namespace minecraft {	
 	Cube* Map::Get(size_t x, size_t y, size_t z) throw(std::out_of_range) {
@@ -173,5 +174,20 @@ namespace minecraft {
 				matrixStack.Pop();
 			}
 		}
+	}
+
+	/* Get position of all visibles cubes */
+	std::vector<MapCoords> Map::GetPositions() const {
+		std::vector<MapCoords> visiblesCubesCoords;
+		for(ItCubeInstanceConst iterator = m_data.begin(); iterator != m_data.end(); iterator++) {
+			if( std::get<1>(iterator->second) ) { // If the cube is not hidden by other cubes
+				visiblesCubesCoords.push_back(std::make_tuple(
+					std::get<0>(iterator->first),
+					std::get<1>(iterator->first),
+					std::get<2>(iterator->first)
+				));
+			}
+		}
+		return visiblesCubesCoords;
 	}
 }
