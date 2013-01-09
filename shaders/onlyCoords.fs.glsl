@@ -14,5 +14,6 @@ uniform float sunAmbient;
 void main() {
 	vec4 vTexColor = texture(uTexture, vTexCoords);
 	float diffuseIntensity = max(0.0, dot(normalize(vNormal), -sunDirection)); 
-	fFragColor = vTexColor*(diffuseIntensity+sunAmbient);
+	vec4 lightedPixel = vTexColor*(diffuseIntensity+sunAmbient);
+	fFragColor = vec4(lightedPixel.x,lightedPixel.y,lightedPixel.z,vTexColor.w);
 }
