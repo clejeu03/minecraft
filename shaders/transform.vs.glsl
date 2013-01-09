@@ -28,7 +28,7 @@ void main() {
 		gl_Position = vec4(position.x,position.y,0.,1.);
 	}
 	
-	if( uLightening ) {
+	if( uLightening == 1 ) {
 		float directional = sunIntensity*max(0.0, dot(normalize(normal), -sunDirection));
 		float ambient = sunAmbient*sunIntensity;
 		
