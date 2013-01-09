@@ -30,8 +30,7 @@ namespace minecraft {
 	
 	// Init the common shapes
 	ShapeManager::ShapeManager() {
-		// Cube
-		//! Need to have the normal and the textures coordinates defined
+		/// Cube
 
 		m_shapes[std::string("cube")] = Shape(36);
 
@@ -94,6 +93,17 @@ namespace minecraft {
 		m_shapes[std::string("cube")].vertices[30] = Vertex(0.5, 0.5, 0.5, 0.0, 1.0, 0.0, 1.0, 1.0);
 		m_shapes[std::string("cube")].vertices[31] = Vertex(-0.5, 0.5,-0.5, 0.0, 1.0, 0.0, 0.0, 0.0);
 		m_shapes[std::string("cube")].vertices[32] = Vertex(-0.5, 0.5, 0.5, 0.0, 1.0, 0.0, 0.0, 1.0);
+		
+		/// Cursor
+		
+		m_shapes[std::string("cursor")] = Shape(6);
+		
+		m_shapes[std::string("cursor")].vertices[0] = Vertex(-0.05,0.05,0,0,0,0,0,1.);
+		m_shapes[std::string("cursor")].vertices[1] = Vertex(0.05,0.05,0,0,0,0,1,1);
+		m_shapes[std::string("cursor")].vertices[2] = Vertex(-0.05,-0.05,0,0,0,0,0,0);
+		m_shapes[std::string("cursor")].vertices[3] = Vertex(-0.05,-0.05,0,0,0,0,0,0);
+		m_shapes[std::string("cursor")].vertices[4] = Vertex(0.05,-0.05,0,0,0,0,1,0);
+		m_shapes[std::string("cursor")].vertices[5] = Vertex(0.05,0.05,0,0,0,0,1,1);
 
 	}
 	

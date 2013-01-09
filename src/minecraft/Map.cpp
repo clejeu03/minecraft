@@ -37,7 +37,6 @@ namespace minecraft {
 			iterator->second->Draw();
 			matrixStack.Pop();
 		}
-
 	}
 	
 	void Map::Set(size_t x, size_t y, size_t z, Cube* cube) throw(std::out_of_range) {
@@ -119,9 +118,6 @@ namespace minecraft {
 			
 		if( m_data.find(MapCoords(x,y,z)) == m_data.end() )
 			return NULL;
-		
-		//Cube doesn't exist	
-		if( m_data.find(MapCoords(x,y,z)) == m_data.end() ){return NULL;}
 
 		return m_data[MapCoords(x,y,z)];
 	}
@@ -135,7 +131,6 @@ namespace minecraft {
 		//Cube doesn't exist	
 		if( m_data.find(MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))) == m_data.end() ){return NULL;}
 		
-		return m_data[MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))];
 		return m_data[MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))];
 	}
 }

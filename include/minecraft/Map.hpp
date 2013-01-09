@@ -45,8 +45,6 @@ namespace minecraft {
 			bool ExistsByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
 			Cube* Get(size_t,size_t,size_t) throw(std::out_of_range);
 			Cube* GetByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
-
-
 	};
 }
 
