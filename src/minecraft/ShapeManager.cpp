@@ -105,6 +105,15 @@ namespace minecraft {
 		m_shapes[std::string("cursor")].vertices[4] = Vertex(0.05,-0.05,0,0,0,0,1,0);
 		m_shapes[std::string("cursor")].vertices[5] = Vertex(0.05,0.05,0,0,0,0,1,1);
 
+		m_shapes[std::string("inventory")] = Shape(6);
+		
+		m_shapes[std::string("inventory")].vertices[0] = Vertex(-0.5,-0.8,0,0,0,0,0,1.);
+		m_shapes[std::string("inventory")].vertices[1] = Vertex(0.5,-0.8,0,0,0,0,1,1);
+		m_shapes[std::string("inventory")].vertices[2] = Vertex(-0.5,-1,0,0,0,0,0,0);
+		m_shapes[std::string("inventory")].vertices[3] = Vertex(-0.5,-1,0,0,0,0,0,0);
+		m_shapes[std::string("inventory")].vertices[4] = Vertex(0.5,-1,0,0,0,0,1,0);
+		m_shapes[std::string("inventory")].vertices[5] = Vertex(0.5,-0.8,0,0,0,0,1,1);
+
 	}
 	
 	ShapeManager::~ShapeManager() {

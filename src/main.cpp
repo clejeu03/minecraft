@@ -20,7 +20,7 @@
 
 
 /* GAME PARAMETERS */
-static const size_t WINDOW_WIDTH = 512, WINDOW_HEIGHT = 512;
+static const size_t WINDOW_WIDTH = 812, WINDOW_HEIGHT = 512;
 static const size_t BYTES_PER_PIXEL = 32;
 
 glm::vec3 formerPosition;
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-    IOManager.GenerateMap(20);
+    IOManager.GenerateMap(30);
     IOManager.SaveMap();
     
     minecraft::GameEngine gameEng;

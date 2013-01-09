@@ -67,6 +67,7 @@ namespace minecraft {
 		m_textureMgr.LoadTexture("Crystal", "./cloud.jpg");
 		m_textureMgr.LoadTexture("Rock", "./rock.jpg");
 		m_textureMgr.LoadTexture("Cursor","./cursor.png");
+		m_textureMgr.LoadTexture("Inventory","./inventory.png");
 		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Cloud"));
 		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Crystal"));
 		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Rock"));
@@ -81,6 +82,7 @@ namespace minecraft {
 		m_world->Draw(m_transformStack,m_uniformTransformLocation);
 		m_transformStack.Pop();
 		DrawCursor();
+		DrawInventory();
 	}
 	
 	void GraphicEngine::DrawCursor() {
@@ -96,16 +98,15 @@ namespace minecraft {
 	}
 	
 	void GraphicEngine::DrawInventory() {
-		/*
-		 Ok, donc le principe en étapes pour dessiner un objet 2d:
-		 1) Charger tes textures dans Initialize de ce fichier avec le texture manager,
-		  tu verras que j'ai chargé "cursor". Ca gère la transparance également et tous les types d'images ^^
-		 2) Faire comme dans DrawCursor() juste au dessus : dire au shader que c'est de la 2D,
-		  activer le slot de texture 0, bind ta texture en la récupérant avec le texture manager,
-		 puis récupère ton VAO qui pointe vers les points de ta forme. Par exemple pour un carré, il faut que tu ailles
-		 dans le shapeManager, définisse un nouvel objet comme on l'a fait pour Cube et Cursor, avec les coordonnées.
-		 Enfin voila quoi, après la ou ça va être plus hardos, c'est genre pour afficher le nombre de cubes par exemple
-		 (je pense qu'on peut écrire avec openGL */
+		glUniform1i(m_uniform2dMode, 1); // Tell the shader it's 2D
+		
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D,m_textureMgr.GetTextureId((char*)"Inventory"));
+		glBindVertexArray(m_shapeMgr.GetShapeVAO(std::string("inventory")));
+		glDrawArrays(GL_TRIANGLES, 0, m_shapeMgr.GetShapeNbVertices(std::string("inventory")));
+		glBindVertexArray(0);
+		
+		glUniform1i(m_uniform2dMode, 0);
 		
 		 
 	}

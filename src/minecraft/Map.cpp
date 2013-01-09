@@ -77,7 +77,6 @@ namespace minecraft {
 			z+=cubeSize*0.5;
 			SetByPixel(x,y,z, Get(15,25,15));
 		}
-		
 	}
 	
 	size_t Map::GetSizeW(){

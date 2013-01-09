@@ -301,7 +301,7 @@ namespace minecraft {
 						for (size_t k = 0; k < height; k++){
 							try{
 								//On tente de trouver le cube qui se trouve à cette position
-								Cube* tmp = &(m_map->Get(j,i,k));
+								Cube* tmp = m_map->Get(j,i,k);
 								if(tmp == m_gameObjects->find(std::string("RockCube"))->second){
 									writer.Uint(1);
 								}
