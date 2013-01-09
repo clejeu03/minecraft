@@ -1,6 +1,8 @@
 #include <minecraft/ShapeManager.hpp>
+#include <minecraft/Map.hpp>
 #include <string>
 #include <vector>
+#include <iostream>
 
 namespace minecraft {
 	Shape::Shape(const Shape& s) {
@@ -182,6 +184,8 @@ namespace minecraft {
 	void ShapeManager::SetBuffer(const char* type, std::vector<MapCoords> cubeCoords) {
 		GLuint vao = GetShapeVAO(std::string(type));
 		GLuint vbo = m_VAOVBOs[vao];
+		size_t cubesCount = cubeCoords.size();
+		
 		int positionNumComponents = Vertex::GetPositionNumComponents();
 		size_t shapeNbVertices = GetShapeNbVertices(std::string(type));
 		int normalNumComponents = Vertex::GetNormalNumComponents();
@@ -191,18 +195,17 @@ namespace minecraft {
 		GLfloat* normalsCoords = new GLfloat[normalNumComponents * shapeNbVertices];
 		GLfloat* textCoords = new GLfloat[textureNumComponents * shapeNbVertices];
 
-		GLfloat* instancePositions = new GLfloat[m_data.size() * positionNumComponents];
+		GLfloat* instancePositions = new GLfloat[cubesCount * positionNumComponents];
 
 		typedef std::map<MapCoords,Cube*>::const_iterator ItType;
 		int i = 0;
-		size_t cubeCount = cubeCoords.size();
-		for(i = 0; i<cubeCount; ++i) {
+		for(i = 0; i<cubesCount; ++i) {
 			instancePositions[positionNumComponents*i] = std::get<0>(cubeCoords[i]) * Cube::m_size;
 			instancePositions[positionNumComponents*i+1] = std::get<1>(cubeCoords[i]) * Cube::m_size;
 			instancePositions[positionNumComponents*i+2] = std::get<2>(cubeCoords[i]) * Cube::m_size;
 		}
 
-		Vertex* vertices = GetShapeVertices(std::string(type));
+		Vertex* vertices = m_shapes[std::string(type)].vertices;
 
 		for(int i=0; i<shapeNbVertices; ++i) {
 			positionCoords[positionNumComponents*i] = vertices[i].position.x;
@@ -220,7 +223,7 @@ namespace minecraft {
 		size_t sizeofPositionCoords = positionNumComponents * shapeNbVertices * sizeof(GLfloat);
 		size_t sizeofNormalsCoords = normalNumComponents * shapeNbVertices * sizeof(GLfloat);
 		size_t sizeofTextCoords = textureNumComponents * shapeNbVertices * sizeof(GLfloat);
-		size_t sizeofInstancePositions = m_data.size() * positionNumComponents * sizeof(GLfloat);
+		size_t sizeofInstancePositions = cubesCount * positionNumComponents * sizeof(GLfloat);
 
 	    std::cout << "sizeofPositionCoords = " << sizeofPositionCoords << std::endl;
 	    std::cout << "sizeofNormalsCoords = " << sizeofNormalsCoords << std::endl;

@@ -7,6 +7,7 @@
 #include <GL/glew.h>
 #include <vector>
 #include <minecraft/GLtools.hpp>
+#include <minecraft/Map.hpp>
 
 namespace minecraft {
 	/* Just a collection of vertices */
@@ -31,7 +32,7 @@ namespace minecraft {
 		public:
 			ShapeManager();
 			~ShapeManager();
-			void ShapeManager::SetBuffer(const char*, std::vector<MapCoords>);
+			void SetBuffer(const char*, std::vector<MapCoords>);
 			void LoadShapes();
 			void LoadShape(std::string,struct Shape);
 			GLuint GetShapeVAO(std::string) throw(std::invalid_argument);

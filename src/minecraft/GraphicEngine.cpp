@@ -101,9 +101,9 @@ namespace minecraft {
 		std::vector<MapCoords> crystalCubes = m_world->GetPositions("CrystalCube");
 		std::vector<MapCoords> rockCubes = m_world->GetPositions("RockCube");
 
-		//m_ShapeMgr.SetBuffer(std::string("CloudCube"), m_world->GetPositions(m_world->GetPositions("CloudCube")));
-		//m_ShapeMgr.SetBuffer(std::string("CloudCube"), m_world->GetPositions(m_world->GetPositions("CrystalCube")));
-		m_ShapeMgr.SetBuffer(std::string("RockCube"), m_world->GetPositions(m_world->GetPositions("RockCube")));
+		//m_shapeMgr.SetBuffer(std::string("CloudCube"), m_world->GetPositions(m_world->GetPositions("CloudCube")));
+		//m_shapeMgr.SetBuffer(std::string("CloudCube"), m_world->GetPositions(m_world->GetPositions("CrystalCube")));
+		m_shapeMgr.SetBuffer("RockCube", m_world->GetPositions("RockCube"));
 		
 		m_transformStack.Push();
 			m_transformStack.Set(m_perspectiveMatrix*m_character->GetPointOfView());
