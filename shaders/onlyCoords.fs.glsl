@@ -2,18 +2,21 @@
 
 in vec3 vNormal;
 in vec2 vTexCoords;
+flat in int vEnlight;
+in float vLightedPixel;
 
 uniform sampler2D uTexture;
 
 out vec4 fFragColor;
 
-uniform vec3 sunColor; 
-uniform vec3 sunDirection; 
-uniform float sunAmbient; 
-
 void main() {
 	vec4 vTexColor = texture(uTexture, vTexCoords);
-	float diffuseIntensity = max(0.0, dot(normalize(vNormal), -sunDirection)); 
-	vec4 lightedPixel = vTexColor*(diffuseIntensity+sunAmbient);
-	fFragColor = vec4(lightedPixel.x,lightedPixel.y,lightedPixel.z,vTexColor.w);
+	if( vEnlight == 1 ) {
+		vec4 vTexColor = texture(uTexture, vTexCoords);
+		vec4 prePixel = vTexColor*(vLightedPixel);
+		fFragColor = vec4(prePixel.x,prePixel.y,prePixel.z,vTexColor.w);
+	}
+	else
+		fFragColor = vTexColor;
 }
+

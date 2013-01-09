@@ -27,9 +27,16 @@ namespace minecraft {
 			std::map<std::string, int> m_inventory;
 			GLuint m_uniformTransformLocation;
 			GLuint m_uniform2dMode;
-			GLuint m_uniformSunColor;
+			GLuint m_uniformLightening;
+			// Directional light
+			GLuint m_uniformSunIntensity;
 			GLuint m_uniformSunDirection;
 			GLuint m_uniformSunAmbient;
+			// Point light
+			GLuint m_uniformLightPosition;
+			GLuint m_uniformLightIntensity;
+			GLuint m_uniformLightDecay;
+			
 			Character* m_character;
 			glm::mat4 m_perspectiveMatrix;
 			MatrixStack m_transformStack;
@@ -49,9 +56,13 @@ namespace minecraft {
 			void DrawCursor();
 			inline void OpenInventory() { m_displayInventory = true; }
 			void DrawInventory();
+
 			std::string GetCubeType(Cube* cube);
 			void AddInInventory(Cube* cube) throw(std::invalid_argument);
 			void RemoveFromInventory(std::string cubeType) throw(std::invalid_argument);
+
+			void DrawSkyBox();
+
 	};
 }
 

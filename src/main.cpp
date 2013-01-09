@@ -7,6 +7,7 @@
 /* SDL & GL */
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_mixer.h>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 /*Parser Json*/
@@ -15,6 +16,7 @@
 #include <minecraft/GraphicEngine.hpp>
 #include <minecraft/GameEngine.hpp>
 #include <minecraft/GameIO.hpp>
+#include <minecraft/Sound.hpp>
 
 #define FPS 1000/30 //Actually this is the number of milliseconds per frame
 
@@ -30,7 +32,30 @@ bool currentBottomCollide=1;
 int main(int argc, char* argv[]) {
 	/// INITIALIZATION
 	// SDL
-	SDL_Init(SDL_INIT_VIDEO);
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
+		fprintf(stderr, "Unable to initialize SDL: %s\n", SDL_GetError());
+		return 1;
+	}
+	// Initialize sound context
+	int audio_rate = 22050;
+	Uint16 audio_format = AUDIO_S16SYS;
+	int audio_channels = 2;
+	int audio_buffers = 4096;
+ 
+	if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) != 0) {
+		fprintf(stderr, "Unable to initialize audio: %s\n", Mix_GetError());
+		exit(1);
+	}
+	
+	// Load sounds
+	minecraft::Sound steps;
+	steps.load("data/sounds/steps.ogg");
+	minecraft::Sound buildCube;
+	buildCube.load("data/sounds/build.ogg");
+	minecraft::Sound breakCube;
+	breakCube.load("data/sounds/break.ogg");
+	
+	//----SOUND---
 	
 	// Window and GL context
 	SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
@@ -130,10 +155,13 @@ int main(int argc, char* argv[]) {
 			if(e.type ==  SDL_MOUSEBUTTONDOWN){
 				if(e.button.button==SDL_BUTTON_LEFT){
 					//Add
+					buildCube.play();
 					gameEng.aimCube(1);
+					
 				}
 				if(e.button.button==SDL_BUTTON_RIGHT){
 					//Delete
+					breakCube.play();
 					gameEng.aimCube(0);
 				}
 			}
@@ -205,6 +233,14 @@ int main(int argc, char* argv[]) {
 		// Save former position
 		formerPosition = player.position();
 		
+		// Footsteps
+		if(keyZ||keyQ||keyS||keyD){
+			if (!steps.playing()){
+				steps.play(1);
+			}
+		}else{
+			steps.stop();
+		}
 		
 		//Move player
 		if(keyZ && keyQ){player.MoveFront(diagSpeed);player.MoveLeft(diagSpeed);}
@@ -224,12 +260,12 @@ int main(int argc, char* argv[]) {
 		
 		// Calculate elapsed time
 		elapsedTime = SDL_GetTicks() - startTime;
-		std::cout << "framerate" << 1000./elapsedTime << std::endl;
-		
 		// Framerate control : pause briefly the program if it's running too fast
 		if(elapsedTime < FPS) {
 			SDL_Delay(FPS - elapsedTime);
 		}
+		//std::cout << "framerate : " << 1000./elapsedTime << std::endl;
+		
     }
     
 	/// QUIT AND CLEAN (ALL IS AUTOMATIC BY NOW, MAYBE LATER)

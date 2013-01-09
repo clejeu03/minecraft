@@ -78,11 +78,7 @@ namespace minecraft {
 		}
 	}
 	
-	bool Map::ExistsByPixel(GLfloat x, GLfloat y, GLfloat z) throw(std::out_of_range) {
-		if( x > m_width || x < 0 ||
-		y > m_height || y < 0 ||
-		z > m_depth || z < 0 )
-			throw std::out_of_range("Position is out of the map in ExistsByPixel");
+	bool Map::ExistsByPixel(GLfloat x, GLfloat y, GLfloat z){			
 			
 		GLfloat cubeSize=Cube::m_size;
 		x+=cubeSize*0.5;
@@ -165,16 +161,16 @@ namespace minecraft {
 		for(ItCubeInstanceConst iterator = m_data.begin(); iterator != m_data.end(); iterator++) {
 			if( std::get<1>(iterator->second) ) { // If the cube is not hidden by other cubes
 				matrixStack.Push();
-				matrixStack.Scale(glm::vec3(cubeSize));
-				matrixStack.Translate(
-					glm::vec3(
-						std::get<0>(iterator->first),
-						std::get<1>(iterator->first),
-						std::get<2>(iterator->first)
-					)
-				);
-				glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrixStack.Top()));
-				std::get<0>(iterator->second)->Draw();
+					matrixStack.Scale(glm::vec3(cubeSize));
+					matrixStack.Translate(
+						glm::vec3(
+							std::get<0>(iterator->first),
+							std::get<1>(iterator->first),
+							std::get<2>(iterator->first)
+						)
+					);
+					glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrixStack.Top()));
+					std::get<0>(iterator->second)->Draw();
 				matrixStack.Pop();
 			}
 		}

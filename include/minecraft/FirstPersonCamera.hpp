@@ -6,30 +6,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace minecraft {
-	/*class Camera {
-		public:
-			virtual void MoveLeft(GLfloat) = 0;
-			virtual void MoveFront(GLfloat) = 0;
-			virtual void RotateLeft(GLfloat) = 0;
-			virtual void RotateUp(GLfloat) = 0;
-			virtual glm::mat4 GetViewMatrix() = 0;
-	};*/
-	
-	/* For the moment just a trackball... 
-	class TrackballCamera : public Camera {
-		private:
-			GLfloat m_fDistance;
-			GLfloat m_fAngleX;
-			GLfloat m_fAngleY;
-		public:
-			TrackballCamera() : m_fDistance(1), m_fAngleX(0), m_fAngleY(0) {}
-			void MoveLeft(GLfloat);
-			void MoveFront(GLfloat);
-			void RotateLeft(GLfloat);
-			void RotateUp(GLfloat);
-			glm::mat4 GetViewMatrix();
-	};*/
-	
 	/*Implementing the FP camera*/
 	class FirstPersonCamera /*: public Camera*/{ 
 		private:
