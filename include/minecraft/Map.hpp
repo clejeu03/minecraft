@@ -25,9 +25,10 @@ namespace minecraft {
 			size_t m_height;
 			size_t m_depth;
 			std::map<MapCoords,CubeInstance> m_data;
+			bool m_refresh;
 
 		public:
-			Map() : m_width(0), m_height(0), m_depth(0) {}
+			Map() : m_width(0), m_height(0), m_depth(0), m_refresh(true) {}
 			inline size_t GetSizeW() { return m_width; }
 			inline size_t GetSizeH() { return m_height; }
 			inline size_t GetSizeD() { return m_depth; }
@@ -53,6 +54,8 @@ namespace minecraft {
 			
 			void Draw() const;
 			void Draw(MatrixStack&, GLuint) const;
+
+			inline bool checkForRefresh(){ return m_refresh;}
 
 			std::vector<MapCoords> GetPositions() const;
 	};
