@@ -107,6 +107,7 @@ namespace minecraft{
 				}
 				
 			}else if (mode==0){
+				AddInInventory(m_world->GetByPixel(currentPosition.x,currentPosition.y,currentPosition.z));
 				m_world->DelByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
 				
 				

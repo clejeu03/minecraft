@@ -46,29 +46,24 @@ namespace minecraft {
 			if (document.ParseInsitu<0>(buffer).HasParseError()){
 				std::cout << "can't parse the map file : " << document.ParseInsitu<0>(buffer).GetParseError() << std::endl;
 			}else{
-				std::cout << " Parsing to document succeeded. " << std::endl;
 				
 				printf("\nMap specifications:\n");
 				assert(document.IsObject());
 
 				assert(document.HasMember("name"));
 				assert(document["name"].IsString());
-				std::cout << " name = " << document["name"].GetString() << std::endl;
 
 				assert(document["width"].IsNumber());
 				assert(document["width"].IsInt());
 				width = document["width"].GetInt();
-				std::cout << " width = " << document["width"].GetInt() << std::endl;
 
 				assert(document["height"].IsNumber());
 				assert(document["height"].IsInt());
 				height = document["height"].GetInt();
-				std::cout << " height = " << document["height"].GetInt() << std::endl;
 
 				assert(document["depth"].IsNumber());
 				assert(document["depth"].IsInt());
 				depth = document["depth"].GetInt();
-				std::cout << " depth= " << document["depth"].GetInt() << std::endl;
 
 				/*Generating the map*/
  				m_map->Resize(width, height, depth);
@@ -339,4 +334,6 @@ namespace minecraft {
 		fclose (file);
 
 	}
+
+	
 }

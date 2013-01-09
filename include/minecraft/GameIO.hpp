@@ -14,6 +14,7 @@ namespace minecraft {
 			Map* m_map;
 			Character* m_character;
 			std::map<std::string,Cube*>* m_gameObjects;
+
 		public:
 			GameIO() {};
 			GameIO(char* filePath) { m_file = filePath; }

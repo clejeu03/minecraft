@@ -50,6 +50,7 @@ int main(int argc, char* argv[]) {
     /// CREATION OF THE RESSOURCES
     minecraft::Character player(glm::vec3(1.8,3,1.8));
     minecraft::Map map;
+    minecraft::Inventory inventory;
 
 	minecraft::GraphicEngine graphicEng;
 	graphicEng.StartGL();
@@ -75,6 +76,7 @@ int main(int argc, char* argv[]) {
     minecraft::GameEngine gameEng;
     gameEng.SetCharacter(&player);
 	gameEng.SetMap(&map);
+	gameEng.SetInventory(&inventory);
     
 
      // Hide Cursor

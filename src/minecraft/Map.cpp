@@ -17,18 +17,6 @@ namespace minecraft {
 		return std::get<0>(res->second);
 	}
 	
-	Cube* Map::GetByPixel(GLfloat x, GLfloat y, GLfloat z) throw(std::out_of_range) {
-		if( x/Cube::m_size >= m_width || x < 0 ||
-		y/Cube::m_size >= m_height || y < 0 ||
-		z/Cube::m_size >= m_depth || z < 0 )
-			throw std::out_of_range("Position is out of the map");
-		
-		ItCubeInstance res = m_data.find(MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size)));
-		if( res == m_data.end() )
-			return NULL;
-		
-		return std::get<0>(res->second);
-	}
 	
 	void Map::Set(size_t x, size_t y, size_t z, Cube* cube) throw(std::out_of_range) {
 		if( x > m_width || x < 0 ||
@@ -75,17 +63,6 @@ namespace minecraft {
 			z+=cubeSize*0.5;
 			SetByPixel(x,y,z, Get(15,25,15));
 		}
-	}
-	
-	size_t Map::GetSizeW(){
-		return m_width;
-	}
-	size_t Map::GetSizeH(){
-		return m_height;
-	}
-	size_t Map::GetSizeD(){
-		return m_depth;
-
 	}
 	
 	bool Map::Exists(size_t x, size_t y, size_t z) throw(std::out_of_range) {
@@ -142,7 +119,6 @@ namespace minecraft {
 			cube->second = std::make_tuple(pointer,false);
 		}
 	}
-	
 
 	Cube* Map::GetByPixel(GLfloat x, GLfloat y, GLfloat z) throw(std::out_of_range) {
 		if( x/Cube::m_size >= m_width || x < 0 ||
@@ -150,10 +126,12 @@ namespace minecraft {
 		z/Cube::m_size >= m_depth || z < 0 )
 			throw std::out_of_range("Position is out of the map");
 		
-		//Cube doesn't exist	
-		if( m_data.find(MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))) == m_data.end() ){return NULL;}
-
-		return m_data[MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size))];
+		ItCubeInstance res = m_data.find(MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size)));
+		if( res == m_data.end() )
+			return NULL;
+		
+		return std::get<0>(res->second);
+	}
 
 	/* Update the visibility of a cube x,y,z and its neighbourhood if we
 	 * add or remove it */

@@ -43,7 +43,7 @@ namespace minecraft {
 			void Del(size_t,size_t,size_t) throw(std::out_of_range);
 			void DelByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
 			void FakeCreation(GLfloat,GLfloat,GLfloat);
-			
+
 			bool Exists(size_t,size_t,size_t) throw(std::out_of_range);
 			bool ExistsByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
 			

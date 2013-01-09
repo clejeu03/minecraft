@@ -13,12 +13,18 @@
 #include <minecraft/Character.hpp>
 
 namespace minecraft {
+
+	typedef std::map<std::string, int>::iterator ItInventory;
+	typedef std::map<std::string,Cube*>::iterator ItGameObjects;
+
+
 	class GraphicEngine {
 		private:
 			TextureManager m_textureMgr;
 			ShapeManager m_shapeMgr;
 			Map* m_world;
 			std::map<std::string,Cube*> m_gameObjects;
+			std::map<std::string, int> m_inventory;
 			GLuint m_uniformTransformLocation;
 			GLuint m_uniform2dMode;
 			GLuint m_uniformSunColor;
@@ -43,6 +49,9 @@ namespace minecraft {
 			void DrawCursor();
 			inline void OpenInventory() { m_displayInventory = true; }
 			void DrawInventory();
+			std::string GetCubeType(Cube* cube);
+			void AddInInventory(Cube* cube) throw(std::invalid_argument);
+			void RemoveFromInventory(std::string cubeType) throw(std::invalid_argument);
 	};
 }
 

@@ -107,7 +107,49 @@ namespace minecraft {
 		glBindVertexArray(0);
 		
 		glUniform1i(m_uniform2dMode, 0);
-		
-		 
+			 
 	}
+
+	std::string GraphicEngine::GetCubeType(Cube* cube){
+
+		for (std::map<std::string,Cube*>::iterator ItGameObjects = m_gameObjects.begin(); ItGameObjects != m_gameObjects.end(); ++ItGameObjects){
+			if(ItGameObjects->second == cube){
+				return ItGameObjects->first;
+			}
+
+		}
+
+	}
+
+	void GraphicEngine::AddInInventory(Cube* cube) throw(std::invalid_argument){
+		if (cube == NULL)
+			throw std::invalid_argument("Non recognized type of cube");
+
+		std::string cubeType;
+		cubeType = GetCubeType(cube);
+
+		/*If there's not corresponding cube*/	
+		if(m_inventory.find(cubeType) == m_inventory.end()){
+			m_inventory.insert ( std::pair<std::string,int>(cubeType,1) );
+		}
+		/*If there is already the same type of cube */
+		else{
+			m_inventory.find(cubeType)->second ++;
+		}
+	}
+ 
+	/*void Inventory::RemoveFromInventory(std::string cubeType) throw(std::invalid_argument){
+
+		if(m_inventory.find(cubeType) == m_inventory.end()){
+			throw std::invalid_argument("Your inventory doesn't contain this sort of cube");
+		}
+		/*Case there are many elements in the inventory
+		else if(m_inventory.find(cubeType)->second != 1 ){
+			m_inventory.find(cubeType)->second --;	
+
+		/*Case it's the last one of this type	
+		}else{
+			m_inventory.erase(m_inventory.find(CubeType));
+		}
+	}*/
 }
