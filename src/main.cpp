@@ -46,17 +46,7 @@ int main(int argc, char* argv[]) {
 		fprintf(stderr, "Unable to initialize audio: %s\n", Mix_GetError());
 		exit(1);
 	}
-	
-	// Load sounds
-	minecraft::Sound steps;
-	steps.load("data/sounds/steps.ogg");
-	minecraft::Sound buildCube;
-	buildCube.load("data/sounds/build.ogg");
-	minecraft::Sound breakCube;
-	breakCube.load("data/sounds/break.ogg");
-	
-	//----SOUND---
-	
+
 	// Window and GL context
 	SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
 	
@@ -100,6 +90,7 @@ int main(int argc, char* argv[]) {
     minecraft::GameEngine gameEng;
     gameEng.SetCharacter(&player);
 	gameEng.SetMap(&map);
+	gameEng.InitializeSound();
     
     /*Keys pressed*/
 	bool keyZ=0;
@@ -146,15 +137,12 @@ int main(int argc, char* argv[]) {
 			
 			if(e.type ==  SDL_MOUSEBUTTONDOWN){
 				if(e.button.button==SDL_BUTTON_LEFT){
-					//Add
-					buildCube.play();
-					gameEng.aimCube(1);
-					
+					//Delete
+					gameEng.aimCube(0);
 				}
 				if(e.button.button==SDL_BUTTON_RIGHT){
-					//Delete
-					breakCube.play();
-					gameEng.aimCube(0);
+					//Add
+					gameEng.aimCube(1);
 				}
 			}
 			
@@ -227,11 +215,10 @@ int main(int argc, char* argv[]) {
 		
 		// Footsteps
 		if(keyZ||keyQ||keyS||keyD){
-			if (!steps.playing()){
-				steps.play(1);
-			}
+			gameEng.walkSound();
+
 		}else{
-			steps.stop();
+			gameEng.walkSoundStop();
 		}
 		
 		//Move player

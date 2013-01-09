@@ -1,5 +1,6 @@
 #include <minecraft/GameEngine.hpp>
 #include <iostream>
+#include <minecraft/Sound.hpp>
 
 namespace minecraft{
 	
@@ -65,8 +66,13 @@ namespace minecraft{
 			velocity += gravity;
 			m_character->setPosition(glm::vec3(m_character->position().x,m_character->position().y-velocity,m_character->position().z));
 		}
+		if (velocity>0.22){
+			if(!scream.playing()){
+				scream.play();
+			}
+		}
 		if (velocity>0.3){
-			m_character->setPosition(glm::vec3(1.8,3,1.8));
+			m_character->setPosition(glm::vec3(1.8,3.5,1.8));
 			velocity=0;
 		}
 	}
@@ -106,15 +112,33 @@ namespace minecraft{
 				//Deletes immediately if it collides
 				if (collideSides()){
 					m_world->DelByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
+				}else{
+					buildCube.play();
 				}
 				
 			}else if (mode==0){
 				m_world->DelByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
-				
+				breakCube.play();
 			}
 		}
 		return 1;
 	}
 
-
+	void GameEngine::InitializeSound(){
+		// Load sounds
+		steps.load(1,"data/sounds/steps.ogg");
+		buildCube.load(2,"data/sounds/build.ogg");
+		breakCube.load(3,"data/sounds/break.wav");
+		scream.load(4,"data/sounds/scream.wav");
+	}
+	
+	void GameEngine::walkSound(){
+		if (!steps.playing()){
+			steps.play(1);//loop
+		}
+	}
+	
+	void GameEngine::walkSoundStop(){
+		steps.stop();
+	}
 }

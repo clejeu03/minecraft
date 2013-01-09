@@ -17,42 +17,34 @@ namespace minecraft {
 			Sound(){
 				sound=NULL;
 			}
-			void load(char* file){
+			void load(int channelIndex, char* file){
+				channel=channelIndex;
 				sound = Mix_LoadWAV(file);
 				if(sound == NULL) {
-					fprintf(stderr, "Unable to load WAV file: %s\n", Mix_GetError());
+					std::cout<<"Unable to load file: %s\n"<< Mix_GetError()<<std::endl;
 				}
 			}
 			
 			void play(){	
-				channel = Mix_PlayChannel(-1, sound, 0);
-				fprintf(stderr, "play ");
-
-				if(channel == -1) {
-					fprintf(stderr, "Unable to play WAV file: %s\n", Mix_GetError());
-				}
+				Mix_PlayChannel(channel, sound, 0);
 			}
 			
 			void play(int loop){	 
-				channel = Mix_PlayChannel(-1, sound, -1);
-				if(channel == -1) {
-					fprintf(stderr, "Unable to play WAV file: %s\n", Mix_GetError());
-				}
+				Mix_PlayChannel(channel, sound, -1);
 			}
 			
 			void stop(){	 
 				Mix_HaltChannel(channel);
-				//fprintf(stderr, "stop\n");
 			}
 			
 			bool playing(){
 				return Mix_Playing(channel);
 			}
 			
-			/*~Sound{
+			~Sound(){
 				Mix_FreeChunk(sound);
-				sample=NULL;
-			}*/
+				sound=NULL;
+			}
 	};
 }
 

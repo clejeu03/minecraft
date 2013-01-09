@@ -9,6 +9,7 @@
 #include <glm/glm.hpp>
 #include <minecraft/Map.hpp>
 #include <minecraft/Character.hpp>
+#include <minecraft/Sound.hpp>
 
 namespace minecraft {
 	class GameEngine {
@@ -17,6 +18,12 @@ namespace minecraft {
 			Character* m_character;
 			GLfloat gravity;
 			GLfloat velocity;
+			
+			//A few sounds
+			Sound steps;
+			Sound buildCube;
+			Sound breakCube;
+			Sound scream;
 			
 		public:
 			GameEngine();
@@ -27,6 +34,9 @@ namespace minecraft {
 			void processGravity(bool formerCollide);
 			void jump();
 			bool aimCube(int);
+			void InitializeSound();
+			void walkSound();
+			void walkSoundStop();
 	};
 }
 

@@ -11,12 +11,13 @@ out vec4 fFragColor;
 
 void main() {
 	vec4 vTexColor = texture(uTexture, vTexCoords);
-	if( vEnlight == 1 ) {
+	if( vEnlight==1 ) {
 		vec4 vTexColor = texture(uTexture, vTexCoords);
 		vec4 prePixel = vTexColor*(vLightedPixel);
 		fFragColor = vec4(prePixel.x,prePixel.y,prePixel.z,vTexColor.w);
 	}
-	else
+	else{
 		fFragColor = vTexColor;
+	}
 }
 

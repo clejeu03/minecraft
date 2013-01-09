@@ -45,9 +45,9 @@ namespace minecraft {
 		
 		// Create sunlight
 		struct DirectionalLight sun;
-		sun.direction=glm::vec3(0.2,-1,0.3);
-		sun.ambient=0.1;
-		sun.intensity=0.8;
+		sun.direction=glm::vec3(0.2,-1,-0.5);
+		sun.ambient=0.2;
+		sun.intensity=1;
 		// Uniform variables linked to the sun
 		glUniform3f(m_uniformSunDirection, sun.direction.x, sun.direction.y, sun.direction.z);
 		glUniform1f(m_uniformSunAmbient, sun.ambient);
@@ -55,7 +55,7 @@ namespace minecraft {
 		
 		// Create point light
 		struct PointLight light;
-		light.position=glm::vec3(1.8,2.8,1.8);
+		light.position=glm::vec3(0,500,0);
 		light.intensity=1;
 		light.decay=glm::vec3(0.5,0.5,0.5); // Decay : constant,linear,quadratic
 		// Uniform variables linked to the light
