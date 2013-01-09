@@ -180,7 +180,75 @@ namespace minecraft {
 	}
 	
 	void ShapeManager::SetBuffer(const char* type, std::vector<MapCoords> cubeCoords) {
+		GLuint vao = GetShapeVAO(std::string(type));
+		GLuint vbo = m_VAOVBOs[vao];
+		int positionNumComponents = Vertex::GetPositionNumComponents();
+		size_t shapeNbVertices = GetShapeNbVertices(std::string(type));
+		int normalNumComponents = Vertex::GetNormalNumComponents();
+		int textureNumComponents = Vertex::GetTextureNumComponents();
 
+		GLfloat* positionCoords = new GLfloat[positionNumComponents * shapeNbVertices];
+		GLfloat* normalsCoords = new GLfloat[normalNumComponents * shapeNbVertices];
+		GLfloat* textCoords = new GLfloat[textureNumComponents * shapeNbVertices];
+
+		GLfloat* instancePositions = new GLfloat[m_data.size() * positionNumComponents];
+
+		typedef std::map<MapCoords,Cube*>::const_iterator ItType;
+		int i = 0;
+		size_t cubeCount = cubeCoords.size();
+		for(i = 0; i<cubeCount; ++i) {
+			instancePositions[positionNumComponents*i] = std::get<0>(cubeCoords[i]) * Cube::m_size;
+			instancePositions[positionNumComponents*i+1] = std::get<1>(cubeCoords[i]) * Cube::m_size;
+			instancePositions[positionNumComponents*i+2] = std::get<2>(cubeCoords[i]) * Cube::m_size;
+		}
+
+		Vertex* vertices = GetShapeVertices(std::string(type));
+
+		for(int i=0; i<shapeNbVertices; ++i) {
+			positionCoords[positionNumComponents*i] = vertices[i].position.x;
+			positionCoords[positionNumComponents*i+1] = vertices[i].position.y;
+			positionCoords[positionNumComponents*i+2] = vertices[i].position.z;
+
+			normalsCoords[normalNumComponents*i] = vertices[i].normal.x;
+			normalsCoords[normalNumComponents*i+1] = vertices[i].normal.y;
+			normalsCoords[normalNumComponents*i+2] = vertices[i].normal.z;
+
+			textCoords[textureNumComponents*i] = vertices[i].textureXY.x;
+			textCoords[textureNumComponents*i+1] = vertices[i].textureXY.y;
+		}
+
+		size_t sizeofPositionCoords = positionNumComponents * shapeNbVertices * sizeof(GLfloat);
+		size_t sizeofNormalsCoords = normalNumComponents * shapeNbVertices * sizeof(GLfloat);
+		size_t sizeofTextCoords = textureNumComponents * shapeNbVertices * sizeof(GLfloat);
+		size_t sizeofInstancePositions = m_data.size() * positionNumComponents * sizeof(GLfloat);
+
+	    std::cout << "sizeofPositionCoords = " << sizeofPositionCoords << std::endl;
+	    std::cout << "sizeofNormalsCoords = " << sizeofNormalsCoords << std::endl;
+	    std::cout << "sizeofTextCoords = " << sizeofTextCoords << std::endl;
+	    std::cout << "sizeofInstancePositions = " << sizeofInstancePositions << std::endl;
+
+	    glBindVertexArray(vao);
+		    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			    glBufferData(GL_ARRAY_BUFFER, sizeofPositionCoords + sizeofNormalsCoords + sizeofTextCoords + sizeofInstancePositions, NULL, GL_STATIC_DRAW);
+			    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeofPositionCoords, positionCoords);
+			    glBufferSubData(GL_ARRAY_BUFFER, sizeofPositionCoords, sizeofNormalsCoords, normalsCoords);
+			    glBufferSubData(GL_ARRAY_BUFFER, sizeofPositionCoords + sizeofNormalsCoords, sizeofTextCoords, textCoords);
+			    glBufferSubData(GL_ARRAY_BUFFER, sizeofPositionCoords + sizeofNormalsCoords + sizeofTextCoords, sizeofInstancePositions, instancePositions);
+
+			    glVertexAttribPointer(0, positionNumComponents, Vertex::GetDataType(), GL_FALSE, 0, 0);
+			    glVertexAttribPointer(1, normalNumComponents, Vertex::GetDataType(), GL_FALSE, 0, (GLvoid *)sizeofPositionCoords);
+			    glVertexAttribPointer(2, textureNumComponents, Vertex::GetDataType(), GL_FALSE, 0, (GLvoid *)(sizeofPositionCoords + sizeofNormalsCoords));
+			    glVertexAttribPointer(3, positionNumComponents, Vertex::GetDataType(), GL_FALSE, 0, (GLvoid *)(sizeofPositionCoords + sizeofNormalsCoords + sizeofTextCoords));
+
+			    glEnableVertexAttribArray(0);
+			    glEnableVertexAttribArray(1);
+			    glEnableVertexAttribArray(2);
+			    glEnableVertexAttribArray(3);
+
+			    glVertexAttribDivisor(3, 1);
+
+			glBindBuffer(GL_ARRAY_BUFFER,0);	
+    	glBindVertexArray(0);
 	}
 
 	void ShapeManager::LoadShapes() {
@@ -194,47 +262,10 @@ namespace minecraft {
 		// Gen VBO
 		GLuint vbo;
 		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, shape.GetByteSize(), shape.vertices, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		
 		// Gen VAO
 		GLuint vao;
 		glGenVertexArrays(1,&vao);
-		glBindVertexArray(vao);
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glEnableVertexAttribArray(2);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-			glVertexAttribPointer(0,
-				Vertex::GetPositionNumComponents(),
-				Vertex::GetDataType(),
-				GL_FALSE,
-				Vertex::GetByteSize(),
-				Vertex::GetPositionOffset());
-			glVertexAttribPointer(1,
-				Vertex::GetNormalNumComponents(),
-				Vertex::GetDataType(),
-				GL_FALSE,
-				Vertex::GetByteSize(),
-				Vertex::GetNormalOffset());
-			glVertexAttribPointer(2,
-				Vertex::GetTextureNumComponents(),
-				Vertex::GetDataType(),
-				GL_FALSE,
-				Vertex::GetByteSize(),
-				Vertex::GetTextureOffset());
-		glBindBuffer(GL_ARRAY_BUFFER,0);	
-		glBindVertexArray(0);
-
-		// Deleting the old shape for this game object
-		if( m_shapeVAOs.find(shapeName) != m_shapeVAOs.end() ) {
-			GLuint oldVao = m_shapeVAOs[shapeName];
-			// Delete VBO
-			glDeleteBuffers(1,&(m_VAOVBOs[oldVao]));
-			// Delete VAO
-			glDeleteVertexArrays(1,&oldVao);
-		}
 
 		// Save the vao and vbo
 		m_shapeVAOs[shapeName] = vao;
