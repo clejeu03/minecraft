@@ -7,7 +7,12 @@ namespace minecraft{
 		gravity=0.003;
 		velocity=0;
 	}
-	
+	/*
+	Sound buildCube;
+	buildCube.load("data/build.ogg");
+	Sound breakCube;
+	breakCube.load("data/break.ogg");
+	*/
 	bool GameEngine::collideBottom(){
 		//For this version let's consider that the box's base is never bigger than a cube : 4 cubes to test only (vertices of the base square)
 		glm::vec3 position=m_character->position();

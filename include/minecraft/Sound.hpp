@@ -24,8 +24,10 @@ namespace minecraft {
 				}
 			}
 			
-			void play(){	 
+			void play(){	
 				channel = Mix_PlayChannel(-1, sound, 0);
+				fprintf(stderr, "play ");
+
 				if(channel == -1) {
 					fprintf(stderr, "Unable to play WAV file: %s\n", Mix_GetError());
 				}
@@ -40,6 +42,7 @@ namespace minecraft {
 			
 			void stop(){	 
 				Mix_HaltChannel(channel);
+				//fprintf(stderr, "stop\n");
 			}
 			
 			bool playing(){

@@ -50,10 +50,7 @@ int main(int argc, char* argv[]) {
 	// Load sounds
 	minecraft::Sound steps;
 	steps.load("data/steps.ogg");
-	minecraft::Sound buildCube;
-	buildCube.load("data/build.ogg");
-	minecraft::Sound breakCube;
-	breakCube.load("data/break.ogg");
+
 	
 	//----SOUND
 	
@@ -147,13 +144,14 @@ int main(int argc, char* argv[]) {
 			if(e.type ==  SDL_MOUSEBUTTONDOWN){
 				if(e.button.button==SDL_BUTTON_LEFT){
 					//Add
-					gameEng.aimCube(1);
 					buildCube.play();
+					gameEng.aimCube(1);
+					
 				}
 				if(e.button.button==SDL_BUTTON_RIGHT){
 					//Delete
-					gameEng.aimCube(0);
 					breakCube.play();
+					gameEng.aimCube(0);
 				}
 			}
 			
@@ -255,7 +253,7 @@ int main(int argc, char* argv[]) {
 		if(elapsedTime < FPS) {
 			SDL_Delay(FPS - elapsedTime);
 		}
-		std::cout << "framerate : " << 1000./elapsedTime << std::endl;
+		//std::cout << "framerate : " << 1000./elapsedTime << std::endl;
 		
     }
     
