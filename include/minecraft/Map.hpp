@@ -55,9 +55,9 @@ namespace minecraft {
 			void Draw() const;
 			void Draw(MatrixStack&, GLuint) const;
 
-			inline bool checkForRefresh(){ return m_refresh;}
+			inline bool CheckForRefresh(){ return m_refresh;}
 
-			std::vector<MapCoords> GetPositions() const;
+			std::vector<MapCoords> GetPositions(const char*) const;
 	};
 }
 

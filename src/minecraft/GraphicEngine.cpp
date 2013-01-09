@@ -94,9 +94,10 @@ namespace minecraft {
 		if( NULL == m_character || NULL == m_world )
 			throw std::logic_error("Can't display game without setting the map and the character");
 		
-		if(m_world->CheckForRefresh()) {
-			//setup vbo
-		}
+		/*if(m_world->CheckForRefresh()) {
+			//setup cubes vbo
+		}*/
+		//m_ShapeMgr.SetBuffer(std::string("CloudCube"), m_world->GetPositions(std::string("CloudCube")));
 		m_transformStack.Push();
 			m_transformStack.Set(m_perspectiveMatrix*m_character->GetPointOfView());
 			m_world->Draw(m_transformStack,m_uniformTransformLocation);
