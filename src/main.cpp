@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 	minecraft::Sound breakCube;
 	breakCube.load("data/sounds/break.ogg");
 	
-	//----SOUND
+	//----SOUND---
 	
 	// Window and GL context
 	SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
