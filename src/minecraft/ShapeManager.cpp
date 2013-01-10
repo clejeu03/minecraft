@@ -252,9 +252,9 @@ namespace minecraft {
 		typedef std::map<MapCoords,Cube*>::const_iterator ItType;
 		int i = 0;
 		for(i = 0; i<cubesCount; ++i) {
-			instancePositions[positionNumComponents*i] = std::get<0>(cubeCoords[i]) * Cube::m_size;
-			instancePositions[positionNumComponents*i+1] = std::get<1>(cubeCoords[i]) * Cube::m_size;
-			instancePositions[positionNumComponents*i+2] = std::get<2>(cubeCoords[i]) * Cube::m_size;
+			instancePositions[positionNumComponents*i] = std::get<0>(cubeCoords[i]);
+			instancePositions[positionNumComponents*i+1] = std::get<1>(cubeCoords[i]);
+			instancePositions[positionNumComponents*i+2] = std::get<2>(cubeCoords[i]);
 			//std::cout << "Cube[" << i << "] = (" << instancePositions[positionNumComponents*i] << "," << instancePositions[positionNumComponents*i+1] << "," << instancePositions[positionNumComponents*i+2] << ")" << std::endl;
 		}
 

@@ -183,6 +183,7 @@ namespace minecraft {
 		for(int i=0; i<instanceDatas.size(); ++i) {
 			matrixStack.Push();
 				matrixStack.Scale(glm::vec3(cubeSize));
+				matrixStack.Translate(glm::vec3(0.0,0.0,0.0));
 				glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrixStack.Top()));
 			matrixStack.Pop();
 			glActiveTexture(GL_TEXTURE0);
