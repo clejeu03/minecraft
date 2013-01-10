@@ -60,6 +60,28 @@ namespace minecraft {
 		public:
 			CrystalCube(){ m_name = "CrystalCube"; }
 	};
+
+	class DirtCube : public PhysicCube {
+		public:
+			DirtCube(){ m_name = "DirtCube"; }
+	};
+
+	class GoldCube : public PhysicCube {
+		public:
+			GoldCube(){ m_name = "GoldCube"; }
+	};
+
+	class DiamondCube : public PhysicCube {
+		public:
+			DiamondCube(){ m_name = "DiamondCube"; }
+	};
+
+	class GrassCube : public PhysicCube {
+		public:
+			GrassCube(){ m_name = "GrassCube"; }
+	};
+
+
 }
 
 #endif

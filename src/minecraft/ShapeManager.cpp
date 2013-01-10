@@ -38,6 +38,10 @@ namespace minecraft {
 		m_shapes[std::string("CrystalCube")] = Shape(36);
 		m_shapes[std::string("CloudCube")] = Shape(36);
 		m_shapes[std::string("RockCube")] = Shape(36);
+		m_shapes[std::string("GrassCube")] = Shape(36);
+		m_shapes[std::string("DirtCube")] = Shape(36);
+		m_shapes[std::string("DiamondCube")] = Shape(36);
+		m_shapes[std::string("GoldCube")] = Shape(36);
 
 		//Face gauche
 		m_shapes[std::string("Cube")].vertices[0] = Vertex(-0.5,-0.5,-0.5, -1.0, 0.0, 0.0, 0.0, 1.0);
@@ -100,10 +104,14 @@ namespace minecraft {
 		m_shapes[std::string("Cube")].vertices[32] = Vertex(-0.5, 0.5, 0.5, 0.0, 1.0, 0.0, 0.0, 1.0);
 		
 
-		///CrystalCube
+		///Cubes
 		m_shapes[std::string("CrystalCube")] = m_shapes[std::string("Cube")];
-		m_shapes[std::string("RockCube")] = m_shapes[std::string("Cube")];
 		m_shapes[std::string("CloudCube")] = m_shapes[std::string("Cube")];
+		m_shapes[std::string("RockCube")] = m_shapes[std::string("Cube")];
+		m_shapes[std::string("GrassCube")] = m_shapes[std::string("Cube")];
+		m_shapes[std::string("DirtCube")] = m_shapes[std::string("Cube")];
+		m_shapes[std::string("DiamondCube")] = m_shapes[std::string("Cube")];
+		m_shapes[std::string("GoldCube")] = m_shapes[std::string("Cube")];
 		
 		/// SkyBox
 		m_shapes[std::string("SkyBox")] = Shape(36);

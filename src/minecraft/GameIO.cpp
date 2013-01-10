@@ -343,7 +343,7 @@ namespace minecraft {
 			ontop = m_map->Exists(x,y+1,z);
 			if(value == 1 && ontop == 0){
 				std::map<std::string,Cube*> dictionary = *m_gameObjects;
-				m_map->Set(x,y,z,dictionary[std::string("CloudCube")]);
+				m_map->Set(x,y,z,dictionary[std::string("GrassCube")]);
 			}
 		}}}
 	}
@@ -353,10 +353,10 @@ namespace minecraft {
 		foreach_xyz(0, size)
 			cube = m_map->Get(x,y,z);
 			if(cube!=NULL){
-				if(cube->GetName() == "RockCube"){
+				if(cube->GetName() == "GoldCube"){
 					if(simplex_noise(3, xf*10+3, yf*10+3, zf*10+3)>3.65){
 						std::map<std::string,Cube*> dictionary = *m_gameObjects;
-						m_map->Set(x,y,z,dictionary[std::string("CloudCube")]); //Gold
+						m_map->Set(x,y,z,dictionary[std::string("GoldCube")]); //Gold
 					}
 				}
 			}
@@ -370,11 +370,11 @@ namespace minecraft {
 			cube = m_map->Get(x,y,z);
 			distance = sqrt(pow((xf-0.5), 2) + pow((yf-0.7), 2) + pow((zf-0.5), 2));
 			if(cube!=NULL){
-				if(cube->GetName() == "RockCube"){
+				if(cube->GetName() == "DiamondCube"){
 					n = simplex_noise(3, xf*10+4, yf*10+4, zf*10+4);
 					if(n > 3.2 && distance < 0.1){
 						std::map<std::string,Cube*> dictionary = *m_gameObjects;
-						m_map->Set(x,y,z,dictionary[std::string("CloudCube")]); //Diamond or anything
+						m_map->Set(x,y,z,dictionary[std::string("DiamondCube")]); //Diamond or anything
 					}
 				}
 			}

@@ -73,6 +73,11 @@ namespace minecraft {
 		m_gameObjects[std::string("CloudCube")] = new CloudCube();
 		m_gameObjects[std::string("CrystalCube")] = new CrystalCube();
 		m_gameObjects[std::string("RockCube")] = new RockCube();
+		m_gameObjects[std::string("GrassCube")] = new GrassCube();
+		m_gameObjects[std::string("DirtCube")] = new DirtCube();
+		m_gameObjects[std::string("DiamondCube")] = new DiamondCube();
+		m_gameObjects[std::string("GoldCube")] = new GoldCube();
+
 		// Init and assign the shapes
 		m_shapeMgr.LoadShapes();
 		//---- instanciated rendering object
@@ -84,6 +89,15 @@ namespace minecraft {
 		m_gameObjects[std::string("CrystalCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("CrystalCube")));
 		m_gameObjects[std::string("RockCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("RockCube")));
 		m_gameObjects[std::string("RockCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("RockCube")));
+		m_gameObjects[std::string("GrassCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("GrassCube")));
+		m_gameObjects[std::string("GrassCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("GrassCube")));
+		m_gameObjects[std::string("DirtCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("DirtCube")));
+		m_gameObjects[std::string("DirtCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("DirtCube")));
+		m_gameObjects[std::string("DiamondCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("DiamondCube")));
+		m_gameObjects[std::string("DiamondCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("DiamondCube")));
+		m_gameObjects[std::string("GoldCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("GoldCube")));
+		m_gameObjects[std::string("GoldCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("GoldCube")));
+
 		//---- simple rendering
 		m_shapeMgr.SetBuffer("Cursor");
 		m_shapeMgr.SetBuffer("SkyBox");
