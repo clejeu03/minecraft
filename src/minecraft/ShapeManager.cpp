@@ -211,8 +211,10 @@ namespace minecraft {
 			instancePositions[positionNumComponents*i] = std::get<0>(cubeCoords[i]) * Cube::m_size;
 			instancePositions[positionNumComponents*i+1] = std::get<1>(cubeCoords[i]) * Cube::m_size;
 			instancePositions[positionNumComponents*i+2] = std::get<2>(cubeCoords[i]) * Cube::m_size;
+			//std::cout << "Cube[" << i << "] = (" << instancePositions[positionNumComponents*i] << "," << instancePositions[positionNumComponents*i+1] << "," << instancePositions[positionNumComponents*i+2] << ")" << std::endl;
 		}
 
+		//exit(EXIT_SUCCESS);
 		Vertex* vertices = m_shapes[std::string(type)].vertices;
 
 		for(int i=0; i<shapeNbVertices; ++i) {
@@ -233,7 +235,7 @@ namespace minecraft {
 		size_t sizeofTextCoords = textureNumComponents * shapeNbVertices * sizeof(GLfloat);
 		size_t sizeofInstancePositions = cubesCount * positionNumComponents * sizeof(GLfloat);
 
-	    std::cout << "cubesCount = " << cubesCount << std::endl;
+	    /*std::cout << "cubesCount = " << cubesCount << std::endl;
 	    std::cout << "shapeNbVertices = " << shapeNbVertices << std::endl;
 	    std::cout << "positionNumComponents = " << positionNumComponents << std::endl;
 	    std::cout << "normalNumComponents = " << normalNumComponents << std::endl;
@@ -241,9 +243,9 @@ namespace minecraft {
 	    std::cout << "sizeofPositionCoords = " << sizeofPositionCoords << std::endl;
 	    std::cout << "sizeofNormalsCoords = " << sizeofNormalsCoords << std::endl;
 	    std::cout << "sizeofTextCoords = " << sizeofTextCoords << std::endl;
-	    std::cout << "sizeofInstancePositions = " << sizeofInstancePositions << std::endl;
+	    std::cout << "sizeofInstancePositions = " << sizeofInstancePositions << std::endl;*/
 
-	    exit(EXIT_SUCCESS);
+	    //exit(EXIT_SUCCESS);
 	    glBindVertexArray(vao);
 		    glBindBuffer(GL_ARRAY_BUFFER, vbo);
 			    glBufferData(GL_ARRAY_BUFFER, sizeofPositionCoords + sizeofNormalsCoords + sizeofTextCoords + sizeofInstancePositions, NULL, GL_STATIC_DRAW);
