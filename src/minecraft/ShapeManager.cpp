@@ -35,6 +35,9 @@ namespace minecraft {
 	ShapeManager::ShapeManager() {
 		/// Cube
 		m_shapes[std::string("cube")] = Shape(36);
+		m_shapes[std::string("CrystalCube")] = Shape(36);
+		m_shapes[std::string("CloudCube")] = Shape(36);
+		m_shapes[std::string("RockCube")] = Shape(36);
 
 		//Face gauche
 		m_shapes[std::string("cube")].vertices[0] = Vertex(-0.5,-0.5,-0.5, -1.0, 0.0, 0.0, 0.0, 1.0);
@@ -230,11 +233,17 @@ namespace minecraft {
 		size_t sizeofTextCoords = textureNumComponents * shapeNbVertices * sizeof(GLfloat);
 		size_t sizeofInstancePositions = cubesCount * positionNumComponents * sizeof(GLfloat);
 
+	    std::cout << "cubesCount = " << cubesCount << std::endl;
+	    std::cout << "shapeNbVertices = " << shapeNbVertices << std::endl;
+	    std::cout << "positionNumComponents = " << positionNumComponents << std::endl;
+	    std::cout << "normalNumComponents = " << normalNumComponents << std::endl;
+	    std::cout << "textureNumComponents = " << textureNumComponents << std::endl;
 	    std::cout << "sizeofPositionCoords = " << sizeofPositionCoords << std::endl;
 	    std::cout << "sizeofNormalsCoords = " << sizeofNormalsCoords << std::endl;
 	    std::cout << "sizeofTextCoords = " << sizeofTextCoords << std::endl;
 	    std::cout << "sizeofInstancePositions = " << sizeofInstancePositions << std::endl;
 
+	    exit(EXIT_SUCCESS);
 	    glBindVertexArray(vao);
 		    glBindBuffer(GL_ARRAY_BUFFER, vbo);
 			    glBufferData(GL_ARRAY_BUFFER, sizeofPositionCoords + sizeofNormalsCoords + sizeofTextCoords + sizeofInstancePositions, NULL, GL_STATIC_DRAW);

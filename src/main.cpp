@@ -220,7 +220,7 @@ int main(int argc, char* argv[]) {
 		currentBottomCollide=gameEng.collideBottom();
 		
 		// Process gravity
-		gameEng.processGravity(formerBottomCollide);
+		//gameEng.processGravity(formerBottomCollide);
 		
 		// Save former position
 		formerPosition = player.position();
