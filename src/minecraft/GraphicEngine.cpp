@@ -130,11 +130,19 @@ namespace minecraft {
 			std::vector<MapCoords> cloudCubes = m_world->GetPositions("CloudCube");
 			std::vector<MapCoords> crystalCubes = m_world->GetPositions("CrystalCube");
 			std::vector<MapCoords> rockCubes = m_world->GetPositions("RockCube");
+			std::vector<MapCoords> grassCubes = m_world->GetPositions("GrassCube");
+			std::vector<MapCoords> dirtCubes = m_world->GetPositions("DirtCube");
+			std::vector<MapCoords> diamondCubes = m_world->GetPositions("DiamondCube");
+			std::vector<MapCoords> goldCubes = m_world->GetPositions("GoldCube");
 
 
 			m_shapeMgr.SetInstanciatedBuffer("CloudCube", cloudCubes);
 			m_shapeMgr.SetInstanciatedBuffer("CrystalCube", crystalCubes);
 			m_shapeMgr.SetInstanciatedBuffer("RockCube", rockCubes);
+			m_shapeMgr.SetInstanciatedBuffer("GrassCube", grassCubes);
+			m_shapeMgr.SetInstanciatedBuffer("DirtCube", dirtCubes);
+			m_shapeMgr.SetInstanciatedBuffer("DiamondCube", diamondCubes);
+			m_shapeMgr.SetInstanciatedBuffer("GoldCube", goldCubes);
 
 			m_world->GetInstanceDatas().push_back(std::make_tuple(
 				m_gameObjects[std::string("CloudCube")]->GetVAOId(),
@@ -153,6 +161,31 @@ namespace minecraft {
 				m_gameObjects[std::string("RockCube")]->GetTexId(),
 				rockCubes.size()
 			));
+
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("GrassCube")]->GetVAOId(),
+				m_gameObjects[std::string("GrassCube")]->GetTexId(),
+				grassCubes.size()
+			));
+
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("DirtCube")]->GetVAOId(),
+				m_gameObjects[std::string("DirtCube")]->GetTexId(),
+				dirtCubes.size()
+			));
+
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("DiamondCube")]->GetVAOId(),
+				m_gameObjects[std::string("DamondCube")]->GetTexId(),
+				diamondCubes.size()
+			));
+
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("GoldCube")]->GetVAOId(),
+				m_gameObjects[std::string("GoldCube")]->GetTexId(),
+				goldCubes.size()
+			));
+
 			m_world->SetRefresh(false);
 		}
 		
