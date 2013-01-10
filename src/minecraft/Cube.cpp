@@ -9,4 +9,5 @@ namespace minecraft {
 		glDrawArrays(GL_TRIANGLES, 0, m_nbVertices);
 		glBindVertexArray(0);
 	}
+	
 }

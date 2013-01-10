@@ -80,6 +80,7 @@ namespace minecraft {
 		m_gameObjects[std::string("RockCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("cube")));
 		m_gameObjects[std::string("RockCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("cube")));
 		// Init and assign the textures
+<<<<<<< HEAD
 		m_textureMgr.LoadTexture("SkyBox","./data/resources/skybox.jpg");
 		m_textureMgr.LoadTexture("Cloud", "./data/resources/cloud.jpg");
 		m_textureMgr.LoadTexture("Crystal", "./data/resources/cloud.jpg");
@@ -90,6 +91,13 @@ namespace minecraft {
 		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Cloud"));
 		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Crystal"));
 		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Rock"));
+=======
+		m_textureMgr.LoadTexture("SkyBox","./skybox.jpg");
+		m_textureMgr.LoadTexture("Cloud", "./data/textures/Cloud.jpg");
+		m_textureMgr.LoadTexture("Crystal", "./cloud.jpg");
+		m_textureMgr.LoadTexture("Rock", "./rock.jpg");
+		m_textureMgr.LoadTexture("Cursor","./cursor.png");
+>>>>>>> 19cd0018f489beb7fbdd657b7ee266a51b9fccc7
 		m_gameObjects[std::string("SkyBoxCube")]->SetTexId(m_textureMgr.GetTextureId("SkyBox"));
 
 	}

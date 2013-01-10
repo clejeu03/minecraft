@@ -19,13 +19,6 @@
                 yf=(float)y/(float)size;\
                 zf=(float)z/(float)size;
 
-#define put(x, y, z, value)\
-    data[\
-        (x)+\
-        (y)*size+\
-        (z)*size*size\
-    ] = value
-
 namespace minecraft {
 	void GameIO::LoadMap() throw(std::logic_error) {
 		if( NULL == m_gameObjects || NULL == m_file )
@@ -101,7 +94,17 @@ namespace minecraft {
 	};
 
 	int perm[512] = {151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180, 151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180};
-
+	
+	void GameIO::AddNoise(int factor){
+		factor=factor%35;
+		for(int i=0; i<factor; i++) {
+			int random = rand() % 35;
+			float temp=grad[(i-i%3)/3][i%3];
+			grad[(i-i%3)/3][i%3]=grad[(random-random%3)/3][random%3];
+			grad[(random-random%3)/3][random%3]=temp;
+		}
+	}
+	
 	float GameIO::dot(float x, float y, float z, float* g){
 	    return x*g[0] + y*g[1] + z*g[2];
 	}
@@ -109,6 +112,8 @@ namespace minecraft {
 	float GameIO::noise(float xin, float yin, float zin){
 	    float F3, G3, t, X0, Y0, Z0, x0, y0, z0, s, x1, y1, z1, x2, y2, z2, x3, y3, z3, t0, t1, t2, t3, n0, n1, n2, n3;
 	    int i, j, k, ii, jj, kk, i1, j1, k1, i2, j2, k2, gi0, gi1, gi2, gi3;
+	    
+	    //AddNoise(5);
 	    
 	    F3 = 1.0/3.0;
 	    s = (xin+yin+zin)*F3;
@@ -219,10 +224,20 @@ namespace minecraft {
 	    return value;
 	}
 
-	void GameIO::GenerateMap(size_t size){
-		m_map->Resize(size, size, size);
+	void GameIO::GenerateIsland(size_t size, float positionx, float positiony, float positionz){
 		float caves, center_falloff, plateau_falloff, density;
-	    foreach_xyz(1, size-1)
+	    //foreach_xyz(1, size-1)
+	    int x, y, z;
+	    int start=1;
+	    int end=size-1;
+		float xf, yf, zf;
+		for(x=(start); x<(end); x++){
+			for(y=(start); y<(end); y++){
+				for(z=(start); z<(end); z++){
+					xf=(float)x/(float)size;
+					yf=(float)y/(float)size;
+					zf=(float)z/(float)size;
+					
 	        if(yf <= 0.8){
 	            plateau_falloff = 1.0;
 	        }
@@ -238,6 +253,7 @@ namespace minecraft {
 	            pow((yf-1.0)*0.8, 2) +
 	            pow((zf-0.5)*1.5, 2)
 	        );
+	        
 	        caves = pow(simplex_noise(1, xf*5, yf*5, zf*5), 3);
 	        density = (
 	            simplex_noise(5, xf, yf*0.5, zf) *
@@ -251,10 +267,123 @@ namespace minecraft {
 	            density = 0;
 	        }
 	        std::map<std::string,Cube*> dictionary = *m_gameObjects;
-	        if(density >3.1) {m_map->Set(x,y,z,dictionary[std::string("RockCube")]);}
-	    }}}
+	        if(density >3.1) {m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("RockCube")]);}
+	    }}}	    
+	}
+	
+	void GameIO::GenerateCloud(size_t size, float positionx, float positiony, float positionz){
+		float caves, center_falloff, plateau_falloff, density;
+	    int x, y, z;
+	    int start=1;
+	    int end=size-1;
+		float xf, yf, zf;
+		for(x=(start); x<(end); x++){
+			for(y=(start); y<(end); y++){
+				for(z=(start); z<(end); z++){
+					xf=(float)x/(float)size;
+					yf=(float)y/(float)size;
+					zf=(float)z/(float)size;	
+	        
+	        center_falloff = 0.1/(
+	           /* pow((xf-0.5)*1.5, 2) +
+	            pow((yf-0.5)*1.5, 2) +
+	            pow((zf-0.5)*1.5, 2)*/
+	            
+	            pow((xf-0.5)*1, 2) +
+	            pow((yf-0.5)*2, 2) +
+	            pow((zf-0.5)*1, 2)
+	        );
+	        
+	        density = (
+	            simplex_noise(5, xf, yf*0.5, zf) *
+	            center_falloff *
+	            plateau_falloff
+	        );
+	        density *= pow(
+	            noise((xf+1)*3.0, (yf+1)*1.0, (zf+1)*3.0)+0.4, 1.8
+	        );
+	        std::map<std::string,Cube*> dictionary = *m_gameObjects;
+	        if(density >3.1) {m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("CloudCube")]);}
+	    }}}	 
+}
+
+	void GameIO::GenerateMap(size_t size){
+		m_map->Resize(size, size, size);
+		
+		GenerateIsland (40*size/100, 50*size/100,50*size/100,50*size/100);
+		GenerateIsland (30*size/100, 70*size/100,50*size/100,70*size/100);
+		GenerateIsland (25*size/100, 40*size/100,35*size/100,30*size/100);
+		GenerateIsland (15*size/100, 10*size/100,80*size/100,70*size/100);
+		GenerateIsland (20*size/100, 70*size/100,60*size/100,10*size/100);
+		GenerateIsland (10*size/100, 40*size/100,90*size/100,30*size/100);
+		GenerateIsland (20*size/100, 60*size/100,90*size/100,90*size/100);
+		GenerateIsland (10*size/100, 20*size/100,10*size/100,90*size/100);
+		GenerateIsland (5*size/100, 20*size/100,10*size/100,30*size/100);
+		GenerateIsland (15*size/100, 80*size/100,10*size/100,20*size/100);
+		
+		//GenerateCloud (30, 35,80,35);
+		
+	    
+	    CoverWithDirt(size);
+	    //AddGold(size);
+	    AddDeposit(size);
+	    DeleteLonely(size);
 	    
 	}
+	
+	void GameIO::CoverWithDirt(int size){
+		int value, ontop;
+		foreach_xyz(0, size)
+			value = m_map->Exists(x,y,z);
+			ontop = m_map->Exists(x,y+1,z);
+			if(value == 1 && ontop == 0){
+				std::map<std::string,Cube*> dictionary = *m_gameObjects;
+				m_map->Set(x,y,z,dictionary[std::string("CloudCube")]);
+			}
+		}}}
+	}
+
+	void GameIO::AddGold(int size){
+		Cube* cube;
+		foreach_xyz(0, size)
+			cube = m_map->Get(x,y,z);
+			if(cube!=NULL){
+				if(cube->GetName() == "RockCube"){
+					if(simplex_noise(3, xf*10+3, yf*10+3, zf*10+3)>3.65){
+						std::map<std::string,Cube*> dictionary = *m_gameObjects;
+						m_map->Set(x,y,z,dictionary[std::string("CloudCube")]); //Gold
+					}
+				}
+			}
+		}}}
+	}
+
+	void GameIO::AddDeposit(int size){
+		float distance, n;
+		Cube* cube;
+		foreach_xyz(0, size)
+			cube = m_map->Get(x,y,z);
+			distance = sqrt(pow((xf-0.5), 2) + pow((yf-0.7), 2) + pow((zf-0.5), 2));
+			if(cube!=NULL){
+				if(cube->GetName() == "RockCube"){
+					n = simplex_noise(3, xf*10+4, yf*10+4, zf*10+4);
+					if(n > 3.2 && distance < 0.1){
+						std::map<std::string,Cube*> dictionary = *m_gameObjects;
+						m_map->Set(x,y,z,dictionary[std::string("CloudCube")]); //Diamond or anything
+					}
+				}
+			}
+		}}}
+	}
+
+	void GameIO::DeleteLonely(int size){
+		foreach_xyz(0, size)
+			if(!(m_map->Exists(x+1,y,z)||m_map->Exists(x-1,y,z)||m_map->Exists(x,y+1,z)||m_map->Exists(x,y-1,z)||m_map->Exists(x,y,z+1)||m_map->Exists(x,y,z-1))){
+				m_map->Del(x,y,z);
+			}
+		}}}
+	}
+
 
 	void GameIO::SaveMap(){
 		/*Creating or overwriting backup file*/

@@ -19,6 +19,7 @@
 #include <minecraft/Sound.hpp>
 
 #define FPS 1000/30 //Actually this is the number of milliseconds per frame
+#define MAP_SIZE 100
 
 
 /* GAME PARAMETERS */
@@ -63,9 +64,9 @@ int main(int argc, char* argv[]) {
 	}
 	
     /// CREATION OF THE RESSOURCES
-    minecraft::Character player(glm::vec3(1.8,3,1.8));
+    minecraft::Character player(glm::vec3(MAP_SIZE/20,MAP_SIZE/10,MAP_SIZE/20));
     minecraft::Map map;
-
+	
 	minecraft::GraphicEngine graphicEng;
 	graphicEng.StartGL();
 	graphicEng.Initialize(WINDOW_WIDTH,WINDOW_HEIGHT);
@@ -78,13 +79,14 @@ int main(int argc, char* argv[]) {
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
 	IOManager.LoadMap();*/
-
+	
+	std::cout<<"Génération de la carte..."<<std::endl;
 	/*Start a new Map*/
 	minecraft::GameIO IOManager;
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-    IOManager.GenerateMap(30);
+    IOManager.GenerateMap(MAP_SIZE);
     IOManager.SaveMap();
     
     minecraft::GameEngine gameEng;
