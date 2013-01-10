@@ -15,6 +15,10 @@ namespace minecraft {
 	/* Cube is pointing an unique instance o the cube type. The boolean indicate whether
 	 * the cube is visible or doesn't need to be drawn (hidden by other cubes) */
 	typedef std::tuple<Cube*,bool> CubeInstance;
+
+	/* tuple vao,texId,nbInstance */
+	typedef std::tuple<GLuint,GLuint,size_t> InstanceData;
+	
 	/* Iterator */
 	typedef std::map<MapCoords,CubeInstance>::iterator ItCubeInstance;
 	typedef std::map<MapCoords,CubeInstance>::const_iterator ItCubeInstanceConst;
@@ -54,6 +58,7 @@ namespace minecraft {
 			
 			void Draw() const;
 			void Draw(MatrixStack&, GLuint) const;
+			void Draw(MatrixStack&, GLuint, std::vector<InstanceData>&) const;
 
 			inline bool CheckForRefresh(){ return m_refresh;}
 

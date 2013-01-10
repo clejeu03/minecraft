@@ -13,6 +13,7 @@
 #include <minecraft/Character.hpp>
 
 namespace minecraft {
+
 	class GraphicEngine {
 		private:
 			TextureManager m_textureMgr;

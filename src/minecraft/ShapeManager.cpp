@@ -181,7 +181,7 @@ namespace minecraft {
 		}
 	}
 	
-	void ShapeManager::SetBuffer(const char* type, std::vector<MapCoords> cubeCoords) {
+	void ShapeManager::SetBuffer(const char* type, std::vector<MapCoords>& cubeCoords) {
 		GLuint vao = GetShapeVAO(std::string(type));
 		GLuint vbo = m_VAOVBOs[vao];
 		size_t cubesCount = cubeCoords.size();

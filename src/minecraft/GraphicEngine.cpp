@@ -103,11 +103,31 @@ namespace minecraft {
 
 		//m_shapeMgr.SetBuffer(std::string("CloudCube"), m_world->GetPositions(m_world->GetPositions("CloudCube")));
 		//m_shapeMgr.SetBuffer(std::string("CloudCube"), m_world->GetPositions(m_world->GetPositions("CrystalCube")));
-		m_shapeMgr.SetBuffer("RockCube", m_world->GetPositions("RockCube"));
+		m_shapeMgr.SetBuffer("RockCube", rockCubes);
+
+		std::vector<InstanceData> instanceDatas;
+
+		instanceDatas.push_back(std::make_tuple(
+			m_gameObjects[std::string("CloudCube")]->GetVAOId(),
+			m_gameObjects[std::string("CloudCube")]->GetTexId(),
+			cloudCubes.size()
+		));
+
+		instanceDatas.push_back(std::make_tuple(
+			m_gameObjects[std::string("CrystalCube")]->GetVAOId(),
+			m_gameObjects[std::string("CrystalCube")]->GetTexId(),
+			crystalCubes.size()
+		));
+
+		instanceDatas.push_back(std::make_tuple(
+			m_gameObjects[std::string("RockCube")]->GetVAOId(),
+			m_gameObjects[std::string("RockCube")]->GetTexId(),
+			rockCubes.size()
+		));
 		
 		m_transformStack.Push();
 			m_transformStack.Set(m_perspectiveMatrix*m_character->GetPointOfView());
-			m_world->Draw(m_transformStack,m_uniformTransformLocation);
+			m_world->Draw(m_transformStack,m_uniformTransformLocation, instanceDatas);
 			DrawSkyBox();
 		m_transformStack.Pop();
 		DrawCursor();

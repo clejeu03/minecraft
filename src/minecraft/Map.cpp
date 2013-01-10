@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <glm/gtc/type_ptr.hpp>
 #include <minecraft/Map.hpp>
+#include <minecraft/GraphicEngine.hpp>
 #include <iostream>
 #include <vector>
 
@@ -157,6 +158,26 @@ namespace minecraft {
 	
 	/* Draw the cubes at the right places considering their size */
 	void Map::Draw(MatrixStack& matrixStack, GLuint uniformLocation) const {
+		GLfloat cubeSize = Cube::m_size;
+		for(ItCubeInstanceConst iterator = m_data.begin(); iterator != m_data.end(); iterator++) {
+			if( std::get<1>(iterator->second) ) { // If the cube is not hidden by other cubes
+				matrixStack.Push();
+					matrixStack.Scale(glm::vec3(cubeSize));
+					matrixStack.Translate(
+						glm::vec3(
+							std::get<0>(iterator->first),
+							std::get<1>(iterator->first),
+							std::get<2>(iterator->first)
+						)
+					);
+					glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrixStack.Top()));
+					std::get<0>(iterator->second)->Draw();
+				matrixStack.Pop();
+			}
+		}
+	}
+
+	void Map::Draw(MatrixStack& matrixStack, GLuint uniformLocation, std::vector<InstanceData>& instanceDatas) const {
 		GLfloat cubeSize = Cube::m_size;
 		for(ItCubeInstanceConst iterator = m_data.begin(); iterator != m_data.end(); iterator++) {
 			if( std::get<1>(iterator->second) ) { // If the cube is not hidden by other cubes

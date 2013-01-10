@@ -15,7 +15,9 @@ namespace minecraft {
 			constexpr static GLfloat m_size = 0.1f;
 			inline void SetNbVertices(size_t nb) { m_nbVertices = nb; }
 			inline void SetTexId(GLuint id) { m_textureId = id; }
+			inline GLuint GetTexId() { return m_textureId; }
 			inline void SetVAOId(GLuint id) { m_VAO = id; }
+			inline GLuint GetVAOId() { return m_VAO; }
 			void Draw() const;
 			const char* m_type;
 	};
