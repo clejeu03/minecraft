@@ -72,7 +72,7 @@ namespace minecraft{
 			}
 		}
 		if (velocity>0.3){
-			m_character->setPosition(glm::vec3(1.8,3.5,1.8));
+			m_character->setPosition(glm::vec3(m_world->GetSizeW()/20,m_world->GetSizeH()/10,m_world->GetSizeD()/20));
 			velocity=0;
 		}
 	}

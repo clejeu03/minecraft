@@ -22,6 +22,10 @@ namespace minecraft {
 			void SetGameObjects(std::map<std::string,Cube*>* dictionary) { m_gameObjects = dictionary; }
 			void LoadMap() throw(std::logic_error);
 			void GenerateMap(size_t size);
+			void AddGold(int size);
+			void AddDeposit(int size);
+			void CoverWithDirt(int size);
+			void DeleteLonely(int size);
 			void LoadInventory() {} // Why not ?
 			void SaveMap();
 			void SaveInventory() {}

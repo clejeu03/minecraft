@@ -19,13 +19,6 @@
                 yf=(float)y/(float)size;\
                 zf=(float)z/(float)size;
 
-#define put(x, y, z, value)\
-    data[\
-        (x)+\
-        (y)*size+\
-        (z)*size*size\
-    ] = value
-
 namespace minecraft {
 	void GameIO::LoadMap() throw(std::logic_error) {
 		if( NULL == m_gameObjects || NULL == m_file )
@@ -259,7 +252,66 @@ namespace minecraft {
 	        if(density >3.1) {m_map->Set(x,y,z,dictionary[std::string("RockCube")]);}
 	    }}}
 	    
+	    //CoverWithDirt(size);
+	    //AddGold(size);
+	    AddDeposit(size);
+	    DeleteLonely(size);
+	    
 	}
+	
+	void GameIO::CoverWithDirt(int size){
+		int value, ontop;
+		foreach_xyz(0, size)
+			value = m_map->Exists(x,y,z);
+			ontop = m_map->Exists(x,y+1,z);
+			if(value == 1 && ontop == 0){
+				std::map<std::string,Cube*> dictionary = *m_gameObjects;
+				m_map->Set(x,y,z,dictionary[std::string("CloudCube")]);
+			}
+		}}}
+	}
+
+	void GameIO::AddGold(int size){
+		Cube* cube;
+		foreach_xyz(0, size)
+			cube = m_map->Get(x,y,z);
+			if(cube!=NULL){
+				if(cube->GetName() == "RockCube"){
+					if(simplex_noise(3, xf*10+3, yf*10+3, zf*10+3)>3.65){
+						std::map<std::string,Cube*> dictionary = *m_gameObjects;
+						m_map->Set(x,y,z,dictionary[std::string("CloudCube")]); //Gold
+					}
+				}
+			}
+		}}}
+	}
+
+	void GameIO::AddDeposit(int size){
+		float distance, n;
+		Cube* cube;
+		foreach_xyz(0, size)
+			cube = m_map->Get(x,y,z);
+			distance = sqrt(pow((xf-0.5), 2) + pow((yf-0.7), 2) + pow((zf-0.5), 2));
+			if(cube!=NULL){
+				if(cube->GetName() == "RockCube"){
+					n = simplex_noise(3, xf*10+4, yf*10+4, zf*10+4);
+					if(n > 3.2 && distance < 0.1){
+						std::map<std::string,Cube*> dictionary = *m_gameObjects;
+						m_map->Set(x,y,z,dictionary[std::string("CloudCube")]); //Diamond or anything
+					}
+				}
+			}
+		}}}
+	}
+
+	void GameIO::DeleteLonely(int size){
+		foreach_xyz(0, size)
+			if(!(m_map->Exists(x+1,y,z)||m_map->Exists(x-1,y,z)||m_map->Exists(x,y+1,z)||m_map->Exists(x,y-1,z)||m_map->Exists(x,y,z+1)||m_map->Exists(x,y,z-1))){
+				m_map->Del(x,y,z);
+			}
+		}}}
+	}
+
 
 	void GameIO::SaveMap(){
 		/*Creating or overwriting backup file*/
