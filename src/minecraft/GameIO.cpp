@@ -229,10 +229,20 @@ namespace minecraft {
 	    return value;
 	}
 
-	void GameIO::GenerateMap(size_t size){
-		m_map->Resize(size, size, size);
+	void GameIO::GenerateIsland(size_t size, float positionx, float positiony, float positionz){
 		float caves, center_falloff, plateau_falloff, density;
-	    foreach_xyz(1, size-1)
+	    //foreach_xyz(1, size-1)
+	    int x, y, z;
+	    int start=1;
+	    int end=size-1;
+		float xf, yf, zf;
+		for(x=(start); x<(end); x++){
+			for(y=(start); y<(end); y++){
+				for(z=(start); z<(end); z++){
+					xf=(float)x/(float)size;
+					yf=(float)y/(float)size;
+					zf=(float)z/(float)size;
+					
 	        if(yf <= 0.8){
 	            plateau_falloff = 1.0;
 	        }
@@ -262,10 +272,18 @@ namespace minecraft {
 	            density = 0;
 	        }
 	        std::map<std::string,Cube*> dictionary = *m_gameObjects;
-	        if(density >3.1) {m_map->Set(x,y,z,dictionary[std::string("RockCube")]);}
-	    }}}
+	        if(density >3.1) {m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("RockCube")]);}
+	    }}}	    
+	}
+
+	void GameIO::GenerateMap(size_t size){
+		m_map->Resize(size, size, size);
+		
+		GenerateIsland (30, 50,50,50);
+		GenerateIsland (10, 30,50,30);
+		GenerateIsland (15, 25,50,80);
 	    
-	    //CoverWithDirt(size);
+	    CoverWithDirt(size);
 	    //AddGold(size);
 	    AddDeposit(size);
 	    DeleteLonely(size);
