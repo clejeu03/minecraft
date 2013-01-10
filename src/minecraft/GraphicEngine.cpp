@@ -104,11 +104,11 @@ namespace minecraft {
 		// Init and assign the textures
 		m_textureMgr.LoadTexture("SkyBox","./skybox.jpg");
 		m_textureMgr.LoadTexture("Cloud", "./data/textures/Cloud.jpg");
-		m_textureMgr.LoadTexture("Crystal", "./Cristal.jpg");
-		m_textureMgr.LoadTexture("Grass", "./herbe.jpg");
-		m_textureMgr.LoadTexture("Dirt", "./terre.jpg");
-		m_textureMgr.LoadTexture("Diamond", "./Cristal.jpg");
-		m_textureMgr.LoadTexture("Gold", "./Or.jpg");
+		m_textureMgr.LoadTexture("Crystal", "./data/textures/Cristal.jpg");
+		m_textureMgr.LoadTexture("Grass", "./data/textures/herbe.jpg");
+		m_textureMgr.LoadTexture("Dirt", "./data/textures/terre.jpg");
+		m_textureMgr.LoadTexture("Diamond", "./data/textures/Cristal.jpg");
+		m_textureMgr.LoadTexture("Gold", "./data/textures/Or.jpg");
 		m_textureMgr.LoadTexture("Cursor","./cursor.png");
 		m_gameObjects[std::string("SkyBoxCube")]->SetTexId(m_textureMgr.GetTextureId("SkyBox"));
 		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId("Cloud"));
