@@ -13,6 +13,7 @@
 #include <minecraft/Character.hpp>
 
 namespace minecraft {
+
 	class GraphicEngine {
 		private:
 			TextureManager m_textureMgr;
@@ -23,6 +24,7 @@ namespace minecraft {
 			GLuint m_uniformTransformLocation;
 			GLuint m_uniform2dMode;
 			GLuint m_uniformLightening;
+			GLuint m_uniformInstanciated;
 			// Directional light
 			GLuint m_uniformSunIntensity;
 			GLuint m_uniformSunDirection;
@@ -31,6 +33,7 @@ namespace minecraft {
 			GLuint m_uniformLightPosition;
 			GLuint m_uniformLightIntensity;
 			GLuint m_uniformLightDecay;
+
 			
 			Character* m_character;
 			glm::mat4 m_perspectiveMatrix;

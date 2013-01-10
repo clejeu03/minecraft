@@ -114,11 +114,13 @@ namespace minecraft{
 					m_world->DelByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
 				}else{
 					buildCube.play();
+					m_world->SetRefresh(true);
 				}
 				
 			}else if (mode==0){
 				m_world->DelByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
 				breakCube.play();
+				m_world->SetRefresh(true);
 			}
 		}
 		return 1;

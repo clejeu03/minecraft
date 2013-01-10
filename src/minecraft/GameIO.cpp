@@ -242,36 +242,9 @@ namespace minecraft {
 					xf=(float)x/(float)size;
 					yf=(float)y/(float)size;
 					zf=(float)z/(float)size;
-					
-	        if(yf <= 0.8){
-	            plateau_falloff = 1.0;
-	        }
-	        else if(0.8 < yf && yf < 0.9){
-	            plateau_falloff = 1.0-(yf-0.8)*10.0;
-	        }
-	        else{
-	            plateau_falloff = 0.0;
-	        }
-	        
-	        center_falloff = 0.1/(
-	            pow((xf-0.5)*1.5, 2) +
-	            pow((yf-1.0)*0.8, 2) +
-	            pow((zf-0.5)*1.5, 2)
-	        );
-	        
-	        caves = pow(simplex_noise(1, xf*5, yf*5, zf*5), 3);
-	        density = (
-	            simplex_noise(5, xf, yf*0.5, zf) *
-	            center_falloff *
-	            plateau_falloff
-	        );
-	        density *= pow(
-	            noise((xf+1)*3.0, (yf+1)*3.0, (zf+1)*3.0)+0.4, 1.8
-	        );
-	        if(caves<0.5){
-	            density = 0;
-	        }
-	        std::map<std::string,Cube*> dictionary = *m_gameObjects;
+		float total = (size-2) * (size-2) * (size-2) -1;
+		float i = 0.0;
+	    foreach_xyz(1, size-1)
 	        if(density >3.1) {m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("RockCube")]);}
 	    }}}	    
 	}
@@ -346,6 +319,11 @@ namespace minecraft {
 				m_map->Set(x,y,z,dictionary[std::string("CloudCube")]);
 			}
 		}}}
+	        if(density >3.1) {m_map->Set(x,y,z,dictionary[std::string("RockCube")]);}
+	    	std::cout << "loading (" << i / total * 100.0 << "%)" << std::endl;
+	    	//printf("\033[2J");
+    		++i;
+	    }}}
 	}
 
 	void GameIO::AddGold(int size){
