@@ -14,10 +14,8 @@ namespace minecraft {
 			GLuint m_VAO;
 			size_t m_nbVertices;
 			
-		protected:
-			const char* m_name;
-			
 		public:
+			const char* m_name;
 			constexpr static GLfloat m_size = 0.1f;
 			constexpr static GLuint m_tmpNbVertices = 36; //solution temporaire
 			inline void SetNbVertices(size_t nb) { m_nbVertices = nb; }
