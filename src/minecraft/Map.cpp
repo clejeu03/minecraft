@@ -8,12 +8,7 @@
 
 
 namespace minecraft {	
-	Cube* Map::Get(size_t x, size_t y, size_t z) throw(std::out_of_range) {
-		if( x >= m_width || x < 0 ||
-		y >= m_height || y < 0 ||
-		z >= m_depth || z < 0 )
-			throw std::out_of_range("Position is out of the map");
-		
+	Cube* Map::Get(size_t x, size_t y, size_t z) {		
 		ItCubeInstance res = m_data.find(MapCoords(x,y,z));
 		if( res == m_data.end() )
 			return NULL;
@@ -21,12 +16,7 @@ namespace minecraft {
 		return std::get<0>(res->second);
 	}
 	
-	Cube* Map::GetByPixel(GLfloat x, GLfloat y, GLfloat z) throw(std::out_of_range) {
-		if( x/Cube::m_size >= m_width || x < 0 ||
-		y/Cube::m_size >= m_height || y < 0 ||
-		z/Cube::m_size >= m_depth || z < 0 )
-			throw std::out_of_range("Position is out of the map");
-		
+	Cube* Map::GetByPixel(GLfloat x, GLfloat y, GLfloat z){
 		ItCubeInstance res = m_data.find(MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size)));
 		if( res == m_data.end() )
 			return NULL;
@@ -34,36 +24,21 @@ namespace minecraft {
 		return std::get<0>(res->second);
 	}
 	
-	void Map::Set(size_t x, size_t y, size_t z, Cube* cube) throw(std::out_of_range) {
-		if( x > m_width || x < 0 ||
-		y > m_height || y < 0 ||
-		z > m_depth || z < 0 )
-			throw std::out_of_range("Position is out of the map");
-
+	void Map::Set(size_t x, size_t y, size_t z, Cube* cube) {
 		m_data[MapCoords(x,y,z)] = std::make_tuple(cube,true);
 		UpdateVisibilities(x,y,z,true);
 	}
 	
-	void Map::SetByPixel(GLfloat x,GLfloat y,GLfloat z, Cube* cube) throw(std::out_of_range) {
-		if( x > m_width || x < 0 ||
-		y > m_height || y < 0 ||
-		z > m_depth || z < 0 )
-			throw std::out_of_range("Position is out of the map in SetByPixel");
-		
+	void Map::SetByPixel(GLfloat x,GLfloat y,GLfloat z, Cube* cube){	
 		Set((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size),cube);
 	}
 	
-	void Map::Del(size_t x, size_t y, size_t z)  throw(std::out_of_range) {
-		if( x > m_width || x < 0 ||
-		y > m_height || y < 0 ||
-		z > m_depth || z < 0 )
-			throw std::out_of_range("Position is out of the map");
-			
+	void Map::Del(size_t x, size_t y, size_t z) {
 		m_data.erase(MapCoords(x,y,z));
 		UpdateVisibilities(x,y,z,false);
 	}
 	
-	void Map::DelByPixel(GLfloat x,GLfloat y,GLfloat z) throw(std::out_of_range) {
+	void Map::DelByPixel(GLfloat x,GLfloat y,GLfloat z){
 		GLfloat cubeSize=Cube::m_size;
 		x+=cubeSize*0.5;
 		y+=cubeSize*0.5;
@@ -81,7 +56,7 @@ namespace minecraft {
 		}
 	}
 	
-	bool Map::Exists(size_t x, size_t y, size_t z) throw(std::out_of_range) {
+	bool Map::Exists(size_t x, size_t y, size_t z){
 		/*if( x > m_width || x < 0 ||
 		y > m_height || y < 0 ||
 		z > m_depth || z < 0 )
@@ -105,12 +80,7 @@ namespace minecraft {
 	
 	/* Update the visibility of the cube x,y,z.
 	 * add: true = adding a cube, false = removing */
-	void Map::UpdateVisibility(size_t x, size_t y, size_t z) throw(std::out_of_range) {
-		if( x > m_width || x < 0 ||
-		y > m_height || y < 0 ||
-		z > m_depth || z < 0 )
-			throw std::out_of_range("Position is out of the map in UpdateVisibility");
-			
+	void Map::UpdateVisibility(size_t x, size_t y, size_t z) throw(std::out_of_range) {	
 		ItCubeInstance cube, neighbour1, neighbour2, neighbour3, neighbour4, neighbour5, neighbour6, end;
 		cube = m_data.find(MapCoords(x,y,z));
 		end = m_data.end();

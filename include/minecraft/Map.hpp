@@ -47,15 +47,15 @@ namespace minecraft {
 			inline void SetRefresh(bool refresh) { m_refresh = refresh;}
 			inline void SetActioCubeType(const char* type) { m_actionCubeType = type;}
 			
-			Cube* Get(size_t,size_t,size_t) throw(std::out_of_range);
-			Cube* GetByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
-			void Set(size_t,size_t,size_t,Cube*) throw(std::out_of_range);
-			void SetByPixel(GLfloat,GLfloat,GLfloat,Cube*) throw(std::out_of_range);
-			void Del(size_t,size_t,size_t) throw(std::out_of_range);
-			void DelByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
+			Cube* Get(size_t,size_t,size_t);
+			Cube* GetByPixel(GLfloat,GLfloat,GLfloat);
+			void Set(size_t,size_t,size_t,Cube*);
+			void SetByPixel(GLfloat,GLfloat,GLfloat,Cube*);
+			void Del(size_t,size_t,size_t);
+			void DelByPixel(GLfloat,GLfloat,GLfloat);
 			void FakeCreation(GLfloat,GLfloat,GLfloat);
 			
-			bool Exists(size_t,size_t,size_t) throw(std::out_of_range);
+			bool Exists(size_t,size_t,size_t);
 			bool ExistsByPixel(GLfloat,GLfloat,GLfloat);
 			
 			void UpdateVisibility(size_t,size_t,size_t) throw(std::out_of_range);
