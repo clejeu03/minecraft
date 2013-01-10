@@ -29,6 +29,11 @@ glm::vec3 formerPosition;
 bool formerBottomCollide=1;
 bool currentBottomCollide=1;
 
+float minFPS = 1000.0;
+float maxFPS = 0.0;
+float somme = 0.0;
+float total = 0.0;
+
 int main(int argc, char* argv[]) {
 	/// INITIALIZATION
 	// SDL
@@ -61,9 +66,9 @@ int main(int argc, char* argv[]) {
 	SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
 	
     // Hide Cursor
-	//SDL_ShowCursor(SDL_DISABLE);
+	SDL_ShowCursor(SDL_DISABLE);
 	// Prevent from leaving the screen
-	//SDL_WM_GrabInput(SDL_GRAB_ON);
+	SDL_WM_GrabInput(SDL_GRAB_ON);
 	
 	// GLEW
 	GLenum error;
@@ -73,7 +78,7 @@ int main(int argc, char* argv[]) {
 	}
 	
     /// CREATION OF THE RESSOURCES
-    minecraft::Character player(glm::vec3(3,100,5));
+    minecraft::Character player(glm::vec3(3,10,5));
     minecraft::Map map;
 
 	minecraft::GraphicEngine graphicEng;
@@ -220,7 +225,7 @@ int main(int argc, char* argv[]) {
 		currentBottomCollide=gameEng.collideBottom();
 		
 		// Process gravity
-		//gameEng.processGravity(formerBottomCollide);
+		gameEng.processGravity(formerBottomCollide);
 		
 		// Save former position
 		formerPosition = player.position();
@@ -254,12 +259,10 @@ int main(int argc, char* argv[]) {
 		elapsedTime = SDL_GetTicks() - startTime;
 		// Framerate control : pause briefly the program if it's running too fast
 		if(elapsedTime < FPS) {
-			std::cout << "framerate : 30" << std::endl;
+			//std::cout << "framerate : 30" << std::endl;
 			SDL_Delay(FPS - elapsedTime);
 		}
-		else {
-			std::cout << "framerate : " << 1000./elapsedTime << std::endl;
-		}
+		//std::cout << "framerate : " << 1000. / elapsedTime << std::endl;
 		//printf("\033[2J");
     }
     

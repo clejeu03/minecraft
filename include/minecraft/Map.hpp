@@ -31,6 +31,7 @@ namespace minecraft {
 			std::map<MapCoords,CubeInstance> m_data;
 			std::vector<InstanceData> m_instanceDatas;
 			bool m_refresh;
+			const char* m_actionCubeType;
 
 		public:
 			Map() : m_width(0), m_height(0), m_depth(0), m_refresh(true) {}
@@ -44,6 +45,7 @@ namespace minecraft {
 				m_depth = d;
 			}
 			inline void SetRefresh(bool refresh) { m_refresh = refresh;}
+			inline void SetActioCubeType(const char* type) { m_actionCubeType = type;}
 			
 			Cube* Get(size_t,size_t,size_t) throw(std::out_of_range);
 			Cube* GetByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);

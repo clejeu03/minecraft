@@ -27,6 +27,7 @@ namespace minecraft {
 		
 		m_uniformTransformLocation = glGetUniformLocation(program,"uMVPMatrix");
 		m_uniform2dMode = glGetUniformLocation(program,"u2dMode");
+		m_uniformSkybox = glGetUniformLocation(program,"uSkybox");
 		m_uniformLightening = glGetUniformLocation(program,"uLightening"); // Whether enlightment need to be processed
 		glUniform1i(glGetUniformLocation(program, "uTexture"), 0);
 		
@@ -168,13 +169,15 @@ namespace minecraft {
 		SkyBoxCube* skyBox = (SkyBoxCube*)m_gameObjects[std::string("SkyBoxCube")];
 		glm::vec3 cameraPos = m_character->HeadPosition();
 		
-		glUniform1i(m_uniformLightening, 0);
+		glUniform1i(m_uniformSkybox, 0);
+		glUniform1i(m_uniformSkybox, 1);
 		m_transformStack.Push();
 			m_transformStack.Translate(cameraPos);
 			m_transformStack.Scale(glm::vec3(std::max(m_world->GetSizeW(),std::max(m_world->GetSizeH(),m_world->GetSizeD()))*2));
 			glUniformMatrix4fv(m_uniformTransformLocation, 1, GL_FALSE, glm::value_ptr(m_transformStack.Top()));
 			skyBox->Draw();
 		m_transformStack.Pop();
+		glUniform1i(m_uniformSkybox, 0);
 		glUniform1i(m_uniformLightening, 1);
 	}
 }
