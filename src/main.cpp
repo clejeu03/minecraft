@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-    IOManager.GenerateMap(150);
+    IOManager.GenerateMap(50);
     IOManager.SaveMap();
     
     minecraft::GameEngine gameEng;

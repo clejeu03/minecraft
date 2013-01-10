@@ -24,7 +24,7 @@ namespace minecraft {
 			GLuint m_uniformTransformLocation;
 			GLuint m_uniform2dMode;
 			GLuint m_uniformLightening;
-			GLuint m_uniformSkybox;
+			GLuint m_uniformInstanciated;
 			// Directional light
 			GLuint m_uniformSunIntensity;
 			GLuint m_uniformSunDirection;

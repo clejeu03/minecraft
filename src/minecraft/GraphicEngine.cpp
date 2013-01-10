@@ -27,7 +27,7 @@ namespace minecraft {
 		
 		m_uniformTransformLocation = glGetUniformLocation(program,"uMVPMatrix");
 		m_uniform2dMode = glGetUniformLocation(program,"u2dMode");
-		m_uniformSkybox = glGetUniformLocation(program,"uSkybox");
+		m_uniformInstanciated = glGetUniformLocation(program,"uInstanciated");
 		m_uniformLightening = glGetUniformLocation(program,"uLightening"); // Whether enlightment need to be processed
 		glUniform1i(glGetUniformLocation(program, "uTexture"), 0);
 		
@@ -39,11 +39,14 @@ namespace minecraft {
 		// PointLight
 		m_uniformLightPosition = glGetUniformLocation(program,"lightPosition");
 		m_uniformLightIntensity = glGetUniformLocation(program,"lightIntensity");
+		
+		// Texture
+		glActiveTexture(GL_TEXTURE0);
 	}
 	
 	void GraphicEngine::Initialize(size_t windowWidth, size_t windowHeight) {
 		// Relative to the camera
-		m_perspectiveMatrix = glm::perspective(50.f, windowWidth / (float) windowHeight, 0.0001f, 1000.f);
+		m_perspectiveMatrix = glm::perspective(70.f, windowWidth / (float) windowHeight, 0.0001f, 1000.f);
 		
 		// Create sunlight
 		struct DirectionalLight sun;
@@ -72,15 +75,18 @@ namespace minecraft {
 		m_gameObjects[std::string("RockCube")] = new RockCube();
 		// Init and assign the shapes
 		m_shapeMgr.LoadShapes();
-		m_shapeMgr.SetSkyboxBuffer();
-		m_gameObjects[std::string("SkyBoxCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("skybox")));
-		m_gameObjects[std::string("SkyBoxCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("skybox")));
+		//---- instanciated rendering object
+		m_gameObjects[std::string("SkyBoxCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("SkyBox")));
+		m_gameObjects[std::string("SkyBoxCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("SkyBox")));
 		m_gameObjects[std::string("CloudCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("CloudCube")));
 		m_gameObjects[std::string("CloudCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("CloudCube")));
 		m_gameObjects[std::string("CrystalCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("CrystalCube")));
 		m_gameObjects[std::string("CrystalCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("CrystalCube")));
 		m_gameObjects[std::string("RockCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("RockCube")));
 		m_gameObjects[std::string("RockCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("RockCube")));
+		//---- simple rendering
+		m_shapeMgr.SetBuffer("Cursor");
+		m_shapeMgr.SetBuffer("SkyBox");
 		// Init and assign the textures
 		m_textureMgr.LoadTexture("SkyBox","./skybox.jpg");
 		m_textureMgr.LoadTexture("Cloud", "./cloud.jpg");
@@ -92,7 +98,7 @@ namespace minecraft {
 		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId("Crystal"));
 		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId("Rock"));
 
-		std::cout << "Fin init" << std::endl;
+		std::cout << "End init of graphicEngine" << std::endl;
 	}
 	
 	void GraphicEngine::RefreshDisplay() throw(std::logic_error) {
@@ -105,9 +111,9 @@ namespace minecraft {
 			std::vector<MapCoords> rockCubes = m_world->GetPositions("RockCube");
 
 
-			m_shapeMgr.SetBuffer("CloudCube", cloudCubes);
-			m_shapeMgr.SetBuffer("CrystalCube", crystalCubes);
-			m_shapeMgr.SetBuffer("RockCube", rockCubes);
+			m_shapeMgr.SetInstanciatedBuffer("CloudCube", cloudCubes);
+			m_shapeMgr.SetInstanciatedBuffer("CrystalCube", crystalCubes);
+			m_shapeMgr.SetInstanciatedBuffer("RockCube", rockCubes);
 
 			m_world->GetInstanceDatas().push_back(std::make_tuple(
 				m_gameObjects[std::string("CloudCube")]->GetVAOId(),
@@ -142,14 +148,14 @@ namespace minecraft {
 		glUniform1i(m_uniform2dMode, 1); // Tell the shader it's 2D
 		glUniform1i(m_uniformLightening, 0);
 		
-		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D,m_textureMgr.GetTextureId("Cursor"));
-		glBindVertexArray(m_shapeMgr.GetShapeVAO(std::string("cursor")));
-		glDrawArrays(GL_TRIANGLES, 0, m_shapeMgr.GetShapeNbVertices(std::string("cursor")));
+		glBindVertexArray(m_shapeMgr.GetShapeVAO(std::string("Cursor")));
+		glDrawArrays(GL_TRIANGLES, 0, m_shapeMgr.GetShapeNbVertices(std::string("Cursor")));
 		glBindVertexArray(0);
+		glBindTexture(GL_TEXTURE_2D,0);
 		
-		glUniform1i(m_uniform2dMode, 0);
 		glUniform1i(m_uniformLightening, 1);
+		glUniform1i(m_uniform2dMode, 0);
 	}
 	
 	void GraphicEngine::DrawInventory() {
@@ -169,15 +175,15 @@ namespace minecraft {
 		SkyBoxCube* skyBox = (SkyBoxCube*)m_gameObjects[std::string("SkyBoxCube")];
 		glm::vec3 cameraPos = m_character->HeadPosition();
 		
-		glUniform1i(m_uniformSkybox, 0);
-		glUniform1i(m_uniformSkybox, 1);
+		glUniform1i(m_uniformLightening, 0);
+		glUniform1i(m_uniformInstanciated, 0);
 		m_transformStack.Push();
 			m_transformStack.Translate(cameraPos);
 			m_transformStack.Scale(glm::vec3(std::max(m_world->GetSizeW(),std::max(m_world->GetSizeH(),m_world->GetSizeD()))*2));
 			glUniformMatrix4fv(m_uniformTransformLocation, 1, GL_FALSE, glm::value_ptr(m_transformStack.Top()));
 			skyBox->Draw();
 		m_transformStack.Pop();
-		glUniform1i(m_uniformSkybox, 0);
+		glUniform1i(m_uniformInstanciated, 1);
 		glUniform1i(m_uniformLightening, 1);
 	}
 }

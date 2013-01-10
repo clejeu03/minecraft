@@ -2,8 +2,10 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <minecraft/Map.hpp>
 #include <minecraft/GraphicEngine.hpp>
-#include <iostream>
 #include <vector>
+
+#include <iostream>
+
 
 namespace minecraft {	
 	Cube* Map::Get(size_t x, size_t y, size_t z) throw(std::out_of_range) {
@@ -93,7 +95,6 @@ namespace minecraft {
 	}
 	
 	bool Map::ExistsByPixel(GLfloat x, GLfloat y, GLfloat z){			
-			
 		GLfloat cubeSize=Cube::m_size;
 		x+=cubeSize*0.5;
 		y+=cubeSize*0.5;
@@ -122,11 +123,15 @@ namespace minecraft {
 		neighbour5 = m_data.find(MapCoords(x,y,z-1));
 		neighbour6 = m_data.find(MapCoords(x,y,z+1));
 		
-		if( neighbour1 != end && neighbour2 != end && neighbour3 != end
+		if( std::get<1>(cube->second) && neighbour1 != end && neighbour2 != end && neighbour3 != end
 		&& neighbour4 != end && neighbour5 != end && neighbour6 != end ) {
 			// It can be hidden
 			Cube* pointer = std::get<0>(cube->second);
 			cube->second = std::make_tuple(pointer,false);
+		}
+		else if( !std::get<1>(cube->second) ) {
+			Cube* pointer = std::get<0>(cube->second);
+			cube->second = std::make_tuple(pointer,true);
 		}
 	}
 	
@@ -136,16 +141,25 @@ namespace minecraft {
 		if( adding )
 			UpdateVisibility(x,y,z);
 		
-		/* Foreach neighbour too, it can happen that it's out of range (at the border), no big deal */
+		/* Foreach neighbour too, it won't be in the map sometime, it's ok here*/
 		try {
 			UpdateVisibility(x-1,y,z);
+		}catch( std::out_of_range e ) {}
+		try {
 			UpdateVisibility(x+1,y,z);
+		}catch( std::out_of_range e ) {}
+		try {
 			UpdateVisibility(x,y-1,z);
+		}catch( std::out_of_range e ) {}
+		try {
 			UpdateVisibility(x,y+1,z);
+		}catch( std::out_of_range e ) {}
+		try {
 			UpdateVisibility(x,y,z-1);
+		}catch( std::out_of_range e ) {}
+		try {
 			UpdateVisibility(x,y,z+1);
-		}
-		catch( std::out_of_range e ) {}
+		}catch( std::out_of_range e ) {}
 	}
 	
 	/* Draw all the cubes at 0,0,0. . . */
@@ -180,20 +194,19 @@ namespace minecraft {
 	/* Draw instances */
 	void Map::Draw(MatrixStack& matrixStack, GLuint uniformLocation) const {
 		GLfloat cubeSize = Cube::m_size;
-		for(int i=0; i<m_instanceDatas.size(); ++i) {
-			matrixStack.Push();
-				matrixStack.Scale(glm::vec3(cubeSize));
-				matrixStack.Translate(glm::vec3(0.0,0.0,0.0));
-				glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrixStack.Top()));
-			matrixStack.Pop();
-			glActiveTexture(GL_TEXTURE0);
+		matrixStack.Push();
+			matrixStack.Scale(glm::vec3(cubeSize));
+			glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrixStack.Top()));
+		matrixStack.Pop();
+		
+		for(size_t i=0; i<m_instanceDatas.size(); ++i) {
 			glBindTexture(GL_TEXTURE_2D,std::get<1>(m_instanceDatas[i]));
 			glBindVertexArray(std::get<0>(m_instanceDatas[i]));
 			glDrawArraysInstanced(GL_TRIANGLES, 0, Cube::m_tmpNbVertices, std::get<2>(m_instanceDatas[i]));
 			glBindVertexArray(0);
+			glBindTexture(GL_TEXTURE_2D,0);
 			//std::cout << "instance["<<i<<"] = " << std::get<2>(instanceDatas[i]);
 		}
-		//exit(EXIT_SUCCESS);
 	}
 
 	/* Get position of all visibles cubes */

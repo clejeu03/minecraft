@@ -32,8 +32,8 @@ namespace minecraft {
 		public:
 			ShapeManager();
 			~ShapeManager();
-			void SetSkyboxBuffer();
-			void SetBuffer(const char*, std::vector<MapCoords>&);
+			void SetBuffer(const char*);
+			void SetInstanciatedBuffer(const char*, std::vector<MapCoords>&);
 			void LoadShapes();
 			void LoadShape(std::string,struct Shape);
 			GLuint GetShapeVAO(std::string) throw(std::invalid_argument);
