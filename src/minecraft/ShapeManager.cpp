@@ -189,9 +189,53 @@ namespace minecraft {
 		}
 	}
 	
+	void ShapeManager::SetSkyboxBuffer() {
+		
+		GLuint vao = GetShapeVAO("skybox");
+		GLuint vbo = m_VAOVBOs[vao];
+
+		Shape shape = m_shapes["skybox"];
+
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, shape.GetByteSize(), shape.vertices, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glBindVertexArray(vao);
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glVertexAttribPointer(0,
+				Vertex::GetPositionNumComponents(),
+				Vertex::GetDataType(),
+				GL_FALSE,
+				Vertex::GetByteSize(),
+				Vertex::GetPositionOffset());
+			glVertexAttribPointer(1,
+				Vertex::GetNormalNumComponents(),
+				Vertex::GetDataType(),
+				GL_FALSE,
+				Vertex::GetByteSize(),
+				Vertex::GetNormalOffset());
+			glVertexAttribPointer(2,
+				Vertex::GetTextureNumComponents(),
+				Vertex::GetDataType(),
+				GL_FALSE,
+				Vertex::GetByteSize(),
+				Vertex::GetTextureOffset());
+		glBindBuffer(GL_ARRAY_BUFFER,0);	
+		glBindVertexArray(0);
+		
+	}
+
 	void ShapeManager::SetBuffer(const char* type, std::vector<MapCoords>& cubeCoords) {
+		
 		GLuint vao = GetShapeVAO(std::string(type));
 		GLuint vbo = m_VAOVBOs[vao];
+
+		std::cout << "vao[" << type << "] = " << vao << std::endl;
+		std::cout << "vbo[" << type << "] = " << vbo << std::endl;
+
 		size_t cubesCount = cubeCoords.size();
 		
 		int positionNumComponents = Vertex::GetPositionNumComponents();

@@ -61,9 +61,9 @@ int main(int argc, char* argv[]) {
 	SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
 	
     // Hide Cursor
-	SDL_ShowCursor(SDL_DISABLE);
+	//SDL_ShowCursor(SDL_DISABLE);
 	// Prevent from leaving the screen
-	SDL_WM_GrabInput(SDL_GRAB_ON);
+	//SDL_WM_GrabInput(SDL_GRAB_ON);
 	
 	// GLEW
 	GLenum error;
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
 	}
 	
     /// CREATION OF THE RESSOURCES
-    minecraft::Character player(glm::vec3(1.8,3,1.8));
+    minecraft::Character player(glm::vec3(0,0,1));
     minecraft::Map map;
 
 	minecraft::GraphicEngine graphicEng;

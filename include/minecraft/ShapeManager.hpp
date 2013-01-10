@@ -32,6 +32,7 @@ namespace minecraft {
 		public:
 			ShapeManager();
 			~ShapeManager();
+			void SetSkyboxBuffer();
 			void SetBuffer(const char*, std::vector<MapCoords>&);
 			void LoadShapes();
 			void LoadShape(std::string,struct Shape);

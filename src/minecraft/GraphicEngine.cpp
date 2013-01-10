@@ -71,6 +71,7 @@ namespace minecraft {
 		m_gameObjects[std::string("RockCube")] = new RockCube();
 		// Init and assign the shapes
 		m_shapeMgr.LoadShapes();
+		m_shapeMgr.SetSkyboxBuffer();
 		m_gameObjects[std::string("SkyBoxCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("skybox")));
 		m_gameObjects[std::string("SkyBoxCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("skybox")));
 		m_gameObjects[std::string("CloudCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("CloudCube")));
@@ -104,8 +105,9 @@ namespace minecraft {
 		std::vector<MapCoords> crystalCubes = m_world->GetPositions("CrystalCube");
 		std::vector<MapCoords> rockCubes = m_world->GetPositions("RockCube");
 
-		//m_shapeMgr.SetBuffer(std::string("CloudCube"), m_world->GetPositions(m_world->GetPositions("CloudCube")));
-		//m_shapeMgr.SetBuffer(std::string("CloudCube"), m_world->GetPositions(m_world->GetPositions("CrystalCube")));
+
+		m_shapeMgr.SetBuffer("CloudCube", cloudCubes);
+		m_shapeMgr.SetBuffer("CrystalCube", crystalCubes);
 		m_shapeMgr.SetBuffer("RockCube", rockCubes);
 
 		std::vector<InstanceData> instanceDatas;
@@ -130,7 +132,7 @@ namespace minecraft {
 		
 		m_transformStack.Push();
 			m_transformStack.Set(m_perspectiveMatrix*m_character->GetPointOfView());
-			m_world->Draw(m_transformStack,m_uniformTransformLocation, instanceDatas);
+			//m_world->Draw(m_transformStack,m_uniformTransformLocation, instanceDatas);
 			DrawSkyBox();
 		m_transformStack.Pop();
 		DrawCursor();
