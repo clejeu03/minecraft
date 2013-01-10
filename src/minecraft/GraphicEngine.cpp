@@ -80,7 +80,7 @@ namespace minecraft {
 		m_gameObjects[std::string("RockCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("cube")));
 		// Init and assign the textures
 		m_textureMgr.LoadTexture("SkyBox","./skybox.jpg");
-		m_textureMgr.LoadTexture("Cloud", "./cloud.jpg");
+		m_textureMgr.LoadTexture("Cloud", "./data/textures/Cloud.jpg");
 		m_textureMgr.LoadTexture("Crystal", "./cloud.jpg");
 		m_textureMgr.LoadTexture("Rock", "./rock.jpg");
 		m_textureMgr.LoadTexture("Cursor","./cursor.png");

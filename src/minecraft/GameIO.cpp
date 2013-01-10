@@ -275,13 +275,59 @@ namespace minecraft {
 	        if(density >3.1) {m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("RockCube")]);}
 	    }}}	    
 	}
+	
+	void GameIO::GenerateCloud(size_t size, float positionx, float positiony, float positionz){
+		float caves, center_falloff, plateau_falloff, density;
+	    int x, y, z;
+	    int start=1;
+	    int end=size-1;
+		float xf, yf, zf;
+		for(x=(start); x<(end); x++){
+			for(y=(start); y<(end); y++){
+				for(z=(start); z<(end); z++){
+					xf=(float)x/(float)size;
+					yf=(float)y/(float)size;
+					zf=(float)z/(float)size;	
+	        
+	        center_falloff = 0.1/(
+	           /* pow((xf-0.5)*1.5, 2) +
+	            pow((yf-0.5)*1.5, 2) +
+	            pow((zf-0.5)*1.5, 2)*/
+	            
+	            pow((xf-0.5)*1, 2) +
+	            pow((yf-0.5)*2, 2) +
+	            pow((zf-0.5)*1, 2)
+	        );
+	        
+	        density = (
+	            simplex_noise(5, xf, yf*0.5, zf) *
+	            center_falloff *
+	            plateau_falloff
+	        );
+	        density *= pow(
+	            noise((xf+1)*3.0, (yf+1)*1.0, (zf+1)*3.0)+0.4, 1.8
+	        );
+	        std::map<std::string,Cube*> dictionary = *m_gameObjects;
+	        if(density >3.1) {m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("CloudCube")]);}
+	    }}}	 
+}
 
 	void GameIO::GenerateMap(size_t size){
 		m_map->Resize(size, size, size);
 		
-		GenerateIsland (30, 50,50,50);
-		GenerateIsland (10, 30,50,30);
-		GenerateIsland (15, 25,50,80);
+		GenerateIsland (40, 50,50,50);
+		GenerateIsland (30, 70,50,70);
+		GenerateIsland (25, 40,35,30);
+		GenerateIsland (15, 10,80,70);
+		GenerateIsland (20, 70,60,10);
+		GenerateIsland (10, 40,90,30);
+		GenerateIsland (20, 60,90,90);
+		GenerateIsland (10, 20,10,90);
+		GenerateIsland (5, 20,10,30);
+		GenerateIsland (15, 80,10,20);
+		
+		//GenerateCloud (30, 35,80,35);
+		
 	    
 	    CoverWithDirt(size);
 	    //AddGold(size);

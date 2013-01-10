@@ -68,12 +68,12 @@ namespace minecraft {
 	}
 	
 	void Map::FakeCreation(GLfloat x,GLfloat y,GLfloat z){
-		if (Exists(15,25,15)){
+		if (Exists(50,50,50)){
 			GLfloat cubeSize=Cube::m_size;
 			x+=cubeSize*0.5;
 			y+=cubeSize*0.5;
 			z+=cubeSize*0.5;
-			SetByPixel(x,y,z, Get(15,25,15));
+			SetByPixel(x,y,z, Get(50,50,50));
 		}
 	}
 	

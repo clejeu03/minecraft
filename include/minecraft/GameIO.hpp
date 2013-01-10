@@ -23,6 +23,7 @@ namespace minecraft {
 			void LoadMap() throw(std::logic_error);
 			void GenerateMap(size_t size);
 			void GenerateIsland(size_t size, float positionx, float positiony, float positionz);
+			void GenerateCloud(size_t size, float positionx, float positiony, float positionz);
 			void AddGold(int size);
 			void AddDeposit(int size);
 			void CoverWithDirt(int size);
