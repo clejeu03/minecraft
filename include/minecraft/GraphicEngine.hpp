@@ -14,7 +14,7 @@
 
 namespace minecraft {
 
-	typedef std::map<std::string, int>::iterator ItInventory;
+
 	typedef std::map<std::string,Cube*>::iterator ItGameObjects;
 
 
@@ -55,11 +55,6 @@ namespace minecraft {
 			void DrawCursor();
 			inline void OpenInventory() { m_displayInventory = true; }
 			void DrawInventory();
-
-			std::string GetCubeType(Cube* cube);
-			void AddInInventory(Cube* cube) throw(std::invalid_argument);
-			void RemoveFromInventory(std::string cubeType) throw(std::invalid_argument);
-
 			void DrawSkyBox();
 
 	};

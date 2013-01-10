@@ -37,6 +37,7 @@ namespace minecraft {
 			}
 			
 			Cube* Get(size_t,size_t,size_t) throw(std::out_of_range);
+			Cube* GetForType(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
 			Cube* GetByPixel(GLfloat,GLfloat,GLfloat) throw(std::out_of_range);
 			void Set(size_t,size_t,size_t,Cube*) throw(std::out_of_range);
 			void SetByPixel(GLfloat,GLfloat,GLfloat,Cube*) throw(std::out_of_range);

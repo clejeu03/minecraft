@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
     // Hide Cursor
 	SDL_ShowCursor(SDL_DISABLE);
 	// Prevent from leaving the screen
-	SDL_WM_GrabInput(SDL_GRAB_ON);
+	//SDL_WM_GrabInput(SDL_GRAB_ON);
 	
 	// GLEW
 	GLenum error;
@@ -90,17 +90,9 @@ int main(int argc, char* argv[]) {
     minecraft::GameEngine gameEng;
     gameEng.SetCharacter(&player);
 	gameEng.SetMap(&map);
-<<<<<<< HEAD
-	//gameEng.SetGameObjects(graphicEng.GetGameObjects());
-    
-
-     // Hide Cursor
-	SDL_ShowCursor(SDL_DISABLE);
-	// Prevent from leaving the screen
-	SDL_WM_GrabInput(SDL_GRAB_OFF);
-=======
+	gameEng.SetGameObjects(graphicEng.GetGameObjects());
 	gameEng.InitializeSound();
->>>>>>> f0ff73e3222e9f0380f3efe1f3dae0c2d63b34fc
+
     
     /*Keys pressed*/
 	bool keyZ=0;

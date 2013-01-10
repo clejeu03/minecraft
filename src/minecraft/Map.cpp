@@ -16,8 +16,23 @@ namespace minecraft {
 
 		return std::get<0>(res->second);
 	}
-	
-	
+
+	Cube* Map::GetForType(GLfloat x,GLfloat y,GLfloat z) throw(std::out_of_range) {
+		GLfloat cubeSize=Cube::m_size;
+		x+=cubeSize*0.5;
+		y+=cubeSize*0.5;
+		z+=cubeSize*0.5;
+		x = (size_t)(x/Cube::m_size);
+		y = (size_t)(y/Cube::m_size);
+		z = (size_t)(z/Cube::m_size);
+
+		ItCubeInstance res = m_data.find(MapCoords(x,y,z));
+		if( res == m_data.end() )
+			return NULL;
+
+		return std::get<0>(res->second);
+	}
+
 	void Map::Set(size_t x, size_t y, size_t z, Cube* cube) throw(std::out_of_range) {
 		if( x > m_width || x < 0 ||
 		y > m_height || y < 0 ||

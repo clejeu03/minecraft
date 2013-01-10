@@ -107,7 +107,9 @@ namespace minecraft{
 				//One step back
 				currentPosition-=step*directionVector;
 				// Place the cube
-				m_world->FakeCreation(currentPosition.x,currentPosition.y,currentPosition.z);
+				if(){
+					m_world->FakeCreation(currentPosition.x,currentPosition.y,currentPosition.z);
+				}
 				
 				//Deletes immediately if it collides
 				if (collideSides()){
@@ -116,19 +118,58 @@ namespace minecraft{
 					buildCube.play();
 				}
 				
-			}else if (mode==0){
-				//AddInInventory(m_world->GetByPixel(currentPosition.x,currentPosition.y,currentPosition.z));
+			}else if (mode==0){			
+				AddInInventory(GetCubeType(currentPosition.x, currentPosition.y, currentPosition.z));
 				m_world->DelByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
-<<<<<<< HEAD
-				
-				
-=======
 				breakCube.play();
->>>>>>> f0ff73e3222e9f0380f3efe1f3dae0c2d63b34fc
+
 			}
 		}
 		return 1;
 	}
+
+	std::string GameEngine::GetCubeType(GLfloat x,GLfloat y,GLfloat z)throw(std::invalid_argument){
+		std::string type = "notype";
+		Cube* tmp = m_world->GetForType(x,y,z);
+		if(tmp == (*m_gameObjects)[std::string("RockCube")]){
+			type = "RockCube";
+		}
+		else if(tmp == (*m_gameObjects)[std::string("CloudCube")]){
+			type = "CloudCube";
+		}
+		return type;
+	}
+
+	void GameEngine::AddInInventory(std::string cubeType) throw(std::invalid_argument){
+		if (cubeType.empty()==true)
+			throw std::invalid_argument("Inventory : Non recognized type of cube");
+
+		/*If there's not corresponding cube	*/	
+		if(m_inventory.find(cubeType) == m_inventory.end()){
+			m_inventory.insert ( std::pair<std::string,int>(cubeType,1) );
+			std::cout << m_inventory.begin()->first << m_inventory.begin()->second << std::endl;
+		}
+		/*If there is already the same type of cube */
+		else{
+			m_inventory.find(cubeType)->second ++;
+			std::cout << m_inventory.find(cubeType)->second << std::endl;
+		}
+	}
+ 
+	/*void Inventory::RemoveFromInventory(std::string cubeType) throw(std::invalid_argument){
+
+		if(m_inventory.find(cubeType) == m_inventory.end()){
+			throw std::invalid_argument("Your inventory doesn't contain this sort of cube");
+		}
+		/*Case there are many elements in the inventory
+		else if(m_inventory.find(cubeType)->second != 1 ){
+			m_inventory.find(cubeType)->second --;	
+
+		/*Case it's the last one of this type
+		}else{
+			m_inventory.erase(m_inventory.find(CubeType));
+		}
+	}*/
 
 	void GameEngine::InitializeSound(){
 		// Load sounds
@@ -147,4 +188,6 @@ namespace minecraft{
 	void GameEngine::walkSoundStop(){
 		steps.stop();
 	}
+
+
 }
