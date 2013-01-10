@@ -101,9 +101,10 @@ namespace minecraft {
 		
 
 		///CrystalCube
-		m_shapes[std::string("CrystalCube")].vertices = m_shapes[std::string("cube")].vertices;
-		m_shapes[std::string("RockCube")].vertices = m_shapes[std::string("cube")].vertices;
-		m_shapes[std::string("CloudCube")].vertices = m_shapes[std::string("cube")].vertices;
+		m_shapes[std::string("CrystalCube")] = m_shapes[std::string("cube")];
+		m_shapes[std::string("RockCube")] = m_shapes[std::string("cube")];
+		m_shapes[std::string("CloudCube")] = m_shapes[std::string("cube")];
+		
 		/// Skybox
 		m_shapes[std::string("skybox")] = Shape(36);
 
@@ -296,6 +297,11 @@ namespace minecraft {
 
 			glBindBuffer(GL_ARRAY_BUFFER,0);	
     	glBindVertexArray(0);
+
+    	delete[] positionCoords;
+    	delete[] normalsCoords;
+    	delete[] textCoords;
+    	delete[] instancePositions;
 	}
 
 	void ShapeManager::LoadShapes() {

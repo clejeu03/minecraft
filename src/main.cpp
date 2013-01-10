@@ -61,9 +61,9 @@ int main(int argc, char* argv[]) {
 	SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
 	
     // Hide Cursor
-	SDL_ShowCursor(SDL_DISABLE);
+	//SDL_ShowCursor(SDL_DISABLE);
 	// Prevent from leaving the screen
-	SDL_WM_GrabInput(SDL_GRAB_ON);
+	//SDL_WM_GrabInput(SDL_GRAB_ON);
 	
 	// GLEW
 	GLenum error;
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
 	}
 	
     /// CREATION OF THE RESSOURCES
-    minecraft::Character player(glm::vec3(3,10,5));
+    minecraft::Character player(glm::vec3(3,100,5));
     minecraft::Map map;
 
 	minecraft::GraphicEngine graphicEng;
@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-    IOManager.GenerateMap(100);
+    IOManager.GenerateMap(30);
     IOManager.SaveMap();
     
     minecraft::GameEngine gameEng;
@@ -220,7 +220,7 @@ int main(int argc, char* argv[]) {
 		currentBottomCollide=gameEng.collideBottom();
 		
 		// Process gravity
-		gameEng.processGravity(formerBottomCollide);
+		//gameEng.processGravity(formerBottomCollide);
 		
 		// Save former position
 		formerPosition = player.position();
@@ -260,7 +260,7 @@ int main(int argc, char* argv[]) {
 		else {
 			std::cout << "framerate : " << 1000./elapsedTime << std::endl;
 		}
-		printf("\033[2J");
+		//printf("\033[2J");
     }
     
 	/// QUIT AND CLEAN (ALL IS AUTOMATIC BY NOW, MAYBE LATER)

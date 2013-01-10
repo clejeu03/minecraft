@@ -227,7 +227,10 @@ namespace minecraft {
 	void GameIO::GenerateMap(size_t size){
 		m_map->Resize(size, size, size);
 		float caves, center_falloff, plateau_falloff, density;
+		float total = (size-2) * (size-2) * (size-2) -1;
+		float i = 0.0;
 	    foreach_xyz(1, size-1)
+
 	        if(yf <= 0.8){
 	            plateau_falloff = 1.0;
 	        }
@@ -257,8 +260,10 @@ namespace minecraft {
 	        }
 	        std::map<std::string,Cube*> dictionary = *m_gameObjects;
 	        if(density >3.1) {m_map->Set(x,y,z,dictionary[std::string("RockCube")]);}
+	    	std::cout << "loading (" << i / total * 100.0 << "%)" << std::endl;
+	    	//printf("\033[2J");
+    		++i;
 	    }}}
-	    
 	}
 
 	void GameIO::SaveMap(){

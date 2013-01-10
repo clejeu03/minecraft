@@ -157,7 +157,7 @@ namespace minecraft {
 	}
 	
 	/* Draw the cubes at the right places considering their size */
-	void Map::Draw(MatrixStack& matrixStack, GLuint uniformLocation) const {
+	/*void Map::Draw(MatrixStack& matrixStack, GLuint uniformLocation) const {
 		GLfloat cubeSize = Cube::m_size;
 		for(ItCubeInstanceConst iterator = m_data.begin(); iterator != m_data.end(); iterator++) {
 			if( std::get<1>(iterator->second) ) { // If the cube is not hidden by other cubes
@@ -175,21 +175,21 @@ namespace minecraft {
 				matrixStack.Pop();
 			}
 		}
-	}
+	}*/
 
 	/* Draw instances */
-	void Map::Draw(MatrixStack& matrixStack, GLuint uniformLocation, std::vector<InstanceData>& instanceDatas) const {
+	void Map::Draw(MatrixStack& matrixStack, GLuint uniformLocation) const {
 		GLfloat cubeSize = Cube::m_size;
-		for(int i=0; i<instanceDatas.size(); ++i) {
+		for(int i=0; i<m_instanceDatas.size(); ++i) {
 			matrixStack.Push();
 				matrixStack.Scale(glm::vec3(cubeSize));
 				matrixStack.Translate(glm::vec3(0.0,0.0,0.0));
 				glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrixStack.Top()));
 			matrixStack.Pop();
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D,std::get<1>(instanceDatas[i]));
-			glBindVertexArray(std::get<0>(instanceDatas[i]));
-			glDrawArraysInstanced(GL_TRIANGLES, 0, Cube::m_tmpNbVertices, std::get<2>(instanceDatas[i]));
+			glBindTexture(GL_TEXTURE_2D,std::get<1>(m_instanceDatas[i]));
+			glBindVertexArray(std::get<0>(m_instanceDatas[i]));
+			glDrawArraysInstanced(GL_TRIANGLES, 0, Cube::m_tmpNbVertices, std::get<2>(m_instanceDatas[i]));
 			glBindVertexArray(0);
 			//std::cout << "instance["<<i<<"] = " << std::get<2>(instanceDatas[i]);
 		}

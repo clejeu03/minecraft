@@ -110,8 +110,8 @@ namespace minecraft{
 				
 			}else if (mode==0){
 				m_world->DelByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
-				
 			}
+			m_world->SetRefresh(true);
 		}
 		return 1;
 	}

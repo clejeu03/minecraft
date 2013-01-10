@@ -98,42 +98,40 @@ namespace minecraft {
 		if( NULL == m_character || NULL == m_world )
 			throw std::logic_error("Can't display game without setting the map and the character");
 		
-		/*if(m_world->CheckForRefresh()) {
-			//setup cubes vbo
-		}*/
-		std::vector<MapCoords> cloudCubes = m_world->GetPositions("CloudCube");
-		std::vector<MapCoords> crystalCubes = m_world->GetPositions("CrystalCube");
-		std::vector<MapCoords> rockCubes = m_world->GetPositions("RockCube");
+		if(m_world->CheckForRefresh()) {
+			std::vector<MapCoords> cloudCubes = m_world->GetPositions("CloudCube");
+			std::vector<MapCoords> crystalCubes = m_world->GetPositions("CrystalCube");
+			std::vector<MapCoords> rockCubes = m_world->GetPositions("RockCube");
 
 
-		m_shapeMgr.SetBuffer("CloudCube", cloudCubes);
-		m_shapeMgr.SetBuffer("CrystalCube", crystalCubes);
-		m_shapeMgr.SetBuffer("RockCube", rockCubes);
+			m_shapeMgr.SetBuffer("CloudCube", cloudCubes);
+			m_shapeMgr.SetBuffer("CrystalCube", crystalCubes);
+			m_shapeMgr.SetBuffer("RockCube", rockCubes);
 
-		std::vector<InstanceData> instanceDatas;
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("CloudCube")]->GetVAOId(),
+				m_gameObjects[std::string("CloudCube")]->GetTexId(),
+				cloudCubes.size()
+			));
 
-		instanceDatas.push_back(std::make_tuple(
-			m_gameObjects[std::string("CloudCube")]->GetVAOId(),
-			m_gameObjects[std::string("CloudCube")]->GetTexId(),
-			cloudCubes.size()
-		));
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("CrystalCube")]->GetVAOId(),
+				m_gameObjects[std::string("CrystalCube")]->GetTexId(),
+				crystalCubes.size()
+			));
 
-		instanceDatas.push_back(std::make_tuple(
-			m_gameObjects[std::string("CrystalCube")]->GetVAOId(),
-			m_gameObjects[std::string("CrystalCube")]->GetTexId(),
-			crystalCubes.size()
-		));
-
-		instanceDatas.push_back(std::make_tuple(
-			m_gameObjects[std::string("RockCube")]->GetVAOId(),
-			m_gameObjects[std::string("RockCube")]->GetTexId(),
-			rockCubes.size()
-		));
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("RockCube")]->GetVAOId(),
+				m_gameObjects[std::string("RockCube")]->GetTexId(),
+				rockCubes.size()
+			));
+			m_world->SetRefresh(false);
+		}
 		
 		m_transformStack.Push();
 			m_transformStack.Set(m_perspectiveMatrix*m_character->GetPointOfView());
 			DrawSkyBox();
-			m_world->Draw(m_transformStack,m_uniformTransformLocation, instanceDatas);
+			m_world->Draw(m_transformStack,m_uniformTransformLocation);
 		m_transformStack.Pop();
 		DrawCursor();
 		DrawInventory();
