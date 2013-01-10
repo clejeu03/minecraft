@@ -96,6 +96,11 @@ namespace minecraft {
 		m_shapes[std::string("cube")].vertices[31] = Vertex(-0.5, 0.5,-0.5, 0.0, 1.0, 0.0, 0.0, 0.0);
 		m_shapes[std::string("cube")].vertices[32] = Vertex(-0.5, 0.5, 0.5, 0.0, 1.0, 0.0, 0.0, 1.0);
 		
+
+		///CrystalCube
+		m_shapes[std::string("CrystalCube")].vertices = m_shapes[std::string("cube")].vertices;
+		m_shapes[std::string("RockCube")].vertices = m_shapes[std::string("cube")].vertices;
+		m_shapes[std::string("CloudCube")].vertices = m_shapes[std::string("cube")].vertices;
 		/// Skybox
 		m_shapes[std::string("skybox")] = Shape(36);
 
