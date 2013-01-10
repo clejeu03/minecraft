@@ -42,7 +42,7 @@ namespace minecraft {
 			
 			bool m_displayInventory;
 		public:
-			GraphicEngine() { m_displayInventory = false; }
+			GraphicEngine();
 			~GraphicEngine();
 			/* Init openGL context and features */
 			void StartGL() throw(std::runtime_error);
@@ -53,8 +53,7 @@ namespace minecraft {
 			std::map<std::string,Cube*>* GetGameObjects() { return &m_gameObjects; }
 			void RefreshDisplay() throw(std::logic_error);
 			void DrawCursor();
-			inline void OpenInventory() { m_displayInventory = true; }
-			void DrawInventory();
+			void DrawInventory(int pos);
 			void DrawSkyBox();
 
 	};

@@ -23,6 +23,7 @@ namespace minecraft {
 			GLfloat velocity;
 			std::map<std::string,Cube*>* m_gameObjects;
 			std::map<std::string, int> m_inventory;
+			int currentInventory;
 			
 			//A few sounds
 			Sound steps;
@@ -42,6 +43,8 @@ namespace minecraft {
 			bool aimCube(int);
 			std::string GetCubeType(GLfloat x,GLfloat y,GLfloat z)throw(std::invalid_argument);
 			void AddInInventory(std::string cubeType) throw(std::invalid_argument);
+			inline	void GameEngine::SetCurrentInventory(int pos){currentInventory = pos;}
+			inline	void GameEngine::GetCurrentInventory(){ return currentInventory;}
 			void RemoveFromInventory(std::string cubeType) throw(std::invalid_argument);
 
 			void InitializeSound();

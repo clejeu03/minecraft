@@ -107,9 +107,9 @@ namespace minecraft{
 				//One step back
 				currentPosition-=step*directionVector;
 				// Place the cube
-				if(){
+				
 					m_world->FakeCreation(currentPosition.x,currentPosition.y,currentPosition.z);
-				}
+				
 				
 				//Deletes immediately if it collides
 				if (collideSides()){
@@ -155,21 +155,21 @@ namespace minecraft{
 			std::cout << m_inventory.find(cubeType)->second << std::endl;
 		}
 	}
- 
-	/*void Inventory::RemoveFromInventory(std::string cubeType) throw(std::invalid_argument){
+
+	void Inventory::RemoveFromInventory(std::string cubeType) throw(std::invalid_argument){
 
 		if(m_inventory.find(cubeType) == m_inventory.end()){
 			throw std::invalid_argument("Your inventory doesn't contain this sort of cube");
 		}
-		/*Case there are many elements in the inventory
+		/*Case there are many elements in the inventory*/
 		else if(m_inventory.find(cubeType)->second != 1 ){
 			m_inventory.find(cubeType)->second --;	
 
-		/*Case it's the last one of this type
+		/*Case it's the last one of this type*/
 		}else{
 			m_inventory.erase(m_inventory.find(CubeType));
 		}
-	}*/
+	}
 
 	void GameEngine::InitializeSound(){
 		// Load sounds

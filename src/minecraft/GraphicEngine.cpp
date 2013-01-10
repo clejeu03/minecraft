@@ -3,6 +3,7 @@
 #include <minecraft/shader_tools.hpp>
 #include <minecraft/GraphicEngine.hpp>
 #include <minecraft/Light.hpp>
+#include <sstream>
 
 namespace minecraft {
 	GraphicEngine::~GraphicEngine() {
@@ -79,21 +80,17 @@ namespace minecraft {
 		m_gameObjects[std::string("RockCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("cube")));
 		m_gameObjects[std::string("RockCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("cube")));
 		// Init and assign the textures
-		m_textureMgr.LoadTexture("SkyBox","./skybox.jpg");
-		m_textureMgr.LoadTexture("Cloud", "./cloud.jpg");
-		m_textureMgr.LoadTexture("Crystal", "./cloud.jpg");
-		m_textureMgr.LoadTexture("Rock", "./rock.jpg");
-		m_textureMgr.LoadTexture("Cursor","./cursor.png");
+		m_textureMgr.LoadTexture("SkyBox","./data/resources/skybox.jpg");
+		m_textureMgr.LoadTexture("Cloud", "./data/resources/cloud.jpg");
+		m_textureMgr.LoadTexture("Crystal", "./data/resources/cloud.jpg");
+		m_textureMgr.LoadTexture("Rock", "./data/resources/rock.jpg");
+		m_textureMgr.LoadTexture("Cursor","./data/resources/cursor.png");
+		
 
-		m_textureMgr.LoadTexture("Inventory","./inventory.png");
 		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Cloud"));
 		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Crystal"));
 		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Rock"));
-
 		m_gameObjects[std::string("SkyBoxCube")]->SetTexId(m_textureMgr.GetTextureId("SkyBox"));
-		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId("Cloud"));
-		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId("Crystal"));
-		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId("Rock"));
 
 	}
 	
@@ -107,7 +104,7 @@ namespace minecraft {
 			DrawSkyBox();
 		m_transformStack.Pop();
 		DrawCursor();
-		DrawInventory();
+		DrawInventory(1);
 	}
 	
 	void GraphicEngine::DrawCursor() {
@@ -124,7 +121,31 @@ namespace minecraft {
 		glUniform1i(m_uniformLightening, 1);
 	}
 	
-	void GraphicEngine::DrawInventory() {
+	void GraphicEngine::DrawInventory(int pos) {
+
+		switch (pos){
+			case 1:
+				m_textureMgr.LoadTexture("Inventory","./data/resources/inventory1.png");
+			case 2 :
+				m_textureMgr.LoadTexture("Inventory","./data/resources/inventory2.png");
+			case 3 :
+				m_textureMgr.LoadTexture("Inventory","./data/resources/inventory3.png");
+			case 4 :
+				m_textureMgr.LoadTexture("Inventory","./data/resources/inventory4.png");
+			case 5 :
+				m_textureMgr.LoadTexture("Inventory","./data/resources/inventory5.png");
+			case 6 :
+				m_textureMgr.LoadTexture("Inventory","./data/resources/inventory6.png");
+			case 7 :
+				m_textureMgr.LoadTexture("Inventory","./data/resources/inventory7.png");
+			case 8 :
+				m_textureMgr.LoadTexture("Inventory","./data/resources/inventory8.png");
+			case 9 :
+				m_textureMgr.LoadTexture("Inventory","./data/resources/inventory9.png");
+		}
+
+		
+
 		glUniform1i(m_uniform2dMode, 1); // Tell the shader it's 2D
 		
 		glActiveTexture(GL_TEXTURE0);
@@ -132,7 +153,7 @@ namespace minecraft {
 		glBindVertexArray(m_shapeMgr.GetShapeVAO(std::string("inventory")));
 		glDrawArrays(GL_TRIANGLES, 0, m_shapeMgr.GetShapeNbVertices(std::string("inventory")));
 		glBindVertexArray(0);
-		
+
 		glUniform1i(m_uniform2dMode, 0);
 			 
 	}
