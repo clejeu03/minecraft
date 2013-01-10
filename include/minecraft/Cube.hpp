@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 #include <string>
+#include <iostream>
 #include <minecraft/Drawable.hpp>
 
 namespace minecraft {
@@ -15,7 +16,7 @@ namespace minecraft {
 			constexpr static GLfloat m_size = 0.1f;
 			constexpr static GLuint m_tmpNbVertices = 36; //solution temporaire
 			inline void SetNbVertices(size_t nb) { m_nbVertices = nb; }
-			inline void SetTexId(GLuint id) { m_textureId = id; }
+			inline void SetTexId(GLuint id) { m_textureId = id; std::cout << "textureId[" << m_type << "] = " << id << std::endl; }
 			inline GLuint GetTexId() { return m_textureId; }
 			inline void SetVAOId(GLuint id) { m_VAO = id; }
 			inline GLuint GetVAOId() { return m_VAO; }

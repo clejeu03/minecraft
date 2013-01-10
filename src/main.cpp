@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
 	}
 	
     /// CREATION OF THE RESSOURCES
-    minecraft::Character player(glm::vec3(0,0,1));
+    minecraft::Character player(glm::vec3(0,0,-1));
     minecraft::Map map;
 
 	minecraft::GraphicEngine graphicEng;

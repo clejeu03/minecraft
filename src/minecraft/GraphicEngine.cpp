@@ -132,7 +132,7 @@ namespace minecraft {
 		
 		m_transformStack.Push();
 			m_transformStack.Set(m_perspectiveMatrix*m_character->GetPointOfView());
-			//m_world->Draw(m_transformStack,m_uniformTransformLocation, instanceDatas);
+			m_world->Draw(m_transformStack,m_uniformTransformLocation, instanceDatas);
 			DrawSkyBox();
 		m_transformStack.Pop();
 		DrawCursor();

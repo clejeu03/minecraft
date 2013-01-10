@@ -25,10 +25,10 @@ out float vLightedPixel;
 
 void main() {
 	if( u2dMode == 0 ) {
-		gl_Position = uMVPMatrix * vec4(position,1.);
+		gl_Position = uMVPMatrix * vec4(position+vec3(0.,gl_InstanceID,gl_InstanceID),1.);
 	}
 	else {
-		gl_Position = vec4(position.x, position.y,0.,1.);
+		gl_Position = vec4(position.x, position.y+gl_InstanceID,0.,1.);
 	}
 	
 	if( uLightening == 1 ) {

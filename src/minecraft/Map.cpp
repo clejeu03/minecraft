@@ -186,10 +186,14 @@ namespace minecraft {
 				glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrixStack.Top()));
 			matrixStack.Pop();
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D,std::get<0>(instanceDatas[i]));
-			glBindVertexArray(std::get<1>(instanceDatas[i]));
-			glDrawArraysInstanced(GL_TRIANGLES, 0, Cube::m_tmpNbVertices, std::get<1>(instanceDatas[i]));
+			glBindTexture(GL_TEXTURE_2D,std::get<1>(instanceDatas[i]));
+			glBindVertexArray(std::get<0>(instanceDatas[i]));
+			glDrawArraysInstanced(GL_TRIANGLES, 0, Cube::m_tmpNbVertices, std::get<2>(instanceDatas[i]));
 			glBindVertexArray(0);
+			/* tuple vao,texId,nbInstance 
+			std::cout << "vao["<<i<<"] = " << std::get<0>(instanceDatas[i]) << std::endl;
+			std::cout << "texId["<<i<<"] = " << std::get<1>(instanceDatas[i]) << std::endl;
+			std::cout << "nbInstance["<<i<<"] = " << std::get<2>(instanceDatas[i]) << std::endl;*/
 		}
 	}
 
