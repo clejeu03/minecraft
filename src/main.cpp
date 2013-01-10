@@ -19,7 +19,7 @@
 #include <minecraft/Sound.hpp>
 
 #define FPS 1000/30 //Actually this is the number of milliseconds per frame
-#define MAP_SIZE 50
+#define MAP_SIZE 30
 
 
 /* GAME PARAMETERS */

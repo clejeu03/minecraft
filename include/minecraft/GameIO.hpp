@@ -26,6 +26,7 @@ namespace minecraft {
 			void AddDeposit(int size);
 			void CoverWithDirt(int size);
 			void DeleteLonely(int size);
+			void AddNoise(int factor);
 			void LoadInventory() {} // Why not ?
 			void SaveMap();
 			void SaveInventory() {}
