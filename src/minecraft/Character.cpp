@@ -4,7 +4,7 @@
 namespace minecraft {
 	
 	Character::Character(glm::vec3 position){
-		povHeight=0.15;
+		povHeight=0.18;
 		m_box.setBase(position);
 		m_camera.setPosition(position+povHeight);
 	}
