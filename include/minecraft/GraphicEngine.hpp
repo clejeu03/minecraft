@@ -24,7 +24,6 @@ namespace minecraft {
 			ShapeManager m_shapeMgr;
 			Map* m_world;
 			std::map<std::string,Cube*> m_gameObjects;
-			std::map<std::string, int> m_inventory;
 			GLuint m_uniformTransformLocation;
 			GLuint m_uniform2dMode;
 			GLuint m_uniformLightening;

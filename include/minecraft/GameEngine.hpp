@@ -17,11 +17,13 @@ namespace minecraft {
 			Character* m_character;
 			GLfloat gravity;
 			GLfloat velocity;
+			std::map<std::string,Cube*>* m_gameObjects;
 			
 		public:
 			GameEngine();
 			void SetMap(Map* map) { m_world = map; }
 			void SetCharacter(Character* character) { m_character = character; }
+			//void SetGameObjects(std::map<std::string,Cube*>* dictionary) { m_gameObjects = dictionary; }
 			bool collideBottom();
 			bool collideSides();
 			void processGravity(bool formerCollide);

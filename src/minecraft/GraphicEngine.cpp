@@ -84,17 +84,17 @@ namespace minecraft {
 		m_textureMgr.LoadTexture("Crystal", "./cloud.jpg");
 		m_textureMgr.LoadTexture("Rock", "./rock.jpg");
 		m_textureMgr.LoadTexture("Cursor","./cursor.png");
-<<<<<<< HEAD
+
 		m_textureMgr.LoadTexture("Inventory","./inventory.png");
 		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Cloud"));
 		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Crystal"));
 		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Rock"));
-=======
+
 		m_gameObjects[std::string("SkyBoxCube")]->SetTexId(m_textureMgr.GetTextureId("SkyBox"));
 		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId("Cloud"));
 		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId("Crystal"));
 		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId("Rock"));
->>>>>>> 74878555921fae9a3cee608444fa9574e83fcc24
+
 	}
 	
 	void GraphicEngine::RefreshDisplay() throw(std::logic_error) {
@@ -162,18 +162,18 @@ namespace minecraft {
 
 	}
 
-	void GraphicEngine::AddInInventory(Cube* cube) throw(std::invalid_argument){
+	/*void GraphicEngine::AddInInventory(Cube* cube) throw(std::invalid_argument){
 		if (cube == NULL)
 			throw std::invalid_argument("Non recognized type of cube");
 
 		std::string cubeType;
 		cubeType = GetCubeType(cube);
 
-		/*If there's not corresponding cube*/	
+		/*If there's not corresponding cube	
 		if(m_inventory.find(cubeType) == m_inventory.end()){
 			m_inventory.insert ( std::pair<std::string,int>(cubeType,1) );
 		}
-		/*If there is already the same type of cube */
+		/*If there is already the same type of cube 
 		else{
 			m_inventory.find(cubeType)->second ++;
 		}
