@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
 	}
 	
     /// CREATION OF THE RESSOURCES
-    minecraft::Character player(glm::vec3(3,10,5));
+    minecraft::Character player(glm::vec3(6,15,8));
     minecraft::Map map;
 
 	minecraft::GraphicEngine graphicEng;
@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-    IOManager.GenerateMap(30);
+    IOManager.GenerateMap(150);
     IOManager.SaveMap();
     
     minecraft::GameEngine gameEng;
