@@ -104,13 +104,20 @@ namespace minecraft {
 		// Init and assign the textures
 		m_textureMgr.LoadTexture("SkyBox","./skybox.jpg");
 		m_textureMgr.LoadTexture("Cloud", "./data/textures/Cloud.jpg");
-		m_textureMgr.LoadTexture("Crystal", "./cloud.jpg");
-		m_textureMgr.LoadTexture("Rock", "./rock.jpg");
+		m_textureMgr.LoadTexture("Crystal", "./Cristal.jpg");
+		m_textureMgr.LoadTexture("Grass", "./herbe.jpg");
+		m_textureMgr.LoadTexture("Dirt", "./terre.jpg");
+		m_textureMgr.LoadTexture("Diamond", "./Cristal.jpg");
+		m_textureMgr.LoadTexture("Gold", "./Or.jpg");
 		m_textureMgr.LoadTexture("Cursor","./cursor.png");
 		m_gameObjects[std::string("SkyBoxCube")]->SetTexId(m_textureMgr.GetTextureId("SkyBox"));
 		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId("Cloud"));
 		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId("Crystal"));
 		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId("Rock"));
+		m_gameObjects[std::string("GrassCube")]->SetTexId(m_textureMgr.GetTextureId("Grass"));
+		m_gameObjects[std::string("DirtCube")]->SetTexId(m_textureMgr.GetTextureId("DirtCube"));
+		m_gameObjects[std::string("DiamondCube")]->SetTexId(m_textureMgr.GetTextureId("DiamondCube"));
+		m_gameObjects[std::string("GoldCube")]->SetTexId(m_textureMgr.GetTextureId("GoldCube"));
 
 		std::cout << "End init of graphicEngine" << std::endl;
 	}
