@@ -191,11 +191,9 @@ namespace minecraft {
 			glBindVertexArray(std::get<0>(instanceDatas[i]));
 			glDrawArraysInstanced(GL_TRIANGLES, 0, Cube::m_tmpNbVertices, std::get<2>(instanceDatas[i]));
 			glBindVertexArray(0);
-			/* tuple vao,texId,nbInstance 
-			std::cout << "vao["<<i<<"] = " << std::get<0>(instanceDatas[i]) << std::endl;
-			std::cout << "texId["<<i<<"] = " << std::get<1>(instanceDatas[i]) << std::endl;
-			std::cout << "nbInstance["<<i<<"] = " << std::get<2>(instanceDatas[i]) << std::endl;*/
+			//std::cout << "instance["<<i<<"] = " << std::get<2>(instanceDatas[i]);
 		}
+		//exit(EXIT_SUCCESS);
 	}
 
 	/* Get position of all visibles cubes */

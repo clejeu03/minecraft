@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
 	}
 	
     /// CREATION OF THE RESSOURCES
-    minecraft::Character player(glm::vec3(0,0,-1));
+    minecraft::Character player(glm::vec3(3,10,5));
     minecraft::Map map;
 
 	minecraft::GraphicEngine graphicEng;
@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-    IOManager.GenerateMap(30);
+    IOManager.GenerateMap(100);
     IOManager.SaveMap();
     
     minecraft::GameEngine gameEng;
@@ -220,7 +220,7 @@ int main(int argc, char* argv[]) {
 		currentBottomCollide=gameEng.collideBottom();
 		
 		// Process gravity
-		//gameEng.processGravity(formerBottomCollide);
+		gameEng.processGravity(formerBottomCollide);
 		
 		// Save former position
 		formerPosition = player.position();
@@ -254,10 +254,13 @@ int main(int argc, char* argv[]) {
 		elapsedTime = SDL_GetTicks() - startTime;
 		// Framerate control : pause briefly the program if it's running too fast
 		if(elapsedTime < FPS) {
+			std::cout << "framerate : 30" << std::endl;
 			SDL_Delay(FPS - elapsedTime);
 		}
-		//std::cout << "framerate : " << 1000./elapsedTime << std::endl;
-		
+		else {
+			std::cout << "framerate : " << 1000./elapsedTime << std::endl;
+		}
+		printf("\033[2J");
     }
     
 	/// QUIT AND CLEAN (ALL IS AUTOMATIC BY NOW, MAYBE LATER)
