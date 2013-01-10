@@ -315,16 +315,16 @@ namespace minecraft {
 	void GameIO::GenerateMap(size_t size){
 		m_map->Resize(size, size, size);
 		
-		GenerateIsland (40, 50,50,50);
-		GenerateIsland (30, 70,50,70);
-		GenerateIsland (25, 40,35,30);
-		GenerateIsland (15, 10,80,70);
-		GenerateIsland (20, 70,60,10);
-		GenerateIsland (10, 40,90,30);
-		GenerateIsland (20, 60,90,90);
-		GenerateIsland (10, 20,10,90);
-		GenerateIsland (5, 20,10,30);
-		GenerateIsland (15, 80,10,20);
+		GenerateIsland (40*size/100, 50*size/100,50*size/100,50*size/100);
+		GenerateIsland (30*size/100, 70*size/100,50*size/100,70*size/100);
+		GenerateIsland (25*size/100, 40*size/100,35*size/100,30*size/100);
+		GenerateIsland (15*size/100, 10*size/100,80*size/100,70*size/100);
+		GenerateIsland (20*size/100, 70*size/100,60*size/100,10*size/100);
+		GenerateIsland (10*size/100, 40*size/100,90*size/100,30*size/100);
+		GenerateIsland (20*size/100, 60*size/100,90*size/100,90*size/100);
+		GenerateIsland (10*size/100, 20*size/100,10*size/100,90*size/100);
+		GenerateIsland (5*size/100, 20*size/100,10*size/100,30*size/100);
+		GenerateIsland (15*size/100, 80*size/100,10*size/100,20*size/100);
 		
 		//GenerateCloud (30, 35,80,35);
 		
