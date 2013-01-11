@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
 	gameEng.InitializeSound();
 	
 	// Loop music
-	// gameEng.music.play(1);
+	gameEng.music.play(1);
 	
 	    // Hide Cursor
 	SDL_ShowCursor(SDL_DISABLE);
