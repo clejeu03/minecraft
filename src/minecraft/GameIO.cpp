@@ -372,8 +372,6 @@ namespace minecraft {
 					zf=(float)z/(float)size;
 			if (m_map->Get(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2))!=NULL){value=1;}else{value=0;}
 			if (m_map->Get(x+(positionx-size/2),y+(positiony-size/2)+1,z+(positionz-size/2))!=NULL){ontop=1;}else{ontop=0;}
-			std::cout<<value<<" ";
-			std::cout<<ontop<<std::endl;
 			if(value == 1 && ontop == 0){
 				std::map<std::string,Cube*> dictionary = *m_gameObjects;
 				m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("GrassCube")]);
