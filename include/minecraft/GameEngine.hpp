@@ -23,7 +23,8 @@ namespace minecraft {
 			GLfloat velocity;
 			std::map<std::string,Cube*>* m_gameObjects;
 			std::map<std::string, int> m_inventory;
-			int currentInventory;
+			std::map<size_t, std::string> m_inventoryPosition;
+			size_t m_currentInventory;
 			
 			//A few sounds
 			Sound steps;
@@ -32,7 +33,10 @@ namespace minecraft {
 			Sound scream;
 			
 		public:
-			GameEngine();
+			GameEngine(){
+				gravity=0.003;
+				velocity=0;
+				m_currentInventory = 1;};
 			void SetMap(Map* map) { m_world = map; }
 			void SetCharacter(Character* character) { m_character = character; }
 			void SetGameObjects(std::map<std::string,Cube*>* dictionary) { m_gameObjects = dictionary; }
@@ -43,9 +47,11 @@ namespace minecraft {
 			bool aimCube(int);
 			std::string GetCubeType(GLfloat x,GLfloat y,GLfloat z)throw(std::invalid_argument);
 			void AddInInventory(std::string cubeType) throw(std::invalid_argument);
-			inline	void GameEngine::SetCurrentInventory(int pos){currentInventory = pos;}
-			inline	void GameEngine::GetCurrentInventory(){ return currentInventory;}
+			void SetCurrentInventory(size_t pos);
+			inline	size_t GetCurrentInventory(){ return m_currentInventory;}
 			void RemoveFromInventory(std::string cubeType) throw(std::invalid_argument);
+			std::string DisplayInventoryObjects();
+
 
 			void InitializeSound();
 			void walkSound();

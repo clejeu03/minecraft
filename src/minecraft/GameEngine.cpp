@@ -3,14 +3,7 @@
 #include <minecraft/Sound.hpp>
 
 namespace minecraft{
-	
-	GameEngine::GameEngine(){
-		gravity=0.003;
-		velocity=0;
-	}
-	
-	
-	
+
 	bool GameEngine::collideBottom(){
 		//For this version let's consider that the box's base is never bigger than a cube : 4 cubes to test only (vertices of the base square)
 		glm::vec3 position=m_character->position();
@@ -107,10 +100,12 @@ namespace minecraft{
 				//One step back
 				currentPosition-=step*directionVector;
 				// Place the cube
-				
+
+				/*if (m_inventory.begin()+m_currentInventory.second !=0){
+					RemoveFromInventory(GetCubeType(currentPosition.x, currentPosition.y, currentPosition.z));
 					m_world->FakeCreation(currentPosition.x,currentPosition.y,currentPosition.z);
-				
-				
+				}	*/	
+						
 				//Deletes immediately if it collides
 				if (collideSides()){
 					m_world->DelByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
@@ -134,10 +129,24 @@ namespace minecraft{
 		if(tmp == (*m_gameObjects)[std::string("RockCube")]){
 			type = "RockCube";
 		}
+		if(tmp == (*m_gameObjects)[std::string("CrystalCube")]){
+			type = "CrystalCube";
+		}
 		else if(tmp == (*m_gameObjects)[std::string("CloudCube")]){
 			type = "CloudCube";
 		}
 		return type;
+	}
+
+	void GameEngine::SetCurrentInventory(size_t pos){
+		while(pos < 1){
+			pos = 1;
+		}
+		while(pos >9){
+			pos = 9;
+		}
+		m_currentInventory = pos;
+
 	}
 
 	void GameEngine::AddInInventory(std::string cubeType) throw(std::invalid_argument){
@@ -147,27 +156,60 @@ namespace minecraft{
 		/*If there's not corresponding cube	*/	
 		if(m_inventory.find(cubeType) == m_inventory.end()){
 			m_inventory.insert ( std::pair<std::string,int>(cubeType,1) );
-			std::cout << m_inventory.begin()->first << m_inventory.begin()->second << std::endl;
+			for(std::map<size_t, std::string>::iterator it = m_inventoryPosition.begin(); it != m_inventoryPosition.end(); ++it){
+				//m_inventoryPosition.insert( std::pair<int,std::string>(it, cubeType));
+			}
+			DisplayInventoryObjects();
 		}
 		/*If there is already the same type of cube */
 		else{
 			m_inventory.find(cubeType)->second ++;
-			std::cout << m_inventory.find(cubeType)->second << std::endl;
 		}
 	}
 
-	void Inventory::RemoveFromInventory(std::string cubeType) throw(std::invalid_argument){
+	std::string GameEngine::DisplayInventoryObjects(){
+		std::map<std::string, int>::iterator ItInventory;
 
-		if(m_inventory.find(cubeType) == m_inventory.end()){
-			throw std::invalid_argument("Your inventory doesn't contain this sort of cube");
+		if (m_inventory.empty()==false){
+			for( ItInventory = m_inventory.begin(); ItInventory != m_inventory.end(); ++ItInventory){
+				
+				if(ItInventory->first.compare("RockCube")==0){
+					while(ItInventory->second != 0){
+						return "RockCube";
+					}
+				}
+				if(ItInventory->first.compare("CloudCube")==0){
+					while(ItInventory->second != 0){
+						return "CloudCube";
+					}
+				} 
+				if(ItInventory->first.compare("CrystalCube")==0){
+					while(ItInventory->second != 0){
+						return "CrystalCube";
+					}
+				} 
+			}
 		}
+		else{
+			return "";
+		}
+	}
+
+	void GameEngine::RemoveFromInventory(std::string cubeType) throw(std::invalid_argument){
+		std::cout << cubeType << std::endl;
+		if (cubeType.empty()==true)
+			throw std::invalid_argument("Inventory : Non recognized type of cube");
+
 		/*Case there are many elements in the inventory*/
 		else if(m_inventory.find(cubeType)->second != 1 ){
 			m_inventory.find(cubeType)->second --;	
+			std::cout << m_inventory.find(cubeType)->second << std::endl;
 
 		/*Case it's the last one of this type*/
 		}else{
-			m_inventory.erase(m_inventory.find(CubeType));
+			m_inventory.erase(m_inventory.find(cubeType));
+			DisplayInventoryObjects();
+
 		}
 	}
 

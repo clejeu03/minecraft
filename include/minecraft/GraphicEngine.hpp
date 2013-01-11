@@ -41,8 +41,9 @@ namespace minecraft {
 			MatrixStack m_transformStack;
 			
 			bool m_displayInventory;
+
 		public:
-			GraphicEngine();
+			GraphicEngine() { m_displayInventory = false; };
 			~GraphicEngine();
 			/* Init openGL context and features */
 			void StartGL() throw(std::runtime_error);
@@ -53,7 +54,8 @@ namespace minecraft {
 			std::map<std::string,Cube*>* GetGameObjects() { return &m_gameObjects; }
 			void RefreshDisplay() throw(std::logic_error);
 			void DrawCursor();
-			void DrawInventory(int pos);
+			void DrawInventory(size_t pos);
+			void DrawInventoryObjects(std::string cubeType);
 			void DrawSkyBox();
 
 	};

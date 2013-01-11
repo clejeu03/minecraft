@@ -19,7 +19,7 @@
 #include <minecraft/Sound.hpp>
 
 #define FPS 1000/30 //Actually this is the number of milliseconds per frame
-#define MAP_SIZE 100
+#define MAP_SIZE 50
 
 
 /* GAME PARAMETERS */
@@ -72,6 +72,10 @@ int main(int argc, char* argv[]) {
 	graphicEng.Initialize(WINDOW_WIDTH,WINDOW_HEIGHT);
 	graphicEng.SetCharacter(&player);
 	graphicEng.SetMap(&map);
+
+	graphicEng.DrawInventoryObjects("RockCube");
+
+
 	
 	/*Load a Map*/
 	/*minecraft::GameIO IOManager("data/myFirstIsland.json");
@@ -94,6 +98,8 @@ int main(int argc, char* argv[]) {
 	gameEng.SetMap(&map);
 	gameEng.SetGameObjects(graphicEng.GetGameObjects());
 	gameEng.InitializeSound();
+	
+
 
     
     /*Keys pressed*/
@@ -113,14 +119,17 @@ int main(int argc, char* argv[]) {
     Uint32 startTime, elapsedTime;
 
     while(!done) {
+
 		// Allows to calculate the elapsed time in order to control the framerate - see the end of the loop
         startTime = SDL_GetTicks();
-        
         // Clean the window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // Drawing
         graphicEng.RefreshDisplay();
+        graphicEng.DrawInventory(gameEng.GetCurrentInventory());
+        //graphicEng.DrawInventoryObjects(gameEng.DisplayInventoryObjects());
+        
 
         // Refresh the display
         SDL_GL_SwapBuffers();
@@ -148,6 +157,12 @@ int main(int argc, char* argv[]) {
 					//Add
 					gameEng.aimCube(1);
 				}
+				if(e.button.button==SDL_BUTTON_WHEELUP){
+			    	gameEng.SetCurrentInventory(gameEng.GetCurrentInventory()+1);
+			    }
+			    if(e.button.button==SDL_BUTTON_WHEELDOWN){
+			    	gameEng.SetCurrentInventory(gameEng.GetCurrentInventory()-1);
+			    }
 			}
 			
 			/* Detect keys down */
@@ -176,6 +191,33 @@ int main(int argc, char* argv[]) {
 			    		case SDLK_ESCAPE:
 							// Free the cursor
 			    			done=1;
+			    			break;
+			    		case SDLK_1:
+			    			gameEng.SetCurrentInventory(1);
+			    			break;
+			    		case SDLK_2:
+			    			gameEng.SetCurrentInventory(2);
+			    			break;
+			    		case SDLK_3:
+			    			gameEng.SetCurrentInventory(3);
+			    			break;
+			    		case SDLK_4:
+			    			gameEng.SetCurrentInventory(4);
+			    			break;
+			    		case SDLK_5:
+			    			gameEng.SetCurrentInventory(5);
+			    			break;
+			    		case SDLK_6:
+			    			gameEng.SetCurrentInventory(6);
+			    			break;
+			    		case SDLK_7:
+			    			gameEng.SetCurrentInventory(7);
+			    			break;
+			    		case SDLK_8:
+			    			gameEng.SetCurrentInventory(8);
+			    			break;
+			    		case SDLK_9:
+			    			gameEng.SetCurrentInventory(9);
 			    			break;
 			    		default:
 			    			break;
