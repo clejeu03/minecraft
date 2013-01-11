@@ -91,8 +91,9 @@ int main(int argc, char* argv[]) {
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-    IOManager.GenerateMap(MAP_SIZE);
-    IOManager.SaveMap();
+    //IOManager.GenerateMap(MAP_SIZE);
+    //IOManager.SaveMap();
+    IOManager.LoadMap("data/autoMap.json");
     
     minecraft::GameEngine gameEng;
     gameEng.SetCharacter(&player);

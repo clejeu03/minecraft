@@ -9,17 +9,18 @@
 
 namespace minecraft {
 	typedef enum {
-		CUBE,
-		SKYBOX_CUBE,
-		FLOATING_CUBE,
-		PHYSIC_CUBE,
-		CRYSTAL_CUBE,
-		CLOUD_CUBE,
-		ROCK_CUBE,
-		GRASS_CUBE,
-		DIRT_CUBE,
-		DIAMOND_CUBE,
-		GOLD_CUBE
+		CUBE = -1,
+		SKYBOX_CUBE = -2,
+		FLOATING_CUBE = -3,
+		PHYSIC_CUBE = -4,
+		EMPTY_CUBE = 0,
+		CRYSTAL_CUBE = 1,
+		CLOUD_CUBE = 2,
+		ROCK_CUBE = 3,
+		GRASS_CUBE = 4,
+		DIRT_CUBE = 5,
+		DIAMOND_CUBE = 6,
+		GOLD_CUBE = 7
 	}CubeType;
 
 	class Cube : public Drawable {

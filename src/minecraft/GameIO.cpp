@@ -21,12 +21,12 @@
                 zf=(float)z/(float)size;
 
 namespace minecraft {
-	void GameIO::LoadMap() throw(std::logic_error) {
+	void GameIO::LoadMap(const char* filename) throw(std::logic_error) {
 		if( NULL == m_gameObjects || NULL == m_file )
 			throw std::logic_error("Can't load map without game objects dictionary");
 
 		/* Reading the data file*/
-    	std::ifstream file(m_file, std::ios::in);
+    	std::ifstream file(filename, std::ios::in);
     	size_t width;
 		size_t height;
 		size_t depth;
@@ -74,13 +74,28 @@ namespace minecraft {
 					for (rapidjson::SizeType j = 1; j < width; j++){
 						for (rapidjson::SizeType k = 0; k < height; k++){
 							switch (cubes[i][j][k].GetInt()){
-								case 0 :
+								case CRYSTAL_CUBE:
+									m_map->Set(j,i,k,dictionary[std::string("CrystalCube")]);
 									break;
-								case 1 :
+								case CLOUD_CUBE:
+									m_map->Set(j,i,k,dictionary[std::string("CloudCube")]);
+									break;
+								case ROCK_CUBE:
 									m_map->Set(j,i,k,dictionary[std::string("RockCube")]);
 									break;
-								case 2 :
-									m_map->Set(j,i,k,dictionary[std::string("CloudCube")]);
+								case GRASS_CUBE:
+									m_map->Set(j,i,k,dictionary[std::string("GrassCube")]);
+									break;
+								case DIRT_CUBE:
+									m_map->Set(j,i,k,dictionary[std::string("DirtCube")]);
+									break;
+								case DIAMOND_CUBE:
+									m_map->Set(j,i,k,dictionary[std::string("DiamondCube")]);
+									break;
+								case GOLD_CUBE:
+									m_map->Set(j,i,k,dictionary[std::string("GoldCube")]);
+									break;
+								default:
 									break;
 							}
 						}
@@ -90,7 +105,6 @@ namespace minecraft {
     	}else{
     		std::cerr << "can't open the data file" << std::endl;
     	}
-
 	}
 
 	float grad[12][3] = {
@@ -432,36 +446,36 @@ namespace minecraft {
 						writer.StartArray();
 						for (size_t k = 0; k < height; k++){
 							if(m_map->Get(i,j,k) == NULL) {
-								writer.Uint(2);
+								writer.Uint(EMPTY_CUBE);
 								++test2;
 							}
 							else {
 								++test;
-								int cubeType = (int)m_map->Get(i,j,k)->GetType();
+								CubeType cubeType = m_map->Get(i,j,k)->GetType();
 								switch(cubeType) {
 									case CRYSTAL_CUBE:
-										writer.Uint(1);
+										writer.Uint(CRYSTAL_CUBE);
 										break;
 									case CLOUD_CUBE:
-										writer.Uint(2);
+										writer.Uint(CLOUD_CUBE);
 										break;
 									case ROCK_CUBE:
-										writer.Uint(3);
+										writer.Uint(ROCK_CUBE);
 										break;
 									case GRASS_CUBE:
-										writer.Uint(4);
+										writer.Uint(GRASS_CUBE);
 										break;
 									case DIRT_CUBE:
-										writer.Uint(5);
+										writer.Uint(DIRT_CUBE);
 										break;
 									case DIAMOND_CUBE:
-										writer.Uint(6);
+										writer.Uint(DIAMOND_CUBE);
 										break;
 									case GOLD_CUBE:
-										writer.Uint(7);
+										writer.Uint(GOLD_CUBE);
 										break;
 									default:
-										writer.Uint(3);
+										writer.Uint(ROCK_CUBE);
 										break;
 								}
 							}
@@ -473,11 +487,6 @@ namespace minecraft {
 				writer.EndArray();
 
 				writer.EndObject();
-				std::cout << "Test = " << test << std::endl;
-				std::cout << "Test2 = " << test2 << std::endl;
-				std::cout << "Total = " << test + test2 << std::endl;
-
-				exit(EXIT_FAILURE);
 			}
 		}
 		fclose (file);

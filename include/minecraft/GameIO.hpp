@@ -20,7 +20,7 @@ namespace minecraft {
 			void SetCharacter(Character* character) { m_character = character; }
 			void SetMap(Map* map) { m_map = map; }
 			void SetGameObjects(std::map<std::string,Cube*>* dictionary) { m_gameObjects = dictionary; }
-			void LoadMap() throw(std::logic_error);
+			void LoadMap(const char* file) throw(std::logic_error);
 			void GenerateMap(size_t size);
 			void GenerateIsland(size_t size, float positionx, float positiony, float positionz);
 			void GenerateCloud(size_t size, float positionx, float positiony, float positionz);
