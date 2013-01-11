@@ -210,6 +210,7 @@ namespace minecraft {
 		m_transformStack.Push();
 			m_transformStack.Set(m_perspectiveMatrix*m_character->GetPointOfView());
 			DrawSkyBox();
+			glUniform1i(m_uniformLightening, 1);
 			m_world->Draw(m_transformStack,m_uniformTransformLocation);
 		m_transformStack.Pop();
 		DrawCursor();

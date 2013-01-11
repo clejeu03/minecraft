@@ -16,6 +16,7 @@ uniform int uInstanciated = 1;
 uniform vec3 sunDirection;
 uniform float sunAmbient;
 uniform float sunIntensity;
+
 /* Point light */
 uniform float lightIntensity;
 uniform vec3 lightPosition;
@@ -39,13 +40,12 @@ void main() {
 	}
 	
 	if( uLightening == 1 ) {
-		float directional = sunIntensity*max(0.0, dot(normalize(normal), -sunDirection));
+		float directional = sunIntensity*max(0.0, dot(normal, -sunDirection));
 		float ambient = sunAmbient*sunIntensity;
 		
 		vLightedPixel = directional+ambient;	
 	}
 	
-	vNormal = normal;
 	vTexCoords = texCoords;
 	vEnlight = uLightening;
 }

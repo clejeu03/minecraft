@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <glm/gtc/type_ptr.hpp>
 #include <minecraft/Map.hpp>
+#include <minecraft/Cube.hpp>
 #include <minecraft/GraphicEngine.hpp>
 #include <vector>
 
@@ -32,6 +33,7 @@ namespace minecraft {
 	
 	void Map::SetByPixel(GLfloat x,GLfloat y,GLfloat z, Cube* cube){	
 		Set((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size),cube);
+		m_refresh = true;
 	}
 	
 	void Map::Del(size_t x, size_t y, size_t z) {
@@ -49,13 +51,11 @@ namespace minecraft {
 	}
 	
 	void Map::FakeCreation(GLfloat x,GLfloat y,GLfloat z){
-		if (Exists(50,50,50)){
 			GLfloat cubeSize=Cube::m_size;
 			x+=cubeSize*0.5;
 			y+=cubeSize*0.5;
 			z+=cubeSize*0.5;
-			SetByPixel(x,y,z, Get(50,50,50));
-		}
+			SetByPixel(x,y,z, new RockCube());
 	}
 	
 	bool Map::Exists(size_t x, size_t y, size_t z){
