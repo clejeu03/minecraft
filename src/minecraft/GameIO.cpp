@@ -343,7 +343,7 @@ namespace minecraft {
 		m_map->Resize(size, size, size);
 
 		GenerateIsland (40*size/100, 50*size/100,50*size/100,50*size/100);
-		/*GenerateIsland (30*size/100, 70*size/100,50*size/100,70*size/100);
+		GenerateIsland (30*size/100, 70*size/100,50*size/100,70*size/100);
 		GenerateIsland (25*size/100, 40*size/100,35*size/100,30*size/100);
 		GenerateIsland (15*size/100, 10*size/100,80*size/100,70*size/100);
 		GenerateIsland (20*size/100, 70*size/100,60*size/100,10*size/100);
@@ -351,7 +351,7 @@ namespace minecraft {
 		GenerateIsland (20*size/100, 60*size/100,90*size/100,90*size/100);
 		GenerateIsland (10*size/100, 20*size/100,10*size/100,90*size/100);
 		GenerateIsland (5*size/100, 20*size/100,10*size/100,30*size/100);
-		GenerateIsland (15*size/100, 80*size/100,10*size/100,20*size/100);*/
+		GenerateIsland (15*size/100, 80*size/100,10*size/100,20*size/100);
 
 		//GenerateCloud (30, 35,80,35);
 
@@ -404,14 +404,12 @@ namespace minecraft {
 			cube = m_map->Get(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2));
 			distance = sqrt(pow((xf-0.5), 2) + pow((yf-0.7), 2) + pow((zf-0.5), 2));
 			if(cube!=NULL){
-				//if(cube->GetName() == "DiamondCube"){
 					n = simplex_noise(3, xf*10+4, yf*10+4, zf*10+4);
 					if(n > 3.2 && distance < 0.1){
 						std::map<std::string,Cube*> dictionary = *m_gameObjects;
 						m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("DiamondCube")]); //Diamond or anything
 					}
 				}
-			//}
 		}}}
 	}
 

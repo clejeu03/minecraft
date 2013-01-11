@@ -88,6 +88,8 @@ int main(int argc, char* argv[]) {
 		fprintf(stderr, "Unable to initialize audio: %s\n", Mix_GetError());
 		exit(1);
 	}
+	
+
 
 	// Window and GL context
 	SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
@@ -102,8 +104,7 @@ int main(int argc, char* argv[]) {
 	}
 	
     /// CREATION OF THE RESSOURCES
-    //minecraft::Character player(glm::vec3(MAP_SIZE/20,MAP_SIZE/10,MAP_SIZE/20));
-    minecraft::Character player(glm::vec3(0.,0.2,0.));
+    minecraft::Character player(glm::vec3(MAP_SIZE/20,MAP_SIZE/10-1,MAP_SIZE/20));
     minecraft::Map map;
 	
 	minecraft::GraphicEngine graphicEng;
@@ -136,6 +137,9 @@ int main(int argc, char* argv[]) {
 	gameEng.SetMap(&map);
 	gameEng.InitializeSound();
 	
+	// Loop music
+	// gameEng.music.play(1);
+	
 	    // Hide Cursor
 	SDL_ShowCursor(SDL_DISABLE);
 	// Prevent from leaving the screen
@@ -151,6 +155,8 @@ int main(int argc, char* argv[]) {
 	
 	// Display tips in the terminal
 	std::cout<<"Press P to free the cursor and Escape to quit"<<std::endl;
+	
+	
 	
     /// RENDERING LOOP
     bool done = false;
