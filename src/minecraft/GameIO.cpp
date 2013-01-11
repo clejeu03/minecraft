@@ -1,4 +1,5 @@
 #include <minecraft/GameIO.hpp>
+#include <minecraft/Cube.hpp>
 #include <minecraft/shader_tools.hpp>
 #include <iostream>
 #include <fstream>
@@ -402,6 +403,8 @@ namespace minecraft {
 			size_t width = m_map->GetSizeW();
 			size_t height = m_map->GetSizeH();
 			size_t depth = m_map->GetSizeD();
+			size_t test = 0;
+			size_t test2 = 0;
 
 			if(file){
 
@@ -423,22 +426,45 @@ namespace minecraft {
 
 				writer.String("cubes");
 				writer.StartArray();
-				for (size_t i = 0; i < depth+1; i++){
+				for (size_t i = 0; i < depth; i++){
 					writer.StartArray();
-					for (size_t j = 0; j < width+1; j++){
+					for (size_t j = 0; j < width; j++){
 						writer.StartArray();
-						for (size_t k = 0; k < height+1; k++){
-							/*switch (cubeType){
-								case NULL :
-									writer.Uint(0);
-									break;
-								case RockCube :
-									writer.Uint(1);
-									break;
-								case CloudCube :
-									writer.Uint(2);
-									break;
-							}*/
+						for (size_t k = 0; k < height; k++){
+							if(m_map->Get(i,j,k) == NULL) {
+								writer.Uint(2);
+								++test2;
+							}
+							else {
+								++test;
+								int cubeType = (int)m_map->Get(i,j,k)->GetType();
+								switch(cubeType) {
+									case CRYSTAL_CUBE:
+										writer.Uint(1);
+										break;
+									case CLOUD_CUBE:
+										writer.Uint(2);
+										break;
+									case ROCK_CUBE:
+										writer.Uint(3);
+										break;
+									case GRASS_CUBE:
+										writer.Uint(4);
+										break;
+									case DIRT_CUBE:
+										writer.Uint(5);
+										break;
+									case DIAMOND_CUBE:
+										writer.Uint(6);
+										break;
+									case GOLD_CUBE:
+										writer.Uint(7);
+										break;
+									default:
+										writer.Uint(3);
+										break;
+								}
+							}
 						}
 						writer.EndArray();
 					}
@@ -447,6 +473,11 @@ namespace minecraft {
 				writer.EndArray();
 
 				writer.EndObject();
+				std::cout << "Test = " << test << std::endl;
+				std::cout << "Test2 = " << test2 << std::endl;
+				std::cout << "Total = " << test + test2 << std::endl;
+
+				exit(EXIT_FAILURE);
 			}
 		}
 		fclose (file);

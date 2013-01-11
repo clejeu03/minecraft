@@ -26,6 +26,7 @@ namespace minecraft {
 	
 	void Map::Set(size_t x, size_t y, size_t z, Cube* cube) {
 		m_data[MapCoords(x,y,z)] = std::make_tuple(cube,true);
+		m_refresh = true;
 		UpdateVisibilities(x,y,z,true);
 	}
 	
@@ -35,6 +36,7 @@ namespace minecraft {
 	
 	void Map::Del(size_t x, size_t y, size_t z) {
 		m_data.erase(MapCoords(x,y,z));
+		m_refresh = true;
 		UpdateVisibilities(x,y,z,false);
 	}
 	
