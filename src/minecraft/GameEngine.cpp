@@ -103,7 +103,7 @@ namespace minecraft{
 			}
 		}
 		if (found==1){
-			if (mode==1){
+			if (mode==1){ // ADD
 				//One step back
 				currentPosition-=step*directionVector;
 				// Place the cube
@@ -116,9 +116,15 @@ namespace minecraft{
 					buildCube.play();
 				}
 				
-			}else if (mode==0){
-				m_world->DelByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
-				breakCube.play();
+			}else if (mode==0){ // DEL
+				Cube* cube=m_world->GetByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
+				if (cube!=NULL){
+					if(cube->GetBreakable()){
+						std::cout<<cube->GetBreakable()<<std::endl;
+						m_world->DelByPixel(currentPosition.x,currentPosition.y,currentPosition.z);
+						breakCube.play();
+					}
+				}
 			}
 		}
 		return 1;

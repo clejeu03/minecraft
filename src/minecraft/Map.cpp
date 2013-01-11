@@ -17,6 +17,10 @@ namespace minecraft {
 	}
 	
 	Cube* Map::GetByPixel(GLfloat x, GLfloat y, GLfloat z){
+		GLfloat cubeSize=Cube::m_size;
+		x+=cubeSize*0.5;
+		y+=cubeSize*0.5;
+		z+=cubeSize*0.5;
 		ItCubeInstance res = m_data.find(MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size)));
 		if( res == m_data.end() )
 			return NULL;

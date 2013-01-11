@@ -402,14 +402,12 @@ namespace minecraft {
 			cube = m_map->Get(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2));
 			distance = sqrt(pow((xf-0.5), 2) + pow((yf-0.7), 2) + pow((zf-0.5), 2));
 			if(cube!=NULL){
-				//if(cube->GetName() == "DiamondCube"){
 					n = simplex_noise(3, xf*10+4, yf*10+4, zf*10+4);
 					if(n > 3.2 && distance < 0.1){
 						std::map<std::string,Cube*> dictionary = *m_gameObjects;
 						m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("DiamondCube")]); //Diamond or anything
 					}
 				}
-			//}
 		}}}
 	}
 
