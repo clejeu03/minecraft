@@ -49,10 +49,8 @@ namespace minecraft {
 			void AddInInventory(std::string cubeType) throw(std::invalid_argument);
 			void SetCurrentInventory(size_t pos);
 			inline	size_t GetCurrentInventory(){ return m_currentInventory;}
+			inline std::map<size_t, std::string> GetInventoryPosition(){return m_inventoryPosition;}
 			void RemoveFromInventory(std::string cubeType) throw(std::invalid_argument);
-			std::string DisplayInventoryObjects();
-
-
 			void InitializeSound();
 			void walkSound();
 			void walkSoundStop();

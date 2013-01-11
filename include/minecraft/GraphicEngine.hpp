@@ -53,10 +53,10 @@ namespace minecraft {
 			void SetMap(Map* map) { m_world = map; }
 			void SetCharacter(Character* character) { m_character = character; }
 			std::map<std::string,Cube*>* GetGameObjects() { return &m_gameObjects; }
-			void RefreshDisplay() throw(std::logic_error);
+			void RefreshDisplay(int, std::map<size_t,std::string>) throw(std::logic_error);
 			void DrawCursor();
 			void DrawInventory(size_t pos);
-			void DrawInventoryObjects(std::string cubeType);
+			void DrawInventoryObjects(std::map<size_t, std::string>);
 			void DrawSkyBox();
 
 	};

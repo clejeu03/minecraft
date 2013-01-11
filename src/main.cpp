@@ -19,7 +19,7 @@
 #include <minecraft/Sound.hpp>
 
 #define FPS 1000/30 //Actually this is the number of milliseconds per frame
-#define MAP_SIZE 30
+#define MAP_SIZE 40
 
 
 /* GAME PARAMETERS */
@@ -72,10 +72,6 @@ int main(int argc, char* argv[]) {
 	graphicEng.Initialize(WINDOW_WIDTH,WINDOW_HEIGHT);
 	graphicEng.SetCharacter(&player);
 	graphicEng.SetMap(&map);
-
-	graphicEng.DrawInventoryObjects("RockCube");
-
-
 	
 	/*Load a Map*/
 	/*minecraft::GameIO IOManager("data/autoMap.json");
@@ -104,7 +100,7 @@ int main(int argc, char* argv[]) {
 	    // Hide Cursor
 	SDL_ShowCursor(SDL_DISABLE);
 	// Prevent from leaving the screen
-	SDL_WM_GrabInput(SDL_GRAB_ON);
+	//SDL_WM_GrabInput(SDL_GRAB_ON);
     
     /*Keys pressed*/
 	bool keyZ=0;
@@ -130,10 +126,7 @@ int main(int argc, char* argv[]) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // Drawing
-        graphicEng.DrawInventory(gameEng.GetCurrentInventory());
-        graphicEng.RefreshDisplay();
-        //graphicEng.DrawInventoryObjects(gameEng.DisplayInventoryObjects());
-        
+        graphicEng.RefreshDisplay(gameEng.GetCurrentInventory(), gameEng.GetInventoryPosition());
 
         // Refresh the display
         SDL_GL_SwapBuffers();
@@ -189,8 +182,8 @@ int main(int argc, char* argv[]) {
 			    			break;
 						case SDLK_p:
 							// Free the cursor
-			    			//SDL_WM_GrabInput(SDL_GRAB_OFF);
-			    			//SDL_ShowCursor(SDL_ENABLE);
+			    			SDL_WM_GrabInput(SDL_GRAB_OFF);
+			    			SDL_ShowCursor(SDL_ENABLE);
 			    			break;
 			    		case SDLK_ESCAPE:
 							// Free the cursor

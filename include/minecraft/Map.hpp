@@ -54,7 +54,7 @@ namespace minecraft {
 			void SetByPixel(GLfloat,GLfloat,GLfloat,Cube*);
 			void Del(size_t,size_t,size_t);
 			void DelByPixel(GLfloat,GLfloat,GLfloat);
-			void FakeCreation(GLfloat,GLfloat,GLfloat);
+			void Creation(GLfloat,GLfloat,GLfloat,Cube*);
 			
 			bool Exists(size_t,size_t,size_t);
 			bool ExistsByPixel(GLfloat,GLfloat,GLfloat);

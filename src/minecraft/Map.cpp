@@ -62,13 +62,13 @@ namespace minecraft {
 		Del((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size));
 	}
 	
-	void Map::FakeCreation(GLfloat x,GLfloat y,GLfloat z){
-		if (Exists(25,25,25)){
+	void Map::Creation(GLfloat x,GLfloat y,GLfloat z,Cube* cube){
+		if (!Exists(x,y,z)){
 			GLfloat cubeSize=Cube::m_size;
 			x+=cubeSize*0.5;
 			y+=cubeSize*0.5;
 			z+=cubeSize*0.5;
-			SetByPixel(x,y,z, Get(25,25,25));
+			SetByPixel(x,y,z, cube);
 		}
 	}
 	
