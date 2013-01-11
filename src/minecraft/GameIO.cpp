@@ -22,9 +22,9 @@
 
 namespace minecraft {
 	void GameIO::LoadMap(const char* filename) throw(std::logic_error) {
-		if( NULL == m_gameObjects || NULL == m_file )
+		if( NULL == m_gameObjects || NULL == m_file ) {
 			throw std::logic_error("Can't load map without game objects dictionary");
-
+		}
 		/* Reading the data file*/
     	std::ifstream file(filename, std::ios::in);
     	size_t width;
@@ -39,6 +39,7 @@ namespace minecraft {
 			memcpy(buffer, json.c_str(), json.size()+1);
 			if (document.ParseInsitu<0>(buffer).HasParseError()){
 				std::cout << "can't parse the map file : " << document.ParseInsitu<0>(buffer).GetParseError() << std::endl;
+				exit(EXIT_FAILURE);
 			}else{
 				std::cout << " Parsing to document succeeded. " << std::endl;
 
@@ -104,6 +105,7 @@ namespace minecraft {
 			}
     	}else{
     		std::cerr << "can't open the data file" << std::endl;
+    		exit(EXIT_FAILURE);
     	}
 	}
 

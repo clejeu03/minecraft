@@ -119,8 +119,6 @@ namespace minecraft {
 		m_gameObjects[std::string("DirtCube")]->SetTexId(m_textureMgr.GetTextureId("Dirt"));
 		m_gameObjects[std::string("DiamondCube")]->SetTexId(m_textureMgr.GetTextureId("Diamond"));
 		m_gameObjects[std::string("GoldCube")]->SetTexId(m_textureMgr.GetTextureId("Gold"));
-
-		std::cout << "End init of graphicEngine" << std::endl;
 	}
 	
 	void GraphicEngine::RefreshDisplay() throw(std::logic_error) {
@@ -128,7 +126,6 @@ namespace minecraft {
 			throw std::logic_error("Can't display game without setting the map and the character");
 		
 		if(m_world->CheckForRefresh()) {
-			std::cout << "dans setup buffer" << std::endl;
 			std::vector<MapCoords> cloudCubes = m_world->GetPositions("CloudCube");
 			std::vector<MapCoords> crystalCubes = m_world->GetPositions("CrystalCube");
 			std::vector<MapCoords> rockCubes = m_world->GetPositions("RockCube");
@@ -200,10 +197,6 @@ namespace minecraft {
 				goldCubes.size()
 			));
 
-			//std::cout << "GoldCube" << std::endl;
-
-			//std::cout << "Apres setup buffer" << std::endl;
-			//exit(EXIT_SUCCESS);
 			m_world->SetRefresh(false);
 		}
 		

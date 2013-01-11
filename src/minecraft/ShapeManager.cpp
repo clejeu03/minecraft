@@ -256,17 +256,11 @@ namespace minecraft {
 
 		typedef std::map<MapCoords,Cube*>::const_iterator ItType;
 
-		std::cout << "cubesCount = " << cubesCount << std::endl;
 		for(size_t i = 0; i<cubesCount; ++i) {
 			instancePositions[positionNumComponents*i] = std::get<0>(cubeCoords[i]);
 			instancePositions[positionNumComponents*i+1] = std::get<1>(cubeCoords[i]);
 			instancePositions[positionNumComponents*i+2] = std::get<2>(cubeCoords[i]);
-			std::cout << "position[" << positionNumComponents*i << "] = " << std::get<0>(cubeCoords[i]) << std::endl; 
-			std::cout << "position[" << positionNumComponents*i+1 << "] = " << std::get<1>(cubeCoords[i]) << std::endl; 
-			std::cout << "position[" << positionNumComponents*i+2 << "] = " << std::get<2>(cubeCoords[i]) << std::endl; 
 		}
-
-		std::cout << "positionNumComponents = " << positionNumComponents << std::endl;
 		
 		Vertex* vertices = m_shapes[std::string(type)].vertices;
 

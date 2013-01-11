@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <cmath>
 #include <string>
+#include <algorithm>
 /* SDL & GL */
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
@@ -19,8 +20,6 @@
 #include <minecraft/Sound.hpp>
 
 #define FPS 1000/30 //Actually this is the number of milliseconds per frame
-#define MAP_SIZE 50
-
 
 /* GAME PARAMETERS */
 static const size_t WINDOW_WIDTH = 512, WINDOW_HEIGHT = 512;
@@ -35,7 +34,44 @@ float maxFPS = 0.0;
 float somme = 0.0;
 float total = 0.0;
 
+bool is_number(std::string line) {
+	if(isdigit(atoi(line.c_str()))) return true;
+	return false;
+}
+
 int main(int argc, char* argv[]) {
+	bool usage_error = false;
+
+	if(argc > 3) {
+		usage_error = true;
+	}
+
+	int map_size = 0;
+	bool generate = false;
+	std::string map_file_path;
+	///	ARGUMENTS PROCESSING
+	for(int i = 1; i < argc; ++i){
+		if(strcmp(argv[i],"-auto")==0){
+			generate = true;
+			std::cout << "auto" << std::endl;
+		}
+		else if(generate){
+			map_size = atoi(argv[i]);
+			i=argc;
+			std::cout << map_size << std::endl;
+		}
+		else
+			map_file_path = argv[i];
+	}
+
+	if(generate && (map_size == 0 || map_file_path.size() != 0))
+		usage_error = true;
+
+	if(usage_error) {
+		std::cerr << "USAGE : minecraft [-auto size] [file_path]" << std::endl;
+		exit(EXIT_FAILURE);
+	}
+
 	/// INITIALIZATION
 	// SDL
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
@@ -90,12 +126,10 @@ int main(int argc, char* argv[]) {
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
 
-    //IOManager.GenerateMap(MAP_SIZE);
-    //IOManager.SaveMap();
-    IOManager.LoadMap("data/autoMap.json");
-	//IOManager.GenerateMap(MAP_SIZE);
-    //IOManager.SaveMap();
-   	/* IOManager.LoadMap("data/autoMap.json");*/
+	if(generate)
+    	IOManager.GenerateMap(map_size);
+    else
+    	IOManager.LoadMap(map_file_path.c_str());
     
     minecraft::GameEngine gameEng;
     gameEng.SetCharacter(&player);
@@ -265,6 +299,9 @@ int main(int argc, char* argv[]) {
 		//printf("\033[2J");
     }
     
+    if(generate)
+    	IOManager.SaveMap();
+    	
 	/// QUIT AND CLEAN (ALL IS AUTOMATIC BY NOW, MAYBE LATER)
     SDL_Quit();
 
