@@ -5,7 +5,7 @@
 namespace minecraft{
 	
 	GameEngine::GameEngine(){
-		gravity=0.003;
+		gravity=0.0;
 		velocity=0;
 	}
 	

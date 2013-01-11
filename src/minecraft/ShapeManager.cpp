@@ -2,7 +2,8 @@
 #include <minecraft/Map.hpp>
 #include <string>
 #include <vector>
-#include <iostream>
+#include <iostream> 
+#include <typeinfo>
 
 namespace minecraft {
 	Shape::Shape(const Shape& s) {
@@ -94,9 +95,9 @@ namespace minecraft {
 		m_shapes[std::string("Cube")].vertices[26] = Vertex(0.5,-0.5, 0.5, 1.0, 0.0, 0.0, 0.0, 1.0);
 
 		//Face haut
-		m_shapes[std::string("Cube")].vertices[27] = Vertex(0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 1.0, 1.0);
-		m_shapes[std::string("Cube")].vertices[28] = Vertex(0.5, 0.5,-0.5, 0.0, 0.0, 0.0, 1.0, 0.0);
-		m_shapes[std::string("Cube")].vertices[29] = Vertex(-0.5, 0.5,-0.5, 0.0, 0.0, 0.0, 0.0, 0.0);
+		m_shapes[std::string("Cube")].vertices[27] = Vertex(0.5, 0.5, 0.5, 0.0, 1.0, 0.0, 1.0, 1.0);
+		m_shapes[std::string("Cube")].vertices[28] = Vertex(0.5, 0.5,-0.5, 0.0, 1.0, 0.0, 1.0, 0.0);
+		m_shapes[std::string("Cube")].vertices[29] = Vertex(-0.5, 0.5,-0.5, 0.0, 1.0, 0.0, 0.0, 0.0);
 
 		//Face haut
 		m_shapes[std::string("Cube")].vertices[30] = Vertex(0.5, 0.5, 0.5, 0.0, 1.0, 0.0, 1.0, 1.0);
@@ -251,16 +252,22 @@ namespace minecraft {
 		GLfloat* normalsCoords = new GLfloat[normalNumComponents * shapeNbVertices];
 		GLfloat* textCoords = new GLfloat[textureNumComponents * shapeNbVertices];
 
-		GLfloat* instancePositions = new GLfloat[cubesCount * positionNumComponents];
+		size_t* instancePositions = new size_t[cubesCount * positionNumComponents];
 
 		typedef std::map<MapCoords,Cube*>::const_iterator ItType;
-		size_t i = 0;
-		for(i = 0; i<cubesCount; ++i) {
+
+		std::cout << "cubesCount = " << cubesCount << std::endl;
+		for(size_t i = 0; i<cubesCount; ++i) {
 			instancePositions[positionNumComponents*i] = std::get<0>(cubeCoords[i]);
 			instancePositions[positionNumComponents*i+1] = std::get<1>(cubeCoords[i]);
 			instancePositions[positionNumComponents*i+2] = std::get<2>(cubeCoords[i]);
+			std::cout << "position[" << positionNumComponents*i << "] = " << std::get<0>(cubeCoords[i]) << std::endl; 
+			std::cout << "position[" << positionNumComponents*i+1 << "] = " << std::get<1>(cubeCoords[i]) << std::endl; 
+			std::cout << "position[" << positionNumComponents*i+2 << "] = " << std::get<2>(cubeCoords[i]) << std::endl; 
 		}
 
+		std::cout << "positionNumComponents = " << positionNumComponents << std::endl;
+		
 		Vertex* vertices = m_shapes[std::string(type)].vertices;
 
 		for(size_t i=0; i<shapeNbVertices; ++i) {
@@ -276,10 +283,11 @@ namespace minecraft {
 			textCoords[textureNumComponents*i+1] = vertices[i].textureXY.y;
 		}
 
+
 		size_t sizeofPositionCoords = positionNumComponents * shapeNbVertices * sizeof(GLfloat);
 		size_t sizeofNormalsCoords = normalNumComponents * shapeNbVertices * sizeof(GLfloat);
 		size_t sizeofTextCoords = textureNumComponents * shapeNbVertices * sizeof(GLfloat);
-		size_t sizeofInstancePositions = cubesCount * positionNumComponents * sizeof(GLfloat);
+		size_t sizeofInstancePositions = cubesCount * positionNumComponents * sizeof(size_t);
 
 	    glBindVertexArray(vao);
 		    glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -292,7 +300,7 @@ namespace minecraft {
 			    glVertexAttribPointer(0, positionNumComponents, Vertex::GetDataType(), GL_FALSE, 0, 0);
 			    glVertexAttribPointer(1, normalNumComponents, Vertex::GetDataType(), GL_FALSE, 0, (GLvoid *)sizeofPositionCoords);
 			    glVertexAttribPointer(2, textureNumComponents, Vertex::GetDataType(), GL_FALSE, 0, (GLvoid *)(sizeofPositionCoords + sizeofNormalsCoords));
-			    glVertexAttribPointer(3, positionNumComponents, Vertex::GetDataType(), GL_FALSE, 0, (GLvoid *)(sizeofPositionCoords + sizeofNormalsCoords + sizeofTextCoords));
+			    glVertexAttribPointer(3, positionNumComponents, GL_UNSIGNED_INT, GL_FALSE, 0, (GLvoid *)(sizeofPositionCoords + sizeofNormalsCoords + sizeofTextCoords));
 
 			    glEnableVertexAttribArray(0);
 			    glEnableVertexAttribArray(1);

@@ -19,7 +19,7 @@
 #include <minecraft/Sound.hpp>
 
 #define FPS 1000/30 //Actually this is the number of milliseconds per frame
-#define MAP_SIZE 100
+#define MAP_SIZE 50
 
 
 /* GAME PARAMETERS */
@@ -69,7 +69,8 @@ int main(int argc, char* argv[]) {
 	}
 	
     /// CREATION OF THE RESSOURCES
-    minecraft::Character player(glm::vec3(MAP_SIZE/20,MAP_SIZE/10,MAP_SIZE/20));
+    //minecraft::Character player(glm::vec3(MAP_SIZE/20,MAP_SIZE/10,MAP_SIZE/20));
+    minecraft::Character player(glm::vec3(0.5,0.5,0.5));
     minecraft::Map map;
 	
 	minecraft::GraphicEngine graphicEng;
