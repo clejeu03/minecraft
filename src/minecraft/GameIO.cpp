@@ -75,25 +75,25 @@ namespace minecraft {
 						for (rapidjson::SizeType k = 0; k < height; k++){
 							switch (cubes[i][j][k].GetInt()){
 								case CRYSTAL_CUBE:
-									m_map->Set(j,i,k,dictionary[std::string("CrystalCube")]);
+									m_map->Set(i,j,k,dictionary[std::string("CrystalCube")]);
 									break;
 								case CLOUD_CUBE:
-									m_map->Set(j,i,k,dictionary[std::string("CloudCube")]);
+									m_map->Set(i,j,k,dictionary[std::string("CloudCube")]);
 									break;
 								case ROCK_CUBE:
-									m_map->Set(j,i,k,dictionary[std::string("RockCube")]);
+									m_map->Set(i,j,k,dictionary[std::string("RockCube")]);
 									break;
 								case GRASS_CUBE:
-									m_map->Set(j,i,k,dictionary[std::string("GrassCube")]);
+									m_map->Set(i,j,k,dictionary[std::string("GrassCube")]);
 									break;
 								case DIRT_CUBE:
-									m_map->Set(j,i,k,dictionary[std::string("DirtCube")]);
+									m_map->Set(i,j,k,dictionary[std::string("DirtCube")]);
 									break;
 								case DIAMOND_CUBE:
-									m_map->Set(j,i,k,dictionary[std::string("DiamondCube")]);
+									m_map->Set(i,j,k,dictionary[std::string("DiamondCube")]);
 									break;
 								case GOLD_CUBE:
-									m_map->Set(j,i,k,dictionary[std::string("GoldCube")]);
+									m_map->Set(i,j,k,dictionary[std::string("GoldCube")]);
 									break;
 								default:
 									break;

@@ -19,7 +19,7 @@
 #include <minecraft/Sound.hpp>
 
 #define FPS 1000/30 //Actually this is the number of milliseconds per frame
-#define MAP_SIZE 30
+#define MAP_SIZE 100
 
 
 /* GAME PARAMETERS */
@@ -57,9 +57,9 @@ int main(int argc, char* argv[]) {
 	SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
 	
     // Hide Cursor
-	//SDL_ShowCursor(SDL_DISABLE);
+	SDL_ShowCursor(SDL_DISABLE);
 	// Prevent from leaving the screen
-	//SDL_WM_GrabInput(SDL_GRAB_ON);
+	SDL_WM_GrabInput(SDL_GRAB_ON);
 	
 	// GLEW
 	GLenum error;
@@ -91,8 +91,8 @@ int main(int argc, char* argv[]) {
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-    //IOManager.GenerateMap(MAP_SIZE);
-    //IOManager.SaveMap();
+    /*IOManager.GenerateMap(MAP_SIZE);
+    IOManager.SaveMap();*/
     IOManager.LoadMap("data/autoMap.json");
     
     minecraft::GameEngine gameEng;
