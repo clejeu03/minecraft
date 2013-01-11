@@ -22,7 +22,7 @@
 #define FPS 1000/30 //Actually this is the number of milliseconds per frame
 
 /* GAME PARAMETERS */
-static const size_t WINDOW_WIDTH = 512, WINDOW_HEIGHT = 512;
+static const size_t WINDOW_WIDTH = 1600, WINDOW_HEIGHT = 900;
 static const size_t BYTES_PER_PIXEL = 32;
 
 glm::vec3 formerPosition;
@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
 
 
 	// Window and GL context
-	SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
+	SDL_SetVideoMode(0, 0, BYTES_PER_PIXEL, SDL_OPENGL | SDL_FULLSCREEN);
 	
 
 	
@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
 	}
 	
     /// CREATION OF THE RESSOURCES
-    minecraft::Character player(glm::vec3(MAP_SIZE/20,MAP_SIZE/10-1,MAP_SIZE/20));
+    minecraft::Character player(glm::vec3(0.5,10,0.5));
     minecraft::Map map;
 	
 	minecraft::GraphicEngine graphicEng;

@@ -17,7 +17,7 @@ namespace minecraft {
 			
 			//! inventory
 		public:
-			
+			Character(){};
 			Character(glm::vec3);
 		
 			Box& getBox();
