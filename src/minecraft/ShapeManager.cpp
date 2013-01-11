@@ -186,23 +186,25 @@ namespace minecraft {
 		m_shapes[std::string("Cursor")].vertices[4] = Vertex(0.05,-0.05,0,0,0,0,1,0);
 		m_shapes[std::string("Cursor")].vertices[5] = Vertex(0.05,0.05,0,0,0,0,1,1);
 
-		m_shapes[std::string("inventory")] = Shape(6);
+		///Inventory
+		m_shapes[std::string("Inventory")] = Shape(6);
 		
-		m_shapes[std::string("inventory")].vertices[0] = Vertex(-0.7,-0.65,0,0,0,0,0,1);
-		m_shapes[std::string("inventory")].vertices[1] = Vertex(0.7,-0.65,0,0,0,0,1,1);
-		m_shapes[std::string("inventory")].vertices[2] = Vertex(-0.7,-1,0,0,0,0,0,0);
-		m_shapes[std::string("inventory")].vertices[3] = Vertex(-0.7,-1,0,0,0,0,0,0);
-		m_shapes[std::string("inventory")].vertices[4] = Vertex(0.7,-1,0,0,0,0,1,0);
-		m_shapes[std::string("inventory")].vertices[5] = Vertex(0.7,-0.65,0,0,0,0,1,1);
+		m_shapes[std::string("Inventory")].vertices[0] = Vertex(-0.7,-0.65,0,0,0,0,0,1);
+		m_shapes[std::string("Inventory")].vertices[1] = Vertex(0.7,-0.65,0,0,0,0,1,1);
+		m_shapes[std::string("Inventory")].vertices[2] = Vertex(-0.7,-1,0,0,0,0,0,0);
+		m_shapes[std::string("Inventory")].vertices[3] = Vertex(-0.7,-1,0,0,0,0,0,0);
+		m_shapes[std::string("Inventory")].vertices[4] = Vertex(0.7,-1,0,0,0,0,1,0);
+		m_shapes[std::string("Inventory")].vertices[5] = Vertex(0.7,-0.65,0,0,0,0,1,1);
 
-		m_shapes[std::string("inventoryObjects")] = Shape(6);
+		///Inventory Object
+		m_shapes[std::string("InventoryObjects")] = Shape(6);
 		
-		m_shapes[std::string("inventoryObjects")].vertices[0] = Vertex(-0.05,-0.8,0,0,0,0,0,1);
-		m_shapes[std::string("inventoryObjects")].vertices[1] = Vertex(0.05,-0.8,0,0,0,0,1,1);
-		m_shapes[std::string("inventoryObjects")].vertices[2] = Vertex(-0.05,-0.95,0,0,0,0,0,0);
-		m_shapes[std::string("inventoryObjects")].vertices[3] = Vertex(-0.05,-0.95,0,0,0,0,0,0);
-		m_shapes[std::string("inventoryObjects")].vertices[4] = Vertex(0.05,-0.95,0,0,0,0,1,0);
-		m_shapes[std::string("inventoryObjects")].vertices[5] = Vertex(0.05,-0.8,0,0,0,0,1,1);
+		m_shapes[std::string("InventoryObjects")].vertices[0] = Vertex(-0.05,-0.8,0,0,0,0,0,1);
+		m_shapes[std::string("InventoryObjects")].vertices[1] = Vertex(0.05,-0.8,0,0,0,0,1,1);
+		m_shapes[std::string("InventoryObjects")].vertices[2] = Vertex(-0.05,-0.95,0,0,0,0,0,0);
+		m_shapes[std::string("InventoryObjects")].vertices[3] = Vertex(-0.05,-0.95,0,0,0,0,0,0);
+		m_shapes[std::string("InventoryObjects")].vertices[4] = Vertex(0.05,-0.95,0,0,0,0,1,0);
+		m_shapes[std::string("InventoryObjects")].vertices[5] = Vertex(0.05,-0.8,0,0,0,0,1,1);
 
 	}
 	
@@ -358,7 +360,7 @@ namespace minecraft {
 	
 	size_t ShapeManager::GetShapeNbVertices(std::string shape) throw(std::invalid_argument) {
 		if( m_shapeVAOs.find(shape) == m_shapeVAOs.end() )
-			throw std::invalid_argument(std::string("No shape loaded for ") + shape);
+			throw std::invalid_argument(std::string("Nb Vertices : No shape loaded for ") + shape);
 			
 		return m_shapes[shape].nbVertices;
 	}

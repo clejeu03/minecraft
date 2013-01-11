@@ -48,7 +48,7 @@ namespace minecraft {
 			inline void SetActioCubeType(const char* type) { m_actionCubeType = type;}
 			
 			Cube* Get(size_t,size_t,size_t);
-			Cube* GetForType(GLfloat,GLfloat,GLfloat)
+			Cube* GetForType(GLfloat,GLfloat,GLfloat);
 			Cube* GetByPixel(GLfloat,GLfloat,GLfloat);
 			void Set(size_t,size_t,size_t,Cube*);
 			void SetByPixel(GLfloat,GLfloat,GLfloat,Cube*);

@@ -16,7 +16,7 @@ namespace minecraft {
 		return std::get<0>(res->second);
 	}
 
-	Cube* Map::GetForType(GLfloat x,GLfloat y,GLfloat z) throw(std::out_of_range) {
+	Cube* Map::GetForType(GLfloat x,GLfloat y,GLfloat z){
 		GLfloat cubeSize=Cube::m_size;
 		x+=cubeSize*0.5;
 		y+=cubeSize*0.5;
@@ -26,6 +26,8 @@ namespace minecraft {
 		z = (size_t)(z/Cube::m_size);
 
 		ItCubeInstance res = m_data.find(MapCoords(x,y,z));
+		return  std::get<0>(res->second);
+	}
 
 	Cube* Map::GetByPixel(GLfloat x, GLfloat y, GLfloat z){
 		ItCubeInstance res = m_data.find(MapCoords((size_t)(x/Cube::m_size),(size_t)(y/Cube::m_size),(size_t)(z/Cube::m_size)));
@@ -119,7 +121,7 @@ namespace minecraft {
 		}
 	}
 
-	Cube* Map::GetByPixel(GLfloat x, GLfloat y, GLfloat z) throw(std::out_of_range) {
+	/*Cube* Map::GetByPixel(GLfloat x, GLfloat y, GLfloat z) {
 		if( x/Cube::m_size >= m_width || x < 0 ||
 		y/Cube::m_size >= m_height || y < 0 ||
 		z/Cube::m_size >= m_depth || z < 0 )
@@ -130,7 +132,7 @@ namespace minecraft {
 			return NULL;
 		
 		return std::get<0>(res->second);
-	}
+	}*/
 
 	/* Update the visibility of a cube x,y,z and its neighbourhood if we
 	 * add or remove it */

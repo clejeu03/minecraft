@@ -103,14 +103,14 @@ namespace minecraft {
 		m_shapeMgr.SetBuffer("SkyBox");
 		// Init and assign the textures
 
-		m_textureMgr.LoadTexture("SkyBox","./data/skybox.jpg");
+		m_textureMgr.LoadTexture("SkyBox","./data/resources/skybox.jpg");
 		m_textureMgr.LoadTexture("Cloud", "./data/textures/Cloud.jpg");
 		m_textureMgr.LoadTexture("Crystal", "./data/textures/Cristal.jpg");
 		m_textureMgr.LoadTexture("Rock", "./data/textures/Pierre1.jpg");
 		m_textureMgr.LoadTexture("Grass", "./data/textures/herbe.jpg");
 		m_textureMgr.LoadTexture("Dirt", "./data/textures/terre.jpg");
 		m_textureMgr.LoadTexture("Diamond", "./data/textures/Cristal.jpg");
-		m_textureMgr.LoadTexture("Gold", "./data/resources/textures/Or.jpg");
+		m_textureMgr.LoadTexture("Gold", "./data/textures/Or.jpg");
 		m_textureMgr.LoadTexture("Cursor","./data/resources/cursor.png");
 		m_gameObjects[std::string("SkyBoxCube")]->SetTexId(m_textureMgr.GetTextureId("SkyBox"));
 		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId("Cloud"));
@@ -129,7 +129,6 @@ namespace minecraft {
 			throw std::logic_error("Can't display game without setting the map and the character");
 		
 		if(m_world->CheckForRefresh()) {
-			std::cout << "dans setup buffer" << std::endl;
 			std::vector<MapCoords> cloudCubes = m_world->GetPositions("CloudCube");
 			std::vector<MapCoords> crystalCubes = m_world->GetPositions("CrystalCube");
 			std::vector<MapCoords> rockCubes = m_world->GetPositions("RockCube");
@@ -231,6 +230,7 @@ namespace minecraft {
 	}
 	
 	void GraphicEngine::DrawInventory(size_t pos) {
+		m_shapeMgr.SetBuffer("Inventory");
 		switch (pos){
 			case 1:
 				m_textureMgr.LoadTexture("Inventory","./data/resources/inventory1.png");
@@ -262,41 +262,56 @@ namespace minecraft {
 			default:
 				break;
 		}
-
 		glUniform1i(m_uniform2dMode, 1); // Tell the shader it's 2D
-		
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D,m_textureMgr.GetTextureId((char*)"Inventory"));
-		glBindVertexArray(m_shapeMgr.GetShapeVAO(std::string("inventory")));
-		glDrawArrays(GL_TRIANGLES, 0, m_shapeMgr.GetShapeNbVertices(std::string("inventory")));
-		glBindVertexArray(0);
+		glUniform1i(m_uniformLightening, 0);
 
+		glBindTexture(GL_TEXTURE_2D,m_textureMgr.GetTextureId("Inventory"));
+		glBindVertexArray(m_shapeMgr.GetShapeVAO(std::string("Inventory")));
+		glDrawArrays(GL_TRIANGLES, 0, m_shapeMgr.GetShapeNbVertices(std::string("Inventory")));
+		glBindVertexArray(0);
+		glBindTexture(GL_TEXTURE_2D,0);
+
+		glUniform1i(m_uniformLightening, 1);
 		glUniform1i(m_uniform2dMode, 0);
 			 
 	}
 
 	void GraphicEngine::DrawInventoryObjects(std::string cubeType) {
-
+		m_shapeMgr.SetBuffer("InventoryObjects");
 		if(cubeType.compare("") != 0){
 			
 			if(cubeType.compare("RockCube")==0){
-				std::cout << "plop" << std::endl;
-				m_textureMgr.LoadTexture("InventoryObjects","./data/resources/rock.jpg");
+				m_textureMgr.LoadTexture("InventoryObjects","./data/textures/Pierre1.jpg");
 			}
-			else if(cubeType.compare("CloudCube")==0){
-				m_textureMgr.LoadTexture("InventoryObjects","./data/resources/cloud.jpg");
+			if(cubeType.compare("CloudCube")==0){
+				m_textureMgr.LoadTexture("InventoryObjects","./data/textures/cloud.jpg");
 			}
-			else if(cubeType.compare("CrystalCube")==0){
-				m_textureMgr.LoadTexture("InventoryObjects","./data/resources/cloud.jpg");
+			if(cubeType.compare("GrassCube")==0){
+				m_textureMgr.LoadTexture("InventoryObjects","./data/textures/herbe.jpg");
 			}
+			if(cubeType.compare("GoldCube")==0){
+				m_textureMgr.LoadTexture("InventoryObjects","./data/textures/or.jpg");
+			}
+			if(cubeType.compare("DirtCube")==0){
+				m_textureMgr.LoadTexture("InventoryObjects","./data/textures/dirt.jpg");
+			}
+			if(cubeType.compare("DiamondCube")==0){
+				m_textureMgr.LoadTexture("InventoryObjects","./data/textures/diamond.jpg");
+			}
+			if(cubeType.compare("CrystalCube")==0){
+				m_textureMgr.LoadTexture("InventoryObjects","./data/textures/cloud.jpg");
+			}
+		
+			glUniform1i(m_uniform2dMode, 1); // Tell the shader it's 2D
+			glUniform1i(m_uniformLightening, 0);
 
-			glUniform1i(m_uniform2dMode, 1);
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D,m_textureMgr.GetTextureId((char*)"InventoryObjects"));
-				glBindVertexArray(m_shapeMgr.GetShapeVAO(std::string("inventoryObjects")));
-				glDrawArrays(GL_TRIANGLES, 0, m_shapeMgr.GetShapeNbVertices(std::string("inventoryObjects")));
+				glBindTexture(GL_TEXTURE_2D,m_textureMgr.GetTextureId("InventoryObjects"));
+				glBindVertexArray(m_shapeMgr.GetShapeVAO(std::string("InventoryObjects")));
+				glDrawArrays(GL_TRIANGLES, 0, m_shapeMgr.GetShapeNbVertices(std::string("InventoryObjects")));
 				glBindVertexArray(0);
+				glBindTexture(GL_TEXTURE_2D,0);
 
+			glUniform1i(m_uniformLightening, 1);
 			glUniform1i(m_uniform2dMode, 0);
 		}
 	}

@@ -19,7 +19,7 @@
 #include <minecraft/Sound.hpp>
 
 #define FPS 1000/30 //Actually this is the number of milliseconds per frame
-#define MAP_SIZE 50
+#define MAP_SIZE 30
 
 
 /* GAME PARAMETERS */
@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
 
 	
 	/*Load a Map*/
-	/*minecraft::GameIO IOManager("data/myFirstIsland.json");
+	/*minecraft::GameIO IOManager("data/autoMap.json");
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
@@ -95,9 +95,8 @@ int main(int argc, char* argv[]) {
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-    /*IOManager.GenerateMap(MAP_SIZE);
-    IOManager.SaveMap();*/
-    IOManager.LoadMap("data/autoMap.json");
+    IOManager.GenerateMap(MAP_SIZE);
+    IOManager.SaveMap();
     
     minecraft::GameEngine gameEng;
     gameEng.SetCharacter(&player);
@@ -132,8 +131,8 @@ int main(int argc, char* argv[]) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // Drawing
-        graphicEng.RefreshDisplay();
         graphicEng.DrawInventory(gameEng.GetCurrentInventory());
+        graphicEng.RefreshDisplay();
         //graphicEng.DrawInventoryObjects(gameEng.DisplayInventoryObjects());
         
 

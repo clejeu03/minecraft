@@ -286,7 +286,7 @@ namespace minecraft {
 	}
 
 	void GameIO::GenerateCloud(size_t size, float positionx, float positiony, float positionz){
-		float caves, center_falloff, plateau_falloff, density;
+		float center_falloff, plateau_falloff, density;
 	    int x, y, z;
 	    int start=1;
 	    int end=size-1;
@@ -486,10 +486,8 @@ namespace minecraft {
 		fclose (file);
 
 	}
-<<<<<<< HEAD
+
 
 	
 }
-=======
-}
->>>>>>> 9c2ae7f5a5d31cd7c1a8de797431c3701aac0337
+
