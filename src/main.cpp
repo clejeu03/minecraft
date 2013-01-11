@@ -56,10 +56,7 @@ int main(int argc, char* argv[]) {
 	// Window and GL context
 	SDL_SetVideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, BYTES_PER_PIXEL, SDL_OPENGL);
 	
-    // Hide Cursor
-	SDL_ShowCursor(SDL_DISABLE);
-	// Prevent from leaving the screen
-	SDL_WM_GrabInput(SDL_GRAB_ON);
+
 	
 	// GLEW
 	GLenum error;
@@ -92,14 +89,23 @@ int main(int argc, char* argv[]) {
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
+
     //IOManager.GenerateMap(MAP_SIZE);
     //IOManager.SaveMap();
     IOManager.LoadMap("data/autoMap.json");
+	//IOManager.GenerateMap(MAP_SIZE);
+    //IOManager.SaveMap();
+   	/* IOManager.LoadMap("data/autoMap.json");*/
     
     minecraft::GameEngine gameEng;
     gameEng.SetCharacter(&player);
 	gameEng.SetMap(&map);
 	gameEng.InitializeSound();
+	
+	    // Hide Cursor
+	SDL_ShowCursor(SDL_DISABLE);
+	// Prevent from leaving the screen
+	SDL_WM_GrabInput(SDL_GRAB_ON);
     
     /*Keys pressed*/
 	bool keyZ=0;
