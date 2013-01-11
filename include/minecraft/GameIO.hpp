@@ -24,10 +24,10 @@ namespace minecraft {
 			void GenerateMap(size_t size);
 			void GenerateIsland(size_t size, float positionx, float positiony, float positionz);
 			void GenerateCloud(size_t size, float positionx, float positiony, float positionz);
-			void AddGold(int size);
-			void AddDeposit(int size);
-			void CoverWithDirt(int size);
-			void DeleteLonely(int size);
+			void AddGold(int size, float positionx, float positiony, float positionz);
+			void AddDeposit(int size, float positionx, float positiony, float positionz);
+			void CoverWithDirt(int size, float positionx, float positiony, float positionz);
+			void DeleteLonely(int size, float positionx, float positiony, float positionz);
 			void AddNoise(int factor);
 			void LoadInventory() {} // Why not ?
 			void SaveMap();
