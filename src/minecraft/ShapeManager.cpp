@@ -252,7 +252,7 @@ namespace minecraft {
 		GLfloat* normalsCoords = new GLfloat[normalNumComponents * shapeNbVertices];
 		GLfloat* textCoords = new GLfloat[textureNumComponents * shapeNbVertices];
 
-		size_t* instancePositions = new size_t[cubesCount * positionNumComponents];
+		GLuint* instancePositions = new GLuint[cubesCount * positionNumComponents];
 
 		typedef std::map<MapCoords,Cube*>::const_iterator ItType;
 
@@ -284,10 +284,10 @@ namespace minecraft {
 		}
 
 
-		size_t sizeofPositionCoords = positionNumComponents * shapeNbVertices * sizeof(GLfloat);
-		size_t sizeofNormalsCoords = normalNumComponents * shapeNbVertices * sizeof(GLfloat);
-		size_t sizeofTextCoords = textureNumComponents * shapeNbVertices * sizeof(GLfloat);
-		size_t sizeofInstancePositions = cubesCount * positionNumComponents * sizeof(size_t);
+		GLuint sizeofPositionCoords = positionNumComponents * shapeNbVertices * sizeof(GLfloat);
+		GLuint sizeofNormalsCoords = normalNumComponents * shapeNbVertices * sizeof(GLfloat);
+		GLuint sizeofTextCoords = textureNumComponents * shapeNbVertices * sizeof(GLfloat);
+		GLuint sizeofInstancePositions = cubesCount * positionNumComponents * sizeof(GLuint);
 
 	    glBindVertexArray(vao);
 		    glBindBuffer(GL_ARRAY_BUFFER, vbo);

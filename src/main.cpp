@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
 	
     /// CREATION OF THE RESSOURCES
     //minecraft::Character player(glm::vec3(MAP_SIZE/20,MAP_SIZE/10,MAP_SIZE/20));
-    minecraft::Character player(glm::vec3(0.5,0.5,0.5));
+    minecraft::Character player(glm::vec3(0.,0.2,0.));
     minecraft::Map map;
 	
 	minecraft::GraphicEngine graphicEng;
