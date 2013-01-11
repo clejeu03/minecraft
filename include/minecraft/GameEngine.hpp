@@ -25,7 +25,9 @@ namespace minecraft {
 			Sound breakCube;
 			Sound scream;
 			
+			
 		public:
+			Sound music;
 			GameEngine();
 			void SetMap(Map* map) { m_world = map; }
 			void SetCharacter(Character* character) { m_character = character; }

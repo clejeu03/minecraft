@@ -341,7 +341,7 @@ namespace minecraft {
 		m_map->Resize(size, size, size);
 
 		GenerateIsland (40*size/100, 50*size/100,50*size/100,50*size/100);
-		/*GenerateIsland (30*size/100, 70*size/100,50*size/100,70*size/100);
+		GenerateIsland (30*size/100, 70*size/100,50*size/100,70*size/100);
 		GenerateIsland (25*size/100, 40*size/100,35*size/100,30*size/100);
 		GenerateIsland (15*size/100, 10*size/100,80*size/100,70*size/100);
 		GenerateIsland (20*size/100, 70*size/100,60*size/100,10*size/100);
@@ -349,7 +349,7 @@ namespace minecraft {
 		GenerateIsland (20*size/100, 60*size/100,90*size/100,90*size/100);
 		GenerateIsland (10*size/100, 20*size/100,10*size/100,90*size/100);
 		GenerateIsland (5*size/100, 20*size/100,10*size/100,30*size/100);
-		GenerateIsland (15*size/100, 80*size/100,10*size/100,20*size/100);*/
+		GenerateIsland (15*size/100, 80*size/100,10*size/100,20*size/100);
 
 		//GenerateCloud (30, 35,80,35);
 

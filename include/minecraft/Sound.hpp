@@ -38,8 +38,7 @@ namespace minecraft {
 			}
 			
 			bool playing(){
-				return false;
-				//return Mix_Playing(channel);
+				return Mix_Playing(channel);
 			}
 			
 			~Sound(){
