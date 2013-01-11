@@ -105,6 +105,7 @@ namespace minecraft {
 		m_textureMgr.LoadTexture("SkyBox","./skybox.jpg");
 		m_textureMgr.LoadTexture("Cloud", "./data/textures/Cloud.jpg");
 		m_textureMgr.LoadTexture("Crystal", "./data/textures/Cristal.jpg");
+		m_textureMgr.LoadTexture("Rock", "./data/textures/Pierre1.jpg");
 		m_textureMgr.LoadTexture("Grass", "./data/textures/herbe.jpg");
 		m_textureMgr.LoadTexture("Dirt", "./data/textures/terre.jpg");
 		m_textureMgr.LoadTexture("Diamond", "./data/textures/Cristal.jpg");
@@ -115,9 +116,9 @@ namespace minecraft {
 		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId("Crystal"));
 		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId("Rock"));
 		m_gameObjects[std::string("GrassCube")]->SetTexId(m_textureMgr.GetTextureId("Grass"));
-		m_gameObjects[std::string("DirtCube")]->SetTexId(m_textureMgr.GetTextureId("DirtCube"));
-		m_gameObjects[std::string("DiamondCube")]->SetTexId(m_textureMgr.GetTextureId("DiamondCube"));
-		m_gameObjects[std::string("GoldCube")]->SetTexId(m_textureMgr.GetTextureId("GoldCube"));
+		m_gameObjects[std::string("DirtCube")]->SetTexId(m_textureMgr.GetTextureId("Dirt"));
+		m_gameObjects[std::string("DiamondCube")]->SetTexId(m_textureMgr.GetTextureId("Diamond"));
+		m_gameObjects[std::string("GoldCube")]->SetTexId(m_textureMgr.GetTextureId("Gold"));
 
 		std::cout << "End init of graphicEngine" << std::endl;
 	}
@@ -127,6 +128,7 @@ namespace minecraft {
 			throw std::logic_error("Can't display game without setting the map and the character");
 		
 		if(m_world->CheckForRefresh()) {
+			std::cout << "dans setup buffer" << std::endl;
 			std::vector<MapCoords> cloudCubes = m_world->GetPositions("CloudCube");
 			std::vector<MapCoords> crystalCubes = m_world->GetPositions("CrystalCube");
 			std::vector<MapCoords> rockCubes = m_world->GetPositions("RockCube");
@@ -150,11 +152,15 @@ namespace minecraft {
 				cloudCubes.size()
 			));
 
+			//std::cout << "CloudCube" << std::endl;
+
 			m_world->GetInstanceDatas().push_back(std::make_tuple(
 				m_gameObjects[std::string("CrystalCube")]->GetVAOId(),
 				m_gameObjects[std::string("CrystalCube")]->GetTexId(),
 				crystalCubes.size()
 			));
+
+			//std::cout << "CrystalCube" << std::endl;
 
 			m_world->GetInstanceDatas().push_back(std::make_tuple(
 				m_gameObjects[std::string("RockCube")]->GetVAOId(),
@@ -162,11 +168,15 @@ namespace minecraft {
 				rockCubes.size()
 			));
 
+			//std::cout << "RockCube" << std::endl;
+
 			m_world->GetInstanceDatas().push_back(std::make_tuple(
 				m_gameObjects[std::string("GrassCube")]->GetVAOId(),
 				m_gameObjects[std::string("GrassCube")]->GetTexId(),
 				grassCubes.size()
 			));
+
+			//std::cout << "GrassCube" << std::endl;
 
 			m_world->GetInstanceDatas().push_back(std::make_tuple(
 				m_gameObjects[std::string("DirtCube")]->GetVAOId(),
@@ -174,11 +184,15 @@ namespace minecraft {
 				dirtCubes.size()
 			));
 
+			//std::cout << "DirtCube" << std::endl;
+
 			m_world->GetInstanceDatas().push_back(std::make_tuple(
 				m_gameObjects[std::string("DiamondCube")]->GetVAOId(),
-				m_gameObjects[std::string("DamondCube")]->GetTexId(),
+				m_gameObjects[std::string("DiamondCube")]->GetTexId(),
 				diamondCubes.size()
 			));
+
+			//std::cout << "DiamondCube" << std::endl;
 
 			m_world->GetInstanceDatas().push_back(std::make_tuple(
 				m_gameObjects[std::string("GoldCube")]->GetVAOId(),
@@ -186,6 +200,10 @@ namespace minecraft {
 				goldCubes.size()
 			));
 
+			//std::cout << "GoldCube" << std::endl;
+
+			//std::cout << "Apres setup buffer" << std::endl;
+			//exit(EXIT_SUCCESS);
 			m_world->SetRefresh(false);
 		}
 		
