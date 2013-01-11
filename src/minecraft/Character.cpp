@@ -1,5 +1,6 @@
 #include <minecraft/Character.hpp>
 #include <minecraft/GameEngine.hpp>
+#include <iostream>
 
 namespace minecraft {
 	
@@ -35,11 +36,13 @@ namespace minecraft {
 	void Character::MoveFront(GLfloat distance) {
 			m_camera.MoveFront(distance);
 			m_box.setBase(glm::vec3 (m_camera.Position().x,m_camera.Position().y-povHeight,m_camera.Position().z));
+			//std::cout << position().x << "," << position().y << "," << position().z << std::endl;
 	}
 	
 	void Character::MoveLeft(GLfloat distance) {
 			m_camera.MoveLeft(distance);
 			m_box.setBase(glm::vec3 (m_camera.Position().x,m_camera.Position().y-povHeight,m_camera.Position().z));
+			//std::cout << position().x << "," << position().y << "," << position().z << std::endl;
 	}
 
 	void Character::MoveVector(GLfloat distance, glm::vec3 vec) {

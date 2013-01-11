@@ -30,6 +30,11 @@ glm::vec3 formerPosition;
 bool formerBottomCollide=1;
 bool currentBottomCollide=1;
 
+float minFPS = 1000.0;
+float maxFPS = 0.0;
+float somme = 0.0;
+float total = 0.0;
+
 int main(int argc, char* argv[]) {
 	/// INITIALIZATION
 	// SDL
@@ -90,8 +95,9 @@ int main(int argc, char* argv[]) {
 	IOManager.SetCharacter(&player);
 	IOManager.SetMap(&map);
 	IOManager.SetGameObjects(graphicEng.GetGameObjects());
-    IOManager.GenerateMap(MAP_SIZE);
-    IOManager.SaveMap();
+    /*IOManager.GenerateMap(MAP_SIZE);
+    IOManager.SaveMap();*/
+    IOManager.LoadMap("data/autoMap.json");
     
     minecraft::GameEngine gameEng;
     gameEng.SetCharacter(&player);
@@ -287,10 +293,11 @@ int main(int argc, char* argv[]) {
 		elapsedTime = SDL_GetTicks() - startTime;
 		// Framerate control : pause briefly the program if it's running too fast
 		if(elapsedTime < FPS) {
+			//std::cout << "framerate : 30" << std::endl;
 			SDL_Delay(FPS - elapsedTime);
 		}
-		//std::cout << "framerate : " << 1000./elapsedTime << std::endl;
-		
+		//std::cout << "framerate : " << 1000. / elapsedTime << std::endl;
+		//printf("\033[2J");
     }
     
 	/// QUIT AND CLEAN (ALL IS AUTOMATIC BY NOW, MAYBE LATER)

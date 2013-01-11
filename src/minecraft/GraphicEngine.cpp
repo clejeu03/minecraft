@@ -4,7 +4,6 @@
 #include <minecraft/GraphicEngine.hpp>
 #include <minecraft/Light.hpp>
 #include <iostream>
-#include <sstream>
 
 namespace minecraft {
 	GraphicEngine::~GraphicEngine() {
@@ -28,6 +27,7 @@ namespace minecraft {
 		
 		m_uniformTransformLocation = glGetUniformLocation(program,"uMVPMatrix");
 		m_uniform2dMode = glGetUniformLocation(program,"u2dMode");
+		m_uniformInstanciated = glGetUniformLocation(program,"uInstanciated");
 		m_uniformLightening = glGetUniformLocation(program,"uLightening"); // Whether enlightment need to be processed
 		glUniform1i(glGetUniformLocation(program, "uTexture"), 0);
 		
@@ -39,11 +39,14 @@ namespace minecraft {
 		// PointLight
 		m_uniformLightPosition = glGetUniformLocation(program,"lightPosition");
 		m_uniformLightIntensity = glGetUniformLocation(program,"lightIntensity");
+		
+		// Texture
+		glActiveTexture(GL_TEXTURE0);
 	}
 	
 	void GraphicEngine::Initialize(size_t windowWidth, size_t windowHeight) {
 		// Relative to the camera
-		m_perspectiveMatrix = glm::perspective(50.f, windowWidth / (float) windowHeight, 0.0001f, 1000.f);
+		m_perspectiveMatrix = glm::perspective(70.f, windowWidth / (float) windowHeight, 0.0001f, 1000.f);
 		
 		// Create sunlight
 		struct DirectionalLight sun;
@@ -70,39 +73,145 @@ namespace minecraft {
 		m_gameObjects[std::string("CloudCube")] = new CloudCube();
 		m_gameObjects[std::string("CrystalCube")] = new CrystalCube();
 		m_gameObjects[std::string("RockCube")] = new RockCube();
+		m_gameObjects[std::string("GrassCube")] = new GrassCube();
+		m_gameObjects[std::string("DirtCube")] = new DirtCube();
+		m_gameObjects[std::string("DiamondCube")] = new DiamondCube();
+		m_gameObjects[std::string("GoldCube")] = new GoldCube();
+
 		// Init and assign the shapes
 		m_shapeMgr.LoadShapes();
-		m_gameObjects[std::string("SkyBoxCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("skybox")));
-		m_gameObjects[std::string("SkyBoxCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("skybox")));
-		m_gameObjects[std::string("CloudCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("cube")));
-		m_gameObjects[std::string("CloudCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("cube")));
-		m_gameObjects[std::string("CrystalCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("cube")));
-		m_gameObjects[std::string("CrystalCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("cube")));
-		m_gameObjects[std::string("RockCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("cube")));
-		m_gameObjects[std::string("RockCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("cube")));
+		//---- instanciated rendering object
+		m_gameObjects[std::string("SkyBoxCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("SkyBox")));
+		m_gameObjects[std::string("SkyBoxCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("SkyBox")));
+		m_gameObjects[std::string("CloudCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("CloudCube")));
+		m_gameObjects[std::string("CloudCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("CloudCube")));
+		m_gameObjects[std::string("CrystalCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("CrystalCube")));
+		m_gameObjects[std::string("CrystalCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("CrystalCube")));
+		m_gameObjects[std::string("RockCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("RockCube")));
+		m_gameObjects[std::string("RockCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("RockCube")));
+		m_gameObjects[std::string("GrassCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("GrassCube")));
+		m_gameObjects[std::string("GrassCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("GrassCube")));
+		m_gameObjects[std::string("DirtCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("DirtCube")));
+		m_gameObjects[std::string("DirtCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("DirtCube")));
+		m_gameObjects[std::string("DiamondCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("DiamondCube")));
+		m_gameObjects[std::string("DiamondCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("DiamondCube")));
+		m_gameObjects[std::string("GoldCube")]->SetVAOId(m_shapeMgr.GetShapeVAO(std::string("GoldCube")));
+		m_gameObjects[std::string("GoldCube")]->SetNbVertices(m_shapeMgr.GetShapeNbVertices(std::string("GoldCube")));
+
+		//---- simple rendering
+		m_shapeMgr.SetBuffer("Cursor");
+		m_shapeMgr.SetBuffer("SkyBox");
 		// Init and assign the textures
-		m_textureMgr.LoadTexture("SkyBox","./data/resources/skybox.jpg");
-		m_textureMgr.LoadTexture("Cloud", "./data/resources/cloud.jpg");
-		m_textureMgr.LoadTexture("Crystal", "./data/resources/cloud.jpg");
-		m_textureMgr.LoadTexture("Rock", "./data/resources/rock.jpg");
+
+		m_textureMgr.LoadTexture("SkyBox","./data/skybox.jpg");
+		m_textureMgr.LoadTexture("Cloud", "./data/textures/Cloud.jpg");
+		m_textureMgr.LoadTexture("Crystal", "./data/textures/Cristal.jpg");
+		m_textureMgr.LoadTexture("Rock", "./data/textures/Pierre1.jpg");
+		m_textureMgr.LoadTexture("Grass", "./data/textures/herbe.jpg");
+		m_textureMgr.LoadTexture("Dirt", "./data/textures/terre.jpg");
+		m_textureMgr.LoadTexture("Diamond", "./data/textures/Cristal.jpg");
+		m_textureMgr.LoadTexture("Gold", "./data/resources/textures/Or.jpg");
 		m_textureMgr.LoadTexture("Cursor","./data/resources/cursor.png");
-		
-
-		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Cloud"));
-		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Crystal"));
-		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId((char*)"Rock"));
 		m_gameObjects[std::string("SkyBoxCube")]->SetTexId(m_textureMgr.GetTextureId("SkyBox"));
+		m_gameObjects[std::string("CloudCube")]->SetTexId(m_textureMgr.GetTextureId("Cloud"));
+		m_gameObjects[std::string("CrystalCube")]->SetTexId(m_textureMgr.GetTextureId("Crystal"));
+		m_gameObjects[std::string("RockCube")]->SetTexId(m_textureMgr.GetTextureId("Rock"));
+		m_gameObjects[std::string("GrassCube")]->SetTexId(m_textureMgr.GetTextureId("Grass"));
+		m_gameObjects[std::string("DirtCube")]->SetTexId(m_textureMgr.GetTextureId("Dirt"));
+		m_gameObjects[std::string("DiamondCube")]->SetTexId(m_textureMgr.GetTextureId("Diamond"));
+		m_gameObjects[std::string("GoldCube")]->SetTexId(m_textureMgr.GetTextureId("Gold"));
 
+		std::cout << "End init of graphicEngine" << std::endl;
 	}
 	
 	void GraphicEngine::RefreshDisplay() throw(std::logic_error) {
 		if( NULL == m_character || NULL == m_world )
 			throw std::logic_error("Can't display game without setting the map and the character");
 		
+		if(m_world->CheckForRefresh()) {
+			std::cout << "dans setup buffer" << std::endl;
+			std::vector<MapCoords> cloudCubes = m_world->GetPositions("CloudCube");
+			std::vector<MapCoords> crystalCubes = m_world->GetPositions("CrystalCube");
+			std::vector<MapCoords> rockCubes = m_world->GetPositions("RockCube");
+			std::vector<MapCoords> grassCubes = m_world->GetPositions("GrassCube");
+			std::vector<MapCoords> dirtCubes = m_world->GetPositions("DirtCube");
+			std::vector<MapCoords> diamondCubes = m_world->GetPositions("DiamondCube");
+			std::vector<MapCoords> goldCubes = m_world->GetPositions("GoldCube");
+
+
+			m_shapeMgr.SetInstanciatedBuffer("CloudCube", cloudCubes);
+			m_shapeMgr.SetInstanciatedBuffer("CrystalCube", crystalCubes);
+			m_shapeMgr.SetInstanciatedBuffer("RockCube", rockCubes);
+			m_shapeMgr.SetInstanciatedBuffer("GrassCube", grassCubes);
+			m_shapeMgr.SetInstanciatedBuffer("DirtCube", dirtCubes);
+			m_shapeMgr.SetInstanciatedBuffer("DiamondCube", diamondCubes);
+			m_shapeMgr.SetInstanciatedBuffer("GoldCube", goldCubes);
+
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("CloudCube")]->GetVAOId(),
+				m_gameObjects[std::string("CloudCube")]->GetTexId(),
+				cloudCubes.size()
+			));
+
+			//std::cout << "CloudCube" << std::endl;
+
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("CrystalCube")]->GetVAOId(),
+				m_gameObjects[std::string("CrystalCube")]->GetTexId(),
+				crystalCubes.size()
+			));
+
+			//std::cout << "CrystalCube" << std::endl;
+
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("RockCube")]->GetVAOId(),
+				m_gameObjects[std::string("RockCube")]->GetTexId(),
+				rockCubes.size()
+			));
+
+			//std::cout << "RockCube" << std::endl;
+
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("GrassCube")]->GetVAOId(),
+				m_gameObjects[std::string("GrassCube")]->GetTexId(),
+				grassCubes.size()
+			));
+
+			//std::cout << "GrassCube" << std::endl;
+
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("DirtCube")]->GetVAOId(),
+				m_gameObjects[std::string("DirtCube")]->GetTexId(),
+				dirtCubes.size()
+			));
+
+			//std::cout << "DirtCube" << std::endl;
+
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("DiamondCube")]->GetVAOId(),
+				m_gameObjects[std::string("DiamondCube")]->GetTexId(),
+				diamondCubes.size()
+			));
+
+			//std::cout << "DiamondCube" << std::endl;
+
+			m_world->GetInstanceDatas().push_back(std::make_tuple(
+				m_gameObjects[std::string("GoldCube")]->GetVAOId(),
+				m_gameObjects[std::string("GoldCube")]->GetTexId(),
+				goldCubes.size()
+			));
+
+			//std::cout << "GoldCube" << std::endl;
+
+			//std::cout << "Apres setup buffer" << std::endl;
+			//exit(EXIT_SUCCESS);
+			m_world->SetRefresh(false);
+		}
+		
 		m_transformStack.Push();
 			m_transformStack.Set(m_perspectiveMatrix*m_character->GetPointOfView());
-			m_world->Draw(m_transformStack,m_uniformTransformLocation);
 			DrawSkyBox();
+			m_world->Draw(m_transformStack,m_uniformTransformLocation);
 		m_transformStack.Pop();
 		DrawCursor();
 	}
@@ -111,14 +220,14 @@ namespace minecraft {
 		glUniform1i(m_uniform2dMode, 1); // Tell the shader it's 2D
 		glUniform1i(m_uniformLightening, 0);
 		
-		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D,m_textureMgr.GetTextureId("Cursor"));
-		glBindVertexArray(m_shapeMgr.GetShapeVAO(std::string("cursor")));
-		glDrawArrays(GL_TRIANGLES, 0, m_shapeMgr.GetShapeNbVertices(std::string("cursor")));
+		glBindVertexArray(m_shapeMgr.GetShapeVAO(std::string("Cursor")));
+		glDrawArrays(GL_TRIANGLES, 0, m_shapeMgr.GetShapeNbVertices(std::string("Cursor")));
 		glBindVertexArray(0);
+		glBindTexture(GL_TEXTURE_2D,0);
 		
-		glUniform1i(m_uniform2dMode, 0);
 		glUniform1i(m_uniformLightening, 1);
+		glUniform1i(m_uniform2dMode, 0);
 	}
 	
 	void GraphicEngine::DrawInventory(size_t pos) {
@@ -197,12 +306,14 @@ namespace minecraft {
 		glm::vec3 cameraPos = m_character->HeadPosition();
 		
 		glUniform1i(m_uniformLightening, 0);
+		glUniform1i(m_uniformInstanciated, 0);
 		m_transformStack.Push();
 			m_transformStack.Translate(cameraPos);
 			m_transformStack.Scale(glm::vec3(std::max(m_world->GetSizeW(),std::max(m_world->GetSizeH(),m_world->GetSizeD()))*2));
 			glUniformMatrix4fv(m_uniformTransformLocation, 1, GL_FALSE, glm::value_ptr(m_transformStack.Top()));
 			skyBox->Draw();
 		m_transformStack.Pop();
+		glUniform1i(m_uniformInstanciated, 1);
 		glUniform1i(m_uniformLightening, 1);
 
 	}
