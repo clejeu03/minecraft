@@ -18,6 +18,9 @@ namespace minecraft {
 			Character* m_character;
 			GLfloat gravity;
 			GLfloat velocity;
+			glm::vec3 m_formerPosition;
+			bool m_formerBottomCollide;
+			bool m_currentBottomCollide;
 			
 			//A few sounds
 			Sound steps;
@@ -31,10 +34,14 @@ namespace minecraft {
 			GameEngine();
 			void SetMap(Map* map) { m_world = map; }
 			void SetCharacter(Character* character) { m_character = character; }
+			
+			void SaveFormerCollide();
+			void SaveFormerPosition();
+			void BackToFormerPosition();
 			bool collideBottom();
 			bool collideTop();
 			bool collideSides();
-			void processGravity(bool formerCollide);
+			void processGravity();
 			void jump();
 			bool aimCube(int);
 			void InitializeSound();

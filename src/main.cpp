@@ -25,9 +25,7 @@
 static const size_t WINDOW_WIDTH = 512, WINDOW_HEIGHT = 512;
 static const size_t BYTES_PER_PIXEL = 32;
 
-glm::vec3 formerPosition;
-bool formerBottomCollide=1;
-bool currentBottomCollide=1;
+
 
 float minFPS = 1000.0;
 float maxFPS = 0.0;
@@ -223,19 +221,15 @@ int main(int argc, char* argv[]) {
 		/* Acutally move the player */
 		
 		// Save former collide
-		formerBottomCollide=currentBottomCollide;
-		currentBottomCollide=gameEng.collideBottom();
-		
+		gameEng.SaveFormerCollide();
 		// Process gravity
-		gameEng.processGravity(formerBottomCollide);
-		
+		gameEng.processGravity();
 		// Save former position
-		formerPosition = player.position();
+		gameEng.SaveFormerPosition();
 		
 		// Footsteps
 		if(keyZ||keyQ||keyS||keyD){
 			gameEng.WalkSound();
-
 		}else{
 			gameEng.WalkSoundStop();
 		}
@@ -253,7 +247,7 @@ int main(int argc, char* argv[]) {
 		// Check for collision
 		if (gameEng.collideSides()){
 			// If the new position collides, go back
-			player.setPosition(formerPosition);
+			gameEng.BackToFormerPosition();
 		}
 		
 		// Calculate elapsed time

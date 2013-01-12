@@ -74,9 +74,9 @@ namespace minecraft{
 		
 	}
 	
-	void GameEngine::processGravity(bool formerCollide){
+	void GameEngine::processGravity(){
 		if (collideBottom() && velocity>=0.0){
-			if(formerCollide==0){
+			if(m_formerBottomCollide==0){
 				velocity=0;
 			}
 		}
@@ -105,6 +105,19 @@ namespace minecraft{
 		if (collideBottom()){
 			velocity = -0.03;
 		}
+	}
+	
+	void GameEngine::SaveFormerCollide(){
+		m_formerBottomCollide=m_currentBottomCollide;
+		m_currentBottomCollide=collideBottom();
+	}
+	
+	void GameEngine::SaveFormerPosition(){
+		m_formerPosition=m_character->position();
+	}
+	
+	void GameEngine::BackToFormerPosition(){
+		m_character->setPosition(m_formerPosition);
 	}
 	
 	bool GameEngine::aimCube(int mode){
