@@ -17,9 +17,9 @@ namespace minecraft {
 			Sound(){
 				sound=NULL;
 			}
-			void load(int channelIndex, char* file){
+			void load(int channelIndex, std::string file){
 				channel=channelIndex;
-				sound = Mix_LoadWAV(file);
+				sound = Mix_LoadWAV(file.c_str());
 				if(sound == NULL) {
 					std::cout<<"Unable to load file: %s\n"<< Mix_GetError()<<std::endl;
 				}

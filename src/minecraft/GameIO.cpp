@@ -246,7 +246,6 @@ namespace minecraft {
 
 	void GameIO::GenerateIsland(size_t islandSize, float positionx, float positiony, float positionz){
 		float caves, center_falloff, plateau_falloff, density;
-	    //foreach_xyz(1, size-1)
 	    int x, y, z;
 	    int start=1;
 	    int end=islandSize-1;
@@ -292,15 +291,14 @@ namespace minecraft {
 			
 			
 	    }}}	
+	    CoverWithDirt(islandSize,positionx,positiony,positionz);
 	    AddDeposit(islandSize,positionx,positiony,positionz); 
-	    CoverWithDirt(islandSize,positionx,positiony,positionz);  
 		AddGold(islandSize,positionx,positiony,positionz);
-		
-		//DeleteLonely(size,positionx,positiony,positionz); 
+		//DeleteLonely(islandSize,positionx,positiony,positionz); 
 	}
 
 	void GameIO::GenerateCloud(size_t size, float positionx, float positiony, float positionz){
-		float caves, center_falloff, plateau_falloff, density;
+		float center_falloff, density;
 	    int x, y, z;
 	    int start=1;
 	    int end=size-1;
@@ -313,10 +311,6 @@ namespace minecraft {
 					zf=(float)z/(float)size;	
 
 	        center_falloff = 0.1/(
-	           /* pow((xf-0.5)*1.5, 2) +
-	            pow((yf-0.5)*1.5, 2) +
-	            pow((zf-0.5)*1.5, 2)*/
-
 	            pow((xf-0.5)*1, 2) +
 	            pow((yf-0.5)*2, 2) +
 	            pow((zf-0.5)*1, 2)
@@ -324,8 +318,7 @@ namespace minecraft {
 
 	        density = (
 	            simplex_noise(5, xf, yf*0.5, zf) *
-	            center_falloff *
-	            plateau_falloff
+	            center_falloff
 	        );
 	        density *= pow(
 	            noise((xf+1)*3.0, (yf+1)*1.0, (zf+1)*3.0)+0.4, 1.8
@@ -363,32 +356,45 @@ namespace minecraft {
 		int x, y, z;
 	    int start=0;
 	    int end=size;
+		for(x=(start); x<(end); x++){
+			for(y=(start); y<(end); y++){
+				for(z=(start); z<(end); z++){
+				if (m_map->Get(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2))!=NULL){value=1;}else{value=0;}
+				if (m_map->Get(x+(positionx-size/2),y+(positiony-size/2)+1,z+(positionz-size/2))!=NULL){ontop=1;}else{ontop=0;}
+				if(value == 1 && ontop == 0){
+					std::map<std::string,Cube*> dictionary = *m_gameObjects;
+					m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("GrassCube")]);
+					if (m_map->Get(x+(positionx-size/2),y+(positiony-size/2)-1,z+(positionz-size/2))!=NULL){
+						m_map->Set(x+(positionx-size/2),y+(positiony-size/2)-1,z+(positionz-size/2),dictionary[std::string("DirtCube")]);
+						if (m_map->Get(x+(positionx-size/2),y+(positiony-size/2)-2,z+(positionz-size/2))!=NULL){
+							m_map->Set(x+(positionx-size/2),y+(positiony-size/2)-2,z+(positionz-size/2),dictionary[std::string("DirtCube")]);
+						}
+					}
+
+				}
+		}}}
+	}
+
+	void GameIO::AddGold(int size, float positionx, float positiony, float positionz){
+		Cube* cube;
+		int x, y, z;
+	    int start=0;
+	    int end=size;
 		float xf, yf, zf;
 		for(x=(start); x<(end); x++){
 			for(y=(start); y<(end); y++){
 				for(z=(start); z<(end); z++){
 					xf=(float)x/(float)size;
 					yf=(float)y/(float)size;
-					zf=(float)z/(float)size;
-			if (m_map->Get(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2))!=NULL){value=1;}else{value=0;}
-			if (m_map->Get(x+(positionx-size/2),y+(positiony-size/2)+1,z+(positionz-size/2))!=NULL){ontop=1;}else{ontop=0;}
-			if(value == 1 && ontop == 0){
-				std::map<std::string,Cube*> dictionary = *m_gameObjects;
-				m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("GrassCube")]);
-			}
-		}}}
-	}
-
-	void GameIO::AddGold(int size, float positionx, float positiony, float positionz){
-		Cube* cube;
-		foreach_xyz(0, size)
-			cube = m_map->Get(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2));
-			if(cube!=NULL){
-					if(simplex_noise(3, xf*10+3, yf*10+3, zf*10+3)>3.65){
-						std::map<std::string,Cube*> dictionary = *m_gameObjects;
-						m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("GoldCube")]); //Gold
+					zf=(float)z/(float)size;	
+					
+					cube = m_map->Get(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2));
+					if(cube!=NULL){
+						if(simplex_noise(3, xf*10+3, yf*10+3, zf*10+3)>3.8){
+							std::map<std::string,Cube*> dictionary = *m_gameObjects;
+							m_map->Set(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2),dictionary[std::string("GoldCube")]); //Gold
+						}
 					}
-				}
 			
 		}}}
 	}
@@ -396,7 +402,16 @@ namespace minecraft {
 	void GameIO::AddDeposit(int size, float positionx, float positiony, float positionz){
 		float distance, n;
 		Cube* cube;
-		foreach_xyz(0, size)
+		int x, y, z;
+	    int start=1;
+	    int end=size-1;
+		float xf, yf, zf;
+		for(x=(start); x<(end); x++){
+			for(y=(start); y<(end); y++){
+				for(z=(start); z<(end); z++){
+					xf=(float)x/(float)size;
+					yf=(float)y/(float)size;
+					zf=(float)z/(float)size;
 			cube = m_map->Get(x+(positionx-size/2),y+(positiony-size/2),z+(positionz-size/2));
 			distance = sqrt(pow((xf-0.5), 2) + pow((yf-0.7), 2) + pow((zf-0.5), 2));
 			if(cube!=NULL){
@@ -410,10 +425,23 @@ namespace minecraft {
 	}
 
 	void GameIO::DeleteLonely(int size, float positionx, float positiony, float positionz){
-		foreach_xyz(0, size)
-			if(!(m_map->Exists(x+1+(positionx-size/2),y,z)||m_map->Exists(x-1+(positionx-size/2),y,z)||m_map->Exists(x+(positionx-size/2),y+1,z)||m_map->Exists(x+(positionx-size/2),y-1,z)||m_map->Exists(x+(positionx-size/2),y,z+1)||m_map->Exists(x+(positionx-size/2),y+(positiony-size/2),z-1))){
-				m_map->Del(x,y,z);
-			}
+		int x, y, z;
+	    int start=0;
+	    int end=size;
+		for(x=(start); x<(end); x++){
+			for(y=(start); y<(end); y++){
+				for(z=(start); z<(end); z++){
+					x+=(positionx-size/2);
+					y+=(positiony-size/2);
+					z+=(positionz-size/2);
+					if(!(m_map->Exists(x+1,y,z)||
+						m_map->Exists(x-1,y,z)||
+						m_map->Exists(x,y+1,z)||
+						m_map->Exists(x,y-1,z)||
+						m_map->Exists(x,y,z+1)||
+						m_map->Exists(x,y,z-1))){
+							m_map->Del(x,y,z);
+					}
 		}}}
 	}
 

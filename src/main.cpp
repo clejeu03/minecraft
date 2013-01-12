@@ -21,7 +21,6 @@
 #define FPS 1000/30 //Actually this is the number of milliseconds per frame
 #define MAP_SIZE 100
 
-
 /* GAME PARAMETERS */
 static const size_t WINDOW_WIDTH = 512, WINDOW_HEIGHT = 512;
 static const size_t BYTES_PER_PIXEL = 32;
