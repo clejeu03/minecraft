@@ -32,6 +32,7 @@ namespace minecraft {
 			void SetMap(Map* map) { m_world = map; }
 			void SetCharacter(Character* character) { m_character = character; }
 			bool collideBottom();
+			bool collideTop();
 			bool collideSides();
 			void processGravity(bool formerCollide);
 			void jump();

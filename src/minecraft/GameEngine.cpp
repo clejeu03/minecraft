@@ -30,6 +30,25 @@ namespace minecraft{
 		}
 	}
 	
+	bool GameEngine::collideTop(){
+		//For this version let's consider that the box's base is never bigger than a cube : 4 cubes to test only (vertices of the base square)
+		glm::vec3 position=m_character->position()+glm::vec3(0,m_character->getBox().getSize().z,0);
+		GLfloat width=m_character->getBox().getSize().x;
+		GLfloat length=m_character->getBox().getSize().y;
+		size_t count=0;
+		
+		count+=m_world->ExistsByPixel(position.x+width/2,position.y,position.z+length/2);
+		count+=m_world->ExistsByPixel(position.x+width/2,position.y,position.z-length/2);
+		count+=m_world->ExistsByPixel(position.x-width/2,position.y,position.z+length/2);
+		count+=m_world->ExistsByPixel(position.x-width/2,position.y,position.z-length/2);
+
+		if (count==0){
+			return 0;
+		}else{
+			return 1;
+		}
+	}
+	
 	bool GameEngine::collideSides(){
 		//For this version let's consider that the box's base is never bigger than a cube and never taller than 2 cubes : 8 cubes to test only (vertices of the base square)
 		glm::vec3 position=m_character->position();
@@ -66,6 +85,11 @@ namespace minecraft{
 			velocity += gravity;
 			m_character->setPosition(glm::vec3(m_character->position().x,m_character->position().y-velocity,m_character->position().z));
 		}
+		
+		if(collideTop()){
+			velocity=0;
+		}
+		
 		if (velocity>0.22){
 			if(!scream.playing()){
 				scream.play();

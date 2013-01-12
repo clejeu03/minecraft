@@ -16,7 +16,7 @@ namespace minecraft {
 			Box(){
 				m_width=0.075; // Be careful : never bigger than 0.1
 				m_length=0.075; // Be careful : never bigger than 0.1
-				m_height=0.175; // Be careful : never bigger than 0.2
+				m_height=0.19; // Be careful : never bigger than 0.2
 			}
 			
 			inline void setBase(glm::vec3 base){
