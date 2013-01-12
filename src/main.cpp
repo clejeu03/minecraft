@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
 	gameEng.InitializeSound();
 	
 	// Loop music
-	gameEng.music.play(1);
+	gameEng.ToggleMusic();
 	
 	    // Hide Cursor
 	SDL_ShowCursor(SDL_DISABLE);
@@ -180,6 +180,9 @@ int main(int argc, char* argv[]) {
 			    		case SDLK_SPACE:
 			    			gameEng.jump();
 			    			break;
+			    		case SDLK_m:
+			    			gameEng.ToggleMusic();
+			    			break;
 						case SDLK_p:
 							// Free the cursor
 			    			SDL_WM_GrabInput(SDL_GRAB_OFF);
@@ -231,10 +234,10 @@ int main(int argc, char* argv[]) {
 		
 		// Footsteps
 		if(keyZ||keyQ||keyS||keyD){
-			gameEng.walkSound();
+			gameEng.WalkSound();
 
 		}else{
-			gameEng.walkSoundStop();
+			gameEng.WalkSoundStop();
 		}
 		
 		//Move player

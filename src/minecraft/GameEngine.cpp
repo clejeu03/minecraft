@@ -163,13 +163,21 @@ namespace minecraft{
 		music.load(5,"data/sounds/music.ogg");
 	}
 	
-	void GameEngine::walkSound(){
+	void GameEngine::ToggleMusic(){
+		if(music.playing()){
+			music.stop();
+		}else{
+			music.play(1);
+		}
+	}
+	
+	void GameEngine::WalkSound(){
 		if (!steps.playing()){
 			steps.play(1);//loop
 		}
 	}
 	
-	void GameEngine::walkSoundStop(){
+	void GameEngine::WalkSoundStop(){
 		steps.stop();
 	}
 }

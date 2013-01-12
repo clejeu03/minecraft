@@ -24,10 +24,10 @@ namespace minecraft {
 			Sound buildCube;
 			Sound breakCube;
 			Sound scream;
+			Sound music;
 			
 			
 		public:
-			Sound music;
 			GameEngine();
 			void SetMap(Map* map) { m_world = map; }
 			void SetCharacter(Character* character) { m_character = character; }
@@ -38,8 +38,9 @@ namespace minecraft {
 			void jump();
 			bool aimCube(int);
 			void InitializeSound();
-			void walkSound();
-			void walkSoundStop();
+			void ToggleMusic();
+			void WalkSound();
+			void WalkSoundStop();
 	};
 }
 
